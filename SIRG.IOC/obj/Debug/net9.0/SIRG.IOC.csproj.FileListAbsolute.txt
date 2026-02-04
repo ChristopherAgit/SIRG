@@ -1,0 +1,11 @@
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\bin\Debug\net9.0\SIRG.IOC.deps.json
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\bin\Debug\net9.0\SIRG.IOC.dll
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\bin\Debug\net9.0\SIRG.IOC.pdb
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.AssemblyInfoInputs.cache
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.AssemblyInfo.cs
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.csproj.CoreCompileInputs.cache
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.dll
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\refint\SIRG.IOC.dll
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\SIRG.IOC.pdb
+C:\Users\agram\source\repos\SIRG.Domain\SIRG.IOC\obj\Debug\net9.0\ref\SIRG.IOC.dll
