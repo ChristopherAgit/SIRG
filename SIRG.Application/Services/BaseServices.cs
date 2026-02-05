@@ -1,14 +1,18 @@
-﻿using SIRG.Application.Interfaces;
+﻿using AutoMapper;
+using SIRG.Application.Interfaces;
 using SIRG.Domain.Interfaces;
-
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 namespace SIRG.Application.Services
 {
     public class BaseServices<TEntity, TDtos> : IBaseServices<TEntity, TDtos> where TEntity : class where TDtos : class
     {
         private readonly IBaseRepository<TEntity> _repository;
-        public BaseServices(IBaseRepository<TEntity> repository)
+        private readonly IMapper _mapper;
+        public BaseServices(IBaseRepository<TEntity> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
             
         }
 
@@ -32,24 +36,79 @@ namespace SIRG.Application.Services
             }
         }
 
-        public Task<TDtos?> GetDtoById(int id)
+        public async Task<TDtos?> GetDtoById(int id)
         {
-            throw new NotImplementedException();
+            try {
+              var entitty = await _repository.GetEntityByIdAsync(id);
+                if (entitty == null)
+                {
+                    return null;
+                }
+                TDtos? dto = _mapper.Map<TDtos>(entitty);
+                return dto;
+            }
+            catch {
+                return null;
+            }
         }
 
-        public Task<List<TDtos>> GetWithInclude(List<string> properties)
+        public async Task<List<TDtos>> GetWithInclude(List<string> properties)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var querry = _repository.GetAllQuerryWithInclude(properties);
+                    
+
+                var result = await querry.ProjectTo<TDtos>(_mapper.ConfigurationProvider).ToListAsync();
+                return result;
+            }
+            catch
+            {
+                return [];
+            }
+
         }
 
-        public Task<TDtos> SaveDtoAsync(TDtos dtoSave)
+        public async Task<TDtos> SaveDtoAsync(TDtos dtoSave)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TEntity entity = _mapper.Map<TEntity>(dtoSave);
+                TEntity? reeturnEntity = await _repository.SaveEntityAsync(entity);
+                if (reeturnEntity == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<TDtos>(reeturnEntity);
+
+            }
+            catch
+            {
+
+                return null;
+            }
         }
 
-        public Task<TDtos?> UpdateDtoByAsync(TDtos dtoUpdate, int id)
+        public async Task<TDtos?> UpdateDtoByAsync(TDtos dtoUpdate, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TEntity entity = _mapper.Map<TEntity>(dtoUpdate);
+                TEntity? reeturnEntity = await _repository.UpdateEntityAsync(id, entity);
+                if (reeturnEntity == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<TDtos>(reeturnEntity);
+
+            }
+            catch
+            {
+
+                return null;
+            }
         }
     }
 }

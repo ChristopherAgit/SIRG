@@ -64,7 +64,7 @@ namespace SIRG.Persistences.Repositories
             return await querry.ToListAsync();
         }
 
-        public IQueryable<TEntity> GetAllQuerryWithInclude(List<string> properties)
+        public virtual IQueryable<TEntity> GetAllQuerryWithInclude(List<string> properties)
         {
             var querry = Entity.AsQueryable();
 
