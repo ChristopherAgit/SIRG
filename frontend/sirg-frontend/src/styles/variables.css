@@ -1,0 +1,17 @@
+:root {
+  /* Colores principales */
+  --primary-color: #1fb6c9;
+  --primary-dark: #0e4f59;
+  --background-dark: #0c1f23;
+  --background-light: #f4f6f8;
+  --card-background: #ffffff;
+
+  /* Texto */
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-dark: #1f2937;
+
+  /* Estados */
+  --success-color: #22c55e;
+  --border-radius: 12px;
+}

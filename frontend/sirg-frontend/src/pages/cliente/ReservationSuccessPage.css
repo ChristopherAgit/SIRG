@@ -1,0 +1,33 @@
+.success-container {
+    min-height: 100vh;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.success-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.success-card p {
+    margin: 10px 0;
+}
+
+.success-container button {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #1fb6ce;
+    color: white;
+    cursor: pointer;
+}

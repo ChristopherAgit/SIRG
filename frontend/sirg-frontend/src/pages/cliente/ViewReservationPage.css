@@ -1,0 +1,89 @@
+.view-container {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #0f172a, #020617);
+    color: white;
+    padding: 30px 20px;
+    font-family: sans-serif;
+}
+
+.back-btn {
+    margin-bottom: 15px;
+    background: transparent;
+    border: none;
+    color: #1fb6ce;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.subtitle {
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+}
+
+.search-box button {
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: none;
+    background: #1fb6ce;
+    color: white;
+    cursor: pointer;
+}
+
+.reservation-card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.status.confirmed {
+    background: #166534;
+}
+
+.status.pending {
+    background: #854d0e;
+}
+
+.status.cancelled {
+    background: #7f1d1d;
+}
+
+.details p {
+    margin: 6px 0;
+}
+
+.cancel-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: #dc2626;
+    color: white;
+    cursor: pointer;
+}
