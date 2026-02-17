@@ -3,6 +3,7 @@ using SIRG.Application.Interfaces;
 using SIRG.Domain.Interfaces;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+
 namespace SIRG.Application.Services
 {
     public class BaseServices<TEntity, TDtos> : IBaseServices<TEntity, TDtos> where TEntity : class where TDtos : class
