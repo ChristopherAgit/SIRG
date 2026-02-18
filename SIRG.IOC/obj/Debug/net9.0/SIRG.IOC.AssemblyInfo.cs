@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.IOC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ecc0e807e135f6d0fb83f14e22e5c3dd23ca368e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+424c38de3dfc189d992e37ecaa34e10627ae43fe")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.IOC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.IOC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
