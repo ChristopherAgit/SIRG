@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\agram\\source\\repos\\SIRG\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\mapper\\automapper\\mapperentitytoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|solutionrelative:sirg.application\\mapper\\automapper\\mapperentitytoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A25A4B34-629D-44A2-B8DB-BC9FB97E02CF}|SIRG.WebApp\\SIRG.WebApp.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.webapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A25A4B34-629D-44A2-B8DB-BC9FB97E02CF}|SIRG.WebApp\\SIRG.WebApp.csproj|solutionrelative:sirg.webapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\services\\baseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|solutionrelative:sirg.application\\services\\baseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{04B78BB1-2F27-4E2C-BD1C-A332E62B84EB}|SIRG.Domain\\SIRG.Domain.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.domain\\entities\\orders.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04B78BB1-2F27-4E2C-BD1C-A332E62B84EB}|SIRG.Domain\\SIRG.Domain.csproj|solutionrelative:sirg.domain\\entities\\orders.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\mapper\\automapper\\mapperentitytoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|solutionrelative:sirg.application\\mapper\\automapper\\mapperentitytoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{504D4D35-E68E-4FDA-89B9-15628CD87D88}|SIRG.Persistences\\SIRG.Persistences.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.persistences\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,6 +21,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\dtos\\basedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|solutionrelative:sirg.application\\dtos\\basedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\services\\baseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|solutionrelative:sirg.application\\services\\baseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C4C1AF1A-9323-457F-B4A2-9D032EFB1DFD}|SIRG.Application\\SIRG.Application.csproj|c:\\users\\agram\\source\\repos\\sirg\\sirg.application\\interfaces\\ibaseservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,11 +38,41 @@
       "DocumentGroups": [
         {
           "DockedWidth": 795,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.WebApp\\appsettings.json",
+              "RelativeDocumentMoniker": "SIRG.WebApp\\appsettings.json",
+              "ToolTip": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.WebApp\\appsettings.json",
+              "RelativeToolTip": "SIRG.WebApp\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-17T19:30:26.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Orders.cs",
+              "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\Entities\\Orders.cs",
+              "RelativeDocumentMoniker": "SIRG.Domain\\Entities\\Orders.cs",
+              "ToolTip": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\Entities\\Orders.cs",
+              "RelativeToolTip": "SIRG.Domain\\Entities\\Orders.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T19:30:12.224Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "BaseRepository.cs",
               "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\Repositories\\BaseRepository.cs",
               "RelativeDocumentMoniker": "SIRG.Persistences\\Repositories\\BaseRepository.cs",
@@ -42,12 +80,11 @@
               "RelativeToolTip": "SIRG.Persistences\\Repositories\\BaseRepository.cs",
               "ViewState": "AgIAADoAAAAAAAAAAAAkwEIAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T00:11:08.95Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-05T00:11:08.95Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "BaseDto.cs",
               "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\Dtos\\BaseDto.cs",
               "RelativeDocumentMoniker": "SIRG.Application\\Dtos\\BaseDto.cs",
@@ -55,25 +92,24 @@
               "RelativeToolTip": "SIRG.Application\\Dtos\\BaseDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T00:04:51.387Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-05T00:04:51.387Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "MapperEntityToServices.cs",
               "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\Mapper\\AutoMapper\\MapperEntityToServices.cs",
               "RelativeDocumentMoniker": "SIRG.Application\\Mapper\\AutoMapper\\MapperEntityToServices.cs",
               "ToolTip": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\Mapper\\AutoMapper\\MapperEntityToServices.cs",
               "RelativeToolTip": "SIRG.Application\\Mapper\\AutoMapper\\MapperEntityToServices.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-05T00:03:35.722Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "BaseServices.cs",
               "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\Services\\BaseServices.cs",
               "RelativeDocumentMoniker": "SIRG.Application\\Services\\BaseServices.cs",
@@ -81,12 +117,11 @@
               "RelativeToolTip": "SIRG.Application\\Services\\BaseServices.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T23:51:48.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-04T23:51:48.225Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "IBaseServices.cs",
               "DocumentMoniker": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\Interfaces\\IBaseServices.cs",
               "RelativeDocumentMoniker": "SIRG.Application\\Interfaces\\IBaseServices.cs",
@@ -94,16 +129,7 @@
               "RelativeToolTip": "SIRG.Application\\Interfaces\\IBaseServices.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T23:51:46.116Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "WhenOpened": "2026-02-04T23:51:46.116Z"
             }
           ]
         }
