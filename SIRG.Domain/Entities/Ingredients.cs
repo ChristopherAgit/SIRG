@@ -6,8 +6,6 @@
         public required string IngredientName { get; set; }
         public required string Unit { get; set; }
         public required decimal MinimunStock { get; set; }
-
-        //navigation property
         public List<DishIngredients>? DishIngredients { get; set; }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.WebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fdc52bb028921822e81ad52187748fdeae3f04cb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+424c38de3dfc189d992e37ecaa34e10627ae43fe")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.WebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.WebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
