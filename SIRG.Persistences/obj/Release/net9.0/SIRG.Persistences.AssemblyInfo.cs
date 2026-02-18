@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fdc52bb028921822e81ad52187748fdeae3f04cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
