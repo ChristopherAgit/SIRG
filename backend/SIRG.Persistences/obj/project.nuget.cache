@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r+vaSVKdbkc=",
+  "dgSpecHash": "U4Vnqm/P2bc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+  "projectFilePath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\backend\\SIRG.Persistences\\SIRG.Persistences.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\agram\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

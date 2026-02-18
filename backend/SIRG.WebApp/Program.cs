@@ -1,9 +1,19 @@
+using SIRG.IOC.Dependencies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddPersistenceDependencies(builder.Configuration);
+builder.Services.AddIdentityIocForWebApp(builder.Configuration);
+builder.Services.AddApplicationDependencies();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
 var app = builder.Build();
+
+await app.Services.RunSeedAsync();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
