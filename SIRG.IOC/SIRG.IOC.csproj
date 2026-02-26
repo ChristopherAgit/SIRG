@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SIRG.Identity\SIRG.Identity.csproj" />
+    <ProjectReference Include="..\SIRG.Persistences\SIRG.Persistences.csproj" />
+    <ProjectReference Include="..\SIRG.Shared\SIRG.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
