@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc498b6aea4a95f446802a2d5fe0966420bc1992")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bc4ce77206c43aef2ea67910bc348e44a913314")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
