@@ -1,9 +1,13 @@
+using SIRG.Server.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddSwaggerExtension();
+builder.Services.AddApiVersioningExtension();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -14,6 +18,7 @@ app.MapStaticAssets();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwaggerExtension(app);
     app.MapOpenApi();
 }
 
@@ -25,4 +30,4 @@ app.MapControllers();
 
 app.MapFallbackToFile("/index.html");
 
-app.Run();
+await app.RunAsync();
