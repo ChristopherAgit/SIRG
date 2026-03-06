@@ -4,10 +4,10 @@ import "../styles/nav.css";
 
 const Nav = () => {
 
-  // Estado para abrir/cerrar menú móvil
+  // estado para abrir/cerrar menú móvil
   const [isOpen, setIsOpen] = useState(false);
 
-  // Estado para detectar scroll
+  // estado para detectar scroll
   const [scrolled, setScrolled] = useState(false);
 
   // Detectar scroll
