@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SIRG.Domain.Interfaces;
-using SIRG.Persistences.Context;
 using System.ComponentModel.Design;
 
 namespace SIRG.Persistences.Repositories
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        private readonly SIRGContext _context;
+        private readonly DbContext _context;
 
         protected DbSet<TEntity> Entity { get; }
-        public BaseRepository(SIRGContext context)
+        public BaseRepository(DbContext context)
         {
            _context = context;
            Entity = context.Set<TEntity>();
