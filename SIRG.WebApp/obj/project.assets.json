@@ -2220,7 +2220,7 @@
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "AutoMapper": "14.0.0",
-          "Microsoft.EntityFrameworkCore": "9.0.9",
+          "Microsoft.EntityFrameworkCore": "9.0.10",
           "SIRG.Domain": "1.0.0"
         },
         "compile": {
@@ -2247,8 +2247,8 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.8",
           "Microsoft.AspNetCore.Identity": "2.3.1",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.6",
-          "Microsoft.EntityFrameworkCore.InMemory": "9.0.6",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.6",
+          "Microsoft.EntityFrameworkCore.InMemory": "9.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.3",
           "MimeKit": "4.15.0",
           "SIRG.Application": "1.0.0",
@@ -2265,6 +2265,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
+          "SIRG.Application": "1.0.0",
           "SIRG.Identity": "1.0.0",
           "SIRG.Persistences": "1.0.0",
           "SIRG.Shared": "1.0.0"
@@ -5972,11 +5973,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.WebApp\\SIRG.WebApp.csproj",
+      "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.WebApp\\SIRG.WebApp.csproj",
       "projectName": "SIRG.WebApp",
-      "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.WebApp\\SIRG.WebApp.csproj",
+      "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.WebApp\\SIRG.WebApp.csproj",
       "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.WebApp\\obj\\",
+      "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -5997,8 +5998,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
-              "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj"
+            "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
+              "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj"
             }
           }
         }

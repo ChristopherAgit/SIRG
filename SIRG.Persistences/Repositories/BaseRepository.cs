@@ -77,6 +77,15 @@ namespace SIRG.Persistences.Repositories
             return querry;
         }
 
-     
+        public virtual async Task RemoveAsync(int id)
+        {
+            var entity = await Entity.FindAsync(id);
+
+            if (entity != null)
+            { 
+                Entity.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

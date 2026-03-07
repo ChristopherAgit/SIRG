@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {}
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\obj\\",
+        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -60,7 +60,7 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.9, )"
+              "version": "[9.0.10, )"
             }
           },
           "imports": [
@@ -83,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\obj\\",
+        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -148,14 +148,14 @@
         }
       }
     },
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
         "projectName": "SIRG.Identity",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\obj\\",
+        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -176,11 +176,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -215,11 +215,11 @@
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
-              "version": "[9.0.6, )"
+              "version": "[9.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[9.0.6, )"
+              "version": "[9.0.10, )"
             },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
@@ -250,14 +250,14 @@
         }
       }
     },
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
         "projectName": "SIRG.IOC",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\obj\\",
+        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -278,14 +278,17 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"
               },
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj"
+              },
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj"
               }
             }
           }
@@ -325,14 +328,14 @@
         }
       }
     },
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
         "projectName": "SIRG.Persistences",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\obj\\",
+        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -353,11 +356,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -417,12 +420,12 @@
         }
       }
     },
-    "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
+    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
         "projectName": "SIRG.Shared",
-        "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
+        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\obj\\",
         "projectStyle": "PackageReference",
@@ -445,8 +448,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               }
             }
           }

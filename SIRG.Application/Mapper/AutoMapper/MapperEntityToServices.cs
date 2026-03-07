@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using SIRG.Application.Dtos;
 using SIRG.Application.Dtos.EntitiesDto;
-using SIRG.Application.Dtos.Login;
-using SIRG.Application.Services;
 using SIRG.Domain.Base;
 using SIRG.Domain.Entities;
 
@@ -27,13 +25,20 @@ namespace SIRG.Application.Mapper.AutoMapper
             CreateMap(typeof(OrderDetails), typeof(OrdersDetailsDto)).ReverseMap();
             CreateMap(typeof(Orders), typeof(OrdersDto)).ReverseMap();
             CreateMap(typeof(OrderStatus), typeof(OrdersStatusDto)).ReverseMap();
-            CreateMap(typeof(Reservations), typeof(ReservationsDto)).ReverseMap();
             CreateMap(typeof(ReservationStatus), typeof(ReservationStatusDto)).ReverseMap();
-            CreateMap(typeof(RestaurantTables), typeof(RestaurantTablesDto)).ReverseMap();
             CreateMap(typeof(SaleDetails), typeof(SaleDetailsDto)).ReverseMap();
             CreateMap(typeof(Sales), typeof(SalesDto)).ReverseMap();
 
+            CreateMap<RestaurantTables, RestaurantTablesDto>();
+            CreateMap<RestaurantTablesDto, RestaurantTables>()
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore());
 
+            CreateMap<Reservations, ReservationsDto>();
+            CreateMap<ReservationsDto, Reservations>()
+                .ForMember(dest => dest.RestaurantTables, opt => opt.Ignore())
+                .ForMember(dest => dest.ReservationStatus, opt => opt.Ignore())
+                .ForMember(dest => dest.Customers, opt => opt.Ignore())
+                .ForMember(dest => dest.Orders, opt => opt.Ignore());
             #endregion
         }
     }

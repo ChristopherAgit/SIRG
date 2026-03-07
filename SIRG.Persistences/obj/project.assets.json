@@ -1638,7 +1638,7 @@
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "AutoMapper": "14.0.0",
-          "Microsoft.EntityFrameworkCore": "9.0.9",
+          "Microsoft.EntityFrameworkCore": "9.0.10",
           "SIRG.Domain": "1.0.0"
         },
         "compile": {
@@ -4819,11 +4819,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+      "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
       "projectName": "SIRG.Persistences",
-      "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+      "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
       "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\obj\\",
+      "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4844,11 +4844,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-              "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+            "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+              "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
             },
-            "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-              "projectPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+            "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+              "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
             }
           }
         }

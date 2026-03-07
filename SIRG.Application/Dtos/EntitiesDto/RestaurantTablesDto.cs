@@ -8,7 +8,6 @@ namespace SIRG.Application.Dtos.EntitiesDto
         public required int TableNumber { get; set; }
         public required int Capacity { get; set; }
         public bool IsActive { get; set; } = true;
-
         public List<ReservationsDto>? Reservations { get; set; }
     }
 }

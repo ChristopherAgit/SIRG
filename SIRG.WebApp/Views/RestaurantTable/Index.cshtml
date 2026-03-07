@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SIRG.Application.Dtos.EntitiesDto.RestaurantTablesDto>
+
+@{
+    ViewData["Title"] = "Mesas del Restaurante";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Gestión de Mesas del Restaurante</h2>
+
+    <div class="text-end mb-3">
+        <a asp-action="Create" class="btn btn-success">
+            <i class="fa fa-plus me-2"></i>Agregar nueva mesa
+        </a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow rounded">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Lista de Mesas</h4>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered align-middle text-center mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Número de Mesa</th>
+                            <th>Capacidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.TableID</td>
+                                <td>@item.TableNumber</td>
+                                <td>@item.Capacity</td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">Activa</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactiva</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-info me-1"
+                                       asp-action="Details"
+                                       asp-route-id="@item.TableID">
+                                        <i class="fa fa-eye"></i> Detalles
+                                    </a>
+
+                                    <a class="btn btn-sm btn-warning me-1"
+                                       asp-action="Edit"
+                                       asp-route-id="@item.TableID">
+                                        <i class="fa fa-pencil"></i> Editar
+                                    </a>
+
+                                    <a class="btn btn-sm btn-danger"
+                                       asp-action="Delete"
+                                       asp-route-id="@item.TableID">
+                                        <i class="fa fa-trash"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center">
+            No hay mesas registradas en este momento.
+        </div>
+    }
+</div>

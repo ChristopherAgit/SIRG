@@ -1,7 +1,11 @@
-﻿namespace SIRG.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SIRG.Domain.Entities
 {
     public class InventoryMovements
     {
+        [Key]
+
         public required int MovementID { get; set; }
         public required int IngredientID { get; set; }
         public string? MovementType { get; set; }

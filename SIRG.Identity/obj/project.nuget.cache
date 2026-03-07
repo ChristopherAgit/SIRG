@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "opOHZvGD92s=",
+  "dgSpecHash": "LXGgvVdMNJs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+  "projectFilePath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\agram\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
@@ -29,26 +29,26 @@
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.data.sqlclient\\5.1.6\\microsoft.data.sqlclient.5.1.6.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.1.1\\microsoft.data.sqlclient.sni.runtime.5.1.1.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.9\\microsoft.entityframeworkcore.9.0.9.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.9\\microsoft.entityframeworkcore.abstractions.9.0.9.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.9\\microsoft.entityframeworkcore.analyzers.9.0.9.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\9.0.6\\microsoft.entityframeworkcore.inmemory.9.0.6.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.6\\microsoft.entityframeworkcore.relational.9.0.6.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\9.0.6\\microsoft.entityframeworkcore.sqlserver.9.0.6.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.9\\microsoft.extensions.caching.abstractions.9.0.9.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.9\\microsoft.extensions.caching.memory.9.0.9.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.10\\microsoft.entityframeworkcore.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.10\\microsoft.entityframeworkcore.abstractions.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.10\\microsoft.entityframeworkcore.analyzers.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\9.0.8\\microsoft.entityframeworkcore.inmemory.9.0.8.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.10\\microsoft.entityframeworkcore.relational.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\9.0.10\\microsoft.entityframeworkcore.sqlserver.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.10\\microsoft.extensions.caching.abstractions.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.10\\microsoft.extensions.caching.memory.9.0.10.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.3\\microsoft.extensions.configuration.10.0.3.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.3\\microsoft.extensions.configuration.abstractions.10.0.3.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.configuration.binder\\10.0.3\\microsoft.extensions.configuration.binder.10.0.3.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.9\\microsoft.extensions.dependencyinjection.9.0.9.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.10\\microsoft.extensions.dependencyinjection.9.0.10.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.3\\microsoft.extensions.dependencyinjection.abstractions.10.0.3.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.diagnostics.abstractions\\8.0.1\\microsoft.extensions.diagnostics.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\8.0.0\\microsoft.extensions.fileproviders.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\8.0.1\\microsoft.extensions.hosting.abstractions.8.0.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.identity.core\\9.0.6\\microsoft.extensions.identity.core.9.0.6.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.identity.stores\\9.0.6\\microsoft.extensions.identity.stores.9.0.6.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.logging\\9.0.9\\microsoft.extensions.logging.9.0.9.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.9\\microsoft.extensions.logging.abstractions.9.0.9.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.logging\\9.0.10\\microsoft.extensions.logging.9.0.10.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\9.0.10\\microsoft.extensions.logging.abstractions.9.0.10.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.objectpool\\8.0.11\\microsoft.extensions.objectpool.8.0.11.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.options\\10.0.3\\microsoft.extensions.options.10.0.3.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\10.0.3\\microsoft.extensions.options.configurationextensions.10.0.3.nupkg.sha512",
@@ -72,7 +72,7 @@
     "C:\\Users\\agram\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.1\\system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\system.formats.asn1\\9.0.6\\system.formats.asn1.9.0.6.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\system.formats.asn1\\9.0.10\\system.formats.asn1.9.0.10.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
@@ -88,9 +88,22 @@
     "C:\\Users\\agram\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
-    "C:\\Users\\agram\\.nuget\\packages\\system.text.json\\9.0.6\\system.text.json.9.0.6.nupkg.sha512",
+    "C:\\Users\\agram\\.nuget\\packages\\system.text.json\\9.0.10\\system.text.json.9.0.10.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\agram\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'MimeKit' 4.15.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-g7hc-96xr-gvvx",
+      "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+      "libraryId": "MimeKit",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    }
+  ]
 }
