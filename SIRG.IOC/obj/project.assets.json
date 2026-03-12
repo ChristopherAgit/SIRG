@@ -4026,7 +4026,7 @@
       "projectName": "SIRG.IOC",
       "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
       "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\obj\\",
+      "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

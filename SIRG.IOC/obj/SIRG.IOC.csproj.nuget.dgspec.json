@@ -11,7 +11,7 @@
         "projectName": "SIRG.Application",
         "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\obj\\",
+        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -155,7 +155,7 @@
         "projectName": "SIRG.Identity",
         "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\obj\\",
+        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -257,7 +257,7 @@
         "projectName": "SIRG.IOC",
         "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\obj\\",
+        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -335,7 +335,7 @@
         "projectName": "SIRG.Persistences",
         "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\obj\\",
+        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -427,7 +427,7 @@
         "projectName": "SIRG.Shared",
         "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
         "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\obj\\",
+        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

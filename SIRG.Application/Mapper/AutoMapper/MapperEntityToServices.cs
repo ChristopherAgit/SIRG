@@ -2,6 +2,7 @@
 using SIRG.Application.Dtos;
 using SIRG.Application.Dtos.EntitiesDto;
 using SIRG.Domain.Base;
+using SIRG.Domain.Entities;
 
 namespace SIRG.Application.Mapper.AutoMapper
 {
