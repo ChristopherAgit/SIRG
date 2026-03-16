@@ -29,9 +29,13 @@ namespace SIRG.Application.Mapper.AutoMapper
             CreateMap(typeof(SaleDetails), typeof(SaleDetailsDto)).ReverseMap();
             CreateMap(typeof(Sales), typeof(SalesDto)).ReverseMap();
 
-            CreateMap<RestaurantTables, RestaurantTablesDto>();
-            CreateMap<RestaurantTablesDto, RestaurantTables>()
+            CreateMap<RestaurantTables, RestaurantTablesDto>()
+                .ReverseMap()
                 .ForMember(dest => dest.Reservations, opt => opt.Ignore());
+
+            // Se puede hacer en la misma configuración usando ReverseMap, pero se muestra de esta forma para mayor claridad
+            //CreateMap<RestaurantTablesDto, RestaurantTables>()
+            //    .ForMember(dest => dest.Reservations, opt => opt.Ignore());
 
             CreateMap<Reservations, ReservationsDto>();
             CreateMap<ReservationsDto, Reservations>()
@@ -39,6 +43,12 @@ namespace SIRG.Application.Mapper.AutoMapper
                 .ForMember(dest => dest.ReservationStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.Customers, opt => opt.Ignore())
                 .ForMember(dest => dest.Orders, opt => opt.Ignore());
+
+            CreateMap<Orders, OrdersDto>()
+                .ReverseMap()
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderStatus, opt => opt.Ignore());
             #endregion
         }
     }

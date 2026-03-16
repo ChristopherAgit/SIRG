@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using SIRG.Application.Interfaces;
-using SIRG.Domain.Interfaces;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using SIRG.Application.Interfaces;
+using SIRG.Domain.Interfaces;
 
 namespace SIRG.Application.Services
 {
@@ -14,10 +14,10 @@ namespace SIRG.Application.Services
         {
             _repository = repository;
             _mapper = mapper;
-            
+
         }
 
-        public async Task<bool> DeleteDtoAync(int dtoDelete)
+        public virtual async Task<bool> DeleteDtoAync(int dtoDelete)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace SIRG.Application.Services
             }
         }
 
-        public async Task<List<TDtos>> GetAllListDto()
+        public virtual async Task<List<TDtos>> GetAllListDto()
         {
             try
             {
@@ -45,10 +45,11 @@ namespace SIRG.Application.Services
             }
         }
 
-        public async Task<TDtos?> GetDtoById(int id)
+        public virtual async Task<TDtos?> GetDtoById(int id)
         {
-            try {
-              var entitty = await _repository.GetEntityByIdAsync(id);
+            try
+            {
+                var entitty = await _repository.GetEntityByIdAsync(id);
                 if (entitty == null)
                 {
                     return null;
@@ -56,17 +57,17 @@ namespace SIRG.Application.Services
                 TDtos? dto = _mapper.Map<TDtos>(entitty);
                 return dto;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }
 
-        public async Task<List<TDtos>> GetWithInclude(List<string> properties)
+        public virtual async Task<List<TDtos>> GetWithInclude(List<string> properties)
         {
             try
             {
                 var querry = _repository.GetAllQuerryWithInclude(properties);
-                    
 
                 var result = await querry.ProjectTo<TDtos>(_mapper.ConfigurationProvider).ToListAsync();
                 return result;
@@ -75,10 +76,9 @@ namespace SIRG.Application.Services
             {
                 return [];
             }
-
         }
 
-        public async Task<TDtos> SaveDtoAsync(TDtos dtoSave)
+        public virtual async Task<TDtos> SaveDtoAsync(TDtos dtoSave)
         {
             try
             {
@@ -90,35 +90,30 @@ namespace SIRG.Application.Services
                 }
 
                 return _mapper.Map<TDtos>(reeturnEntity);
-
             }
             catch (Exception ex)
             {
                 {
-
-                    throw new Exception(
-               $"Error mapeando {typeof(TDtos).Name} -> {typeof(TEntity).Name}: {ex.Message}", ex);
+                    throw new Exception($"Error mapeando {typeof(TDtos).Name} -> {typeof(TEntity).Name}: {ex.Message}", ex);
                 }
             }
         }
 
-        public async Task<TDtos?> UpdateDtoByAsync(TDtos dtoUpdate, int id)
+        public virtual async Task<TDtos?> UpdateDtoByAsync(TDtos dtoUpdate, int id)
         {
             try
             {
                 TEntity entity = _mapper.Map<TEntity>(dtoUpdate);
-                TEntity? reeturnEntity = await _repository.UpdateEntityAsync(id, entity);
-                if (reeturnEntity == null)
+                TEntity? returnEntity = await _repository.UpdateEntityAsync(id, entity);
+                if (returnEntity == null)
                 {
                     return null;
                 }
 
-                return _mapper.Map<TDtos>(reeturnEntity);
-
+                return _mapper.Map<TDtos>(returnEntity);
             }
             catch
             {
-
                 return null;
             }
         }
