@@ -1,0 +1,55 @@
+﻿@model SIRG.Application.Dtos.EntitiesDto.RestaurantTablesDto
+
+@{
+    ViewData["Title"] = "Eliminar Mesa";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-danger">Eliminar Mesa</h2>
+
+    <div class="alert alert-warning">
+        ¿Seguro que desea eliminar esta mesa?
+    </div>
+
+    <div class="card shadow p-4">
+
+        <dl class="row">
+
+            <dt class="col-sm-3">
+                Número de Mesa
+            </dt>
+            <dd class="col-sm-9">
+                @Model.TableNumber
+            </dd>
+
+            <dt class="col-sm-3">
+                Capacidad
+            </dt>
+            <dd class="col-sm-9">
+                @Model.Capacity
+            </dd>
+
+            <dt class="col-sm-3">
+                Estado
+            </dt>
+            <dd class="col-sm-9">
+                @(Model.IsActive ? "Activa" : "Inactiva")
+            </dd>
+
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="TableID" />
+
+            <button type="submit" class="btn btn-danger">
+                Eliminar
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Cancelar
+            </a>
+        </form>
+
+    </div>
+</div>

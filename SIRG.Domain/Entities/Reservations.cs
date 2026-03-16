@@ -1,7 +1,10 @@
-﻿namespace SIRG.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SIRG.Domain.Entities
 {
     public class Reservations
     {
+        [Key]
         public required int ReservationID { get; set; }
         public required int TableID { get; set; }
         public required int StatusID { get; set; }

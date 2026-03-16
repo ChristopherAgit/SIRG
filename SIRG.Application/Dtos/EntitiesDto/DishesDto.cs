@@ -1,11 +1,4 @@
-﻿using SIRG.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SIRG.Application.Dtos.EntitiesDto
+﻿namespace SIRG.Application.Dtos.EntitiesDto
 {
     public class DishesDto
     {
@@ -18,7 +11,7 @@ namespace SIRG.Application.Dtos.EntitiesDto
         //Navigation property
         public CategoriesDto? CategoryDto { get; set; }
         public List<DishIngredientsDto>? DishIngredientsDto { get; set; }
-        public List<OrderDetailsDto>? OrderDetailsDto { get; set; }
+        public List<OrdersDetailsDto>? OrderDetailsDto { get; set; }
         public List<SaleDetailsDto>? SaleDetailsDto { get; set; }
     }
 }
