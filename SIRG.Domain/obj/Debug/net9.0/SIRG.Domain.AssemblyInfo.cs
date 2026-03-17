@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50a1ae55c0fd15a1faca6fcd574ad7780da91300")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+354564bf435ff7d3eb81b373e1f49bd62728ec2e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

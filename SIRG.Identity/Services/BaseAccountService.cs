@@ -10,85 +10,17 @@ using System.Text;
 
 namespace SIRG.Identity.Services
 {
-    public class AccountService : IAccountService
+    public abstract class BaseAccountService : IBaseAccountService
     {
         private readonly UserManager<AppUser> _userManager;
         public readonly IEmailService _emailService;
-        private readonly SignInManager<AppUser> _signInManager;
-        public AccountService(UserManager<AppUser> userManager, IEmailService emailService, SignInManager<AppUser> signInManager)
+        protected BaseAccountService(UserManager<AppUser> userManager, IEmailService emailService)
         {
             _userManager = userManager;
             _emailService = emailService;
-            _signInManager = signInManager;
         }
 
-        public async Task<LoginResponseDto> AuthenticateAsync(LoginDto loginDto)
-        {
-            LoginResponseDto response = new()
-            {
-                Id = "",
-                Name = "",
-                LastName = "",
-                Cedula = "",
-                Email = "",
-                UserName = "",
-                HasError = false,
-                Errors = []
-            };
-
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
-
-            if (user == null)
-            {
-                response.HasError = true;
-                response.Errors.Add($"No existe una cuenta registrada con este nombre de usuario: {loginDto.UserName}");
-                return response;
-            }
-
-            if (!user.EmailConfirmed || !user.Status)
-            {
-                response.HasError = true;
-                response.Errors.Add($"Esta cuenta {loginDto.UserName} no está activa. Por favor verifica tu correo electrónico o espera aprobación del administrador.");
-                return response;
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(user.UserName ?? "", loginDto.Password, false, true);
-
-            if (!result.Succeeded)
-            {
-                response.HasError = true;
-                if (result.IsLockedOut)
-                {
-                    response.Errors.Add($"Tu cuenta {loginDto.UserName} ha sido bloqueada debido a múltiples intentos fallidos." +
-                        $" Por favor intenta nuevamente en 10 minutos. Si no recuerdas tu contraseña, puedes realizar el proceso " +
-                        $"de recuperación de contraseña.");
-                }
-                else
-                {
-                    response.Errors.Add($"Las credenciales son inválidas para este usuario: {user.UserName}");
-                }
-                return response;
-            }
-
-            var rolesList = await _userManager.GetRolesAsync(user);
-
-            response.Id = user.Id;
-            response.Name = user.FirstName;
-            response.LastName = user.LastName;
-            response.Cedula = user.Cedula ?? "";
-            response.Email = user.Email ?? "";
-            response.UserName = user.UserName ?? "";
-            response.IsVerified = user.EmailConfirmed;
-            response.Roles = rolesList.ToList();
-
-            return response;
-        }
-        public async Task SignOutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
-
-        public async Task<RegisterResponseDto> RegisterUser(SaveUserDto saveDto, string? origin)
+        public virtual async Task<RegisterResponseDto> RegisterUser(SaveUserDto saveDto, string? origin, bool? isApi = false)
         {
             RegisterResponseDto response = new()
             {
@@ -134,12 +66,13 @@ namespace SIRG.Identity.Services
             {
                 await _userManager.AddToRoleAsync(user, saveDto.Role);
 
-                string verificationUri = await GetVerificationEmailUri(user, origin);
-
-                await _emailService.SendAsync(new EmailRequestDto()
+                if (isApi != null && !isApi.Value)
                 {
-                    To = saveDto.Email,
-                    HtmlBody = $@"
+                    string verificationUri = await GetVerificationEmailUri(user, origin);
+                    await _emailService.SendAsync(new EmailRequestDto()
+                    {
+                        To = saveDto.Email,
+                        HtmlBody = $@"
                     <!DOCTYPE html>
                     <html lang='es'>
                     <head>
@@ -194,51 +127,57 @@ namespace SIRG.Identity.Services
                     <body>
                         <div class='container'>
                             <div class='header'>
-                                <h1>Bienvenido a Hermes Banking</h1>
+                                <h1>Bienvenido a SIRG</h1>
                             </div>
                             <div class='content'>
                                 <p>Hola <strong>{user.FirstName} {user.LastName}</strong>,</p>
-                                <p>Gracias por registrarte en <strong>Hermes Banking</strong>. Tu cuenta ha sido creada exitosamente, pero necesitamos que confirmes tu correo electrónico para poder activarla.</p>
+                                <p>Gracias por registrarte en <strong>SIRG</strong>. Tu cuenta ha sido creada exitosamente, pero necesitamos que confirmes tu correo electrónico para poder activarla.</p>
                                 <p>Para completar tu registro y comenzar a utilizar nuestros servicios, haz clic en el siguiente botón:</p>
                                 <a href='{verificationUri}' class='button'>Confirmar mi cuenta</a>
                                 <p style='margin-top: 30px;'>Si no fuiste tú quien realizó este registro, por favor ignora este mensaje.</p>
-                                <p>¡Gracias por confiar en Hermes Banking!</p>
+                                <p>¡Gracias por confiar en SIRG!</p>
                             </div>
                             <div class='footer'>
-                                © 2025 Hermes Banking. Todos los derechos reservados.
+                                © 2026 SIRG. Todos los derechos reservados.
                             </div>
                         </div>
                     </body>
                     </html>",
-                    Subject = "Confirmación de registro"
-                });
+                        Subject = "Confirmación de registro"
+                    });
+                }
+                else
+                {
+                    string? verificationUri = await GetVerificationEmailToken(user);
+                    await _emailService.SendAsync(new EmailRequestDto()
+                    {
+                        To = saveDto.Email,
+                        HtmlBody = $"Por favor confirma tu cuenta visitando este enlace {verificationUri}",
+                        Subject = "Confirmación de registro"
+                    });
+                }
+
+                var rolesList = await _userManager.GetRolesAsync(user);
+
+                response.Id = user.Id;
+                response.Name = user.FirstName;
+                response.LastName = user.LastName;
+                response.Cedula = user.Cedula ?? "";
+                response.Email = user.Email ?? "";
+                response.UserName = user.UserName ?? "";
+                response.IsVerified = user.EmailConfirmed;
+                response.Roles = rolesList.ToList();
+
+                return response;
             }
             else
             {
-                string? verificationUri = await GetVerificationEmailToken(user);
-                await _emailService.SendAsync(new EmailRequestDto()
-                {
-                    To = saveDto.Email,
-                    HtmlBody = $"Por favor confirma tu cuenta visitando este enlace {verificationUri}",
-                    Subject = "Confirmación de registro"
-                });
+                response.HasError = true;
+                response.Errors.AddRange(result.Errors.Select(s => s.Description).ToList());
+                return response;
             }
-
-            var rolesList = await _userManager.GetRolesAsync(user);
-
-            response.Id = user.Id;
-            response.Name = user.FirstName;
-            response.LastName = user.LastName;
-            response.Cedula = user.Cedula ?? "";
-            response.Email = user.Email ?? "";
-            response.UserName = user.UserName ?? "";
-            response.IsVerified = user.EmailConfirmed;
-            response.Roles = rolesList.ToList();
-
-            return response;
         }
-
-        public async Task<EditResponseDto> EditUser(SaveUserDto saveDto, string origin, bool? isCreated = false)
+        public virtual async Task<EditResponseDto> EditUser(SaveUserDto saveDto, string? origin, bool? isCreated = false, bool? isApi = false)
         {
             bool isNotcreated = !isCreated ?? false;
             EditResponseDto response = new()
@@ -278,6 +217,7 @@ namespace SIRG.Identity.Services
                 response.Errors.Add($"No existe una cuenta registrada con este usuario");
                 return response;
             }
+
             if (isNotcreated)
             {
                 var rolesList = await _userManager.GetRolesAsync(user);
@@ -301,11 +241,9 @@ namespace SIRG.Identity.Services
             else
             {
                 user.Email = saveDto.Email;
-                user.Status = saveDto.Status;
-
+                user.Status = true;
                 user.EmailConfirmed = user.EmailConfirmed && user.Email == saveDto.Email;
             }
-
 
             if (!string.IsNullOrWhiteSpace(saveDto.Password) && isNotcreated)
             {
@@ -332,12 +270,14 @@ namespace SIRG.Identity.Services
 
                 if (!user.EmailConfirmed && isNotcreated)
                 {
-                    string verificationUri = await GetVerificationEmailUri(user, origin);
-                    await _emailService.SendAsync(new EmailRequestDto()
+                    if (isApi != null && !isApi.Value)
                     {
-                        To = saveDto.Email,
-                        Subject = "Confirmación de correo",
-                        HtmlBody = $@"
+                        string verificationUri = await GetVerificationEmailUri(user, origin);
+                        await _emailService.SendAsync(new EmailRequestDto()
+                        {
+                            To = saveDto.Email,
+                            Subject = "Confirmación de correo",
+                            HtmlBody = $@"
                         <!DOCTYPE html>
                         <html lang='es'>
                         <head>
@@ -408,8 +348,18 @@ namespace SIRG.Identity.Services
                             </div>
                         </body>
                         </html>"
-                    });
-
+                        });
+                    }
+                    else
+                    {
+                        string? verificationUri = await GetVerificationEmailToken(user);
+                        await _emailService.SendAsync(new EmailRequestDto()
+                        {
+                            To = saveDto.Email,
+                            HtmlBody = $"Tu correo fue actualizado. Confirma haciendo clic aquí: {verificationUri}",
+                            Subject = "Confirmación de correo"
+                        });
+                    }
                 }
 
                 var updatedRolesList = await _userManager.GetRolesAsync(user);
@@ -433,7 +383,7 @@ namespace SIRG.Identity.Services
             }
         }
 
-        public virtual async Task<UserResponseDto> ForgotPasswordAsync(ForgotPasswordRequestDto request)
+        public virtual async Task<UserResponseDto> ForgotPasswordAsync(ForgotPasswordRequestDto request, bool? isApi = false)
         {
             UserResponseDto response = new() { HasError = false, Errors = [] };
 
@@ -449,14 +399,95 @@ namespace SIRG.Identity.Services
             user.Status = false;
             await _userManager.UpdateAsync(user);
 
-            string? resetToken = await GetResetPasswordToken(user);
-            await _emailService.SendAsync(new EmailRequestDto()
+            if (isApi != null && !isApi.Value)
             {
-                To = user.Email,
-                HtmlBody = $"Por favor restablece tu contraseña utilizando este token {resetToken}",
-                Subject = "Restablecer contraseña"
-            });
-
+                var resetUri = await GetResetPasswordUri(user, request.Origin);
+                await _emailService.SendAsync(new EmailRequestDto()
+                {
+                    To = user.Email,
+                    Subject = "Restablecer contraseña",
+                    HtmlBody = $@"
+                <!DOCTYPE html>
+                <html lang='es'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <style>
+                        body {{
+                            font-family: 'Segoe UI', sans-serif;
+                            background-color: #f8f9fa;
+                            color: #2c3e50;
+                            margin: 0;
+                            padding: 0;
+                        }}
+                        .container {{
+                            max-width: 620px;
+                            margin: auto;
+                            background-color: #ffffff;
+                            border-radius: 8px;
+                            box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+                            overflow: hidden;
+                        }}
+                        .header {{
+                            background-color: #d35400;
+                            padding: 20px;
+                            text-align: center;
+                            color: white;
+                        }}
+                        .header h1 {{
+                            margin: 0;
+                            font-size: 24px;
+                        }}
+                        .content {{
+                            padding: 30px;
+                        }}
+                        .button {{
+                            display: inline-block;
+                            padding: 12px 24px;
+                            background-color: #2c3e50;
+                            color: #ffffff !important;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            margin-top: 20px;
+                        }}
+                        .footer {{
+                            background-color: #f1f1f1;
+                            text-align: center;
+                            color: #888;
+                            font-size: 12px;
+                            padding: 15px;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1>Restablece tu contraseña</h1>
+                        </div>
+                        <div class='content'>
+                            <p>Hola <strong>{user.FirstName} {user.LastName}</strong>,</p>
+                            <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en <strong>SIRG</strong>.</p>
+                            <p>Si fuiste tú quien solicitó este cambio, haz clic en el botón a continuación para crear una nueva contraseña:</p>
+                            <a href='{resetUri}' class='button'>Restablecer contraseña</a>
+                            <p style='margin-top: 30px;'>Si no realizaste esta solicitud, puedes ignorar este mensaje. Tu cuenta permanecerá segura.</p>
+                        </div>
+                        <div class='footer'>
+                            © 2026 SIRG. Todos los derechos reservados.
+                        </div>
+                    </div>
+                </body>
+                </html>"
+                });
+            }
+            else
+            {
+                string? resetToken = await GetResetPasswordToken(user);
+                await _emailService.SendAsync(new EmailRequestDto()
+                {
+                    To = user.Email,
+                    HtmlBody = $"Por favor restablece tu contraseña utilizando este token {resetToken}",
+                    Subject = "Restablecer contraseña"
+                });
+            }
 
             return response;
         }
@@ -597,7 +628,9 @@ namespace SIRG.Identity.Services
                 usersQuery = usersQuery.Where(u => u.EmailConfirmed);
             }
 
-            var users = await usersQuery.ToListAsync();
+            var users = await usersQuery
+                .OrderByDescending(u => u.CreatedAt)
+                .ToListAsync();
 
             var listUsersDtos = new List<UserDto>();
 
@@ -615,7 +648,8 @@ namespace SIRG.Identity.Services
                     UserName = user.UserName ?? "",
                     isVerified = user.EmailConfirmed,
                     Role = roleList.FirstOrDefault() ?? "",
-                    Status = user.Status
+                    Status = user.Status,
+                    CreatedAt = user.CreatedAt
                 });
             }
 
@@ -643,7 +677,32 @@ namespace SIRG.Identity.Services
                 return $"Ocurrió un error al confirmar este correo electrónico {user.Email}";
             }
         }
+        public async Task<UserResponseDto> CambiarEstadoAsync(string id)
+        {
+            UserResponseDto response = new() { HasError = false, Errors = [] };
 
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                response.HasError = true;
+                response.Errors.Add($"No se encontró el usuario con ID {id}.");
+                return response;
+            }
+
+            bool estabaInactivo = !user.Status;
+            user.Status = !user.Status;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Errors.AddRange(result.Errors.Select(e => e.Description).ToList());
+                return response;
+            }
+
+            return response;
+        }
 
         #region "Protected methods"
 

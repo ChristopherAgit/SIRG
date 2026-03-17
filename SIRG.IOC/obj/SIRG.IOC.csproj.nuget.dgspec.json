@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {}
+    "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+    "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Application\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -48,7 +49,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -56,7 +57,11 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[14.0.0, )"
+              "version": "[16.1.1, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.3.9, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -79,24 +84,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+    "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -105,6 +110,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -123,7 +129,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -144,24 +150,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
+    "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
         "projectName": "SIRG.Identity",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Identity\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -170,17 +176,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -195,7 +202,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -223,11 +230,15 @@
             },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[9.0.6, )"
             },
             "MimeKit": {
               "target": "Package",
-              "version": "[4.15.0, )"
+              "version": "[4.15.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -246,24 +257,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
+    "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
         "projectName": "SIRG.IOC",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.IOC\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.IOC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -272,23 +283,24 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"
+              "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"
               },
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj"
+              "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj"
               },
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj"
+              "C:\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj"
               }
             }
           }
@@ -303,7 +315,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -324,24 +336,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
+    "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
         "projectName": "SIRG.Persistences",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Persistences\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Persistences\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -350,17 +362,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -375,7 +388,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -416,24 +429,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
+    "C:\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
         "projectName": "SIRG.Shared",
-        "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
-        "packagesPath": "C:\\Users\\agram\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\agram\\Source\\Repos\\SIRG\\SIRG.Shared\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Shared\\SIRG.Shared.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\agram\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -442,14 +455,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\Users\\agram\\source\\repos\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               }
             }
           }
@@ -464,7 +478,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -481,10 +495,6 @@
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
               "target": "Package",
               "version": "[10.0.3, )"
-            },
-            "MimeKit": {
-              "target": "Package",
-              "version": "[4.15.0, )"
             }
           },
           "imports": [
@@ -503,7 +513,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

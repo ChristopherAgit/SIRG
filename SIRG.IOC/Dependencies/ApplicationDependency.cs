@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SIRG.Application.Interfaces;
 using SIRG.Application.Interfaces.Contracts;
-using SIRG.Application.Mapper.AutoMapper;
 using SIRG.Application.Services;
 using SIRG.Identity.Services;
 using SIRG.Shared.Services;
@@ -12,8 +11,7 @@ namespace SIRG.IOC.Dependencies
     {
         public static void AddApplicationDependencies(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(ApplicationDependency).Assembly);
-            services.AddAutoMapper(typeof(MapperEntityToServices).Assembly);
+            services.AddAutoMapper(cfg => { }, typeof(ApplicationDependency).Assembly);
 
             #region Services
             services.AddTransient(typeof(IBaseServices<,>), typeof(BaseServices<,>));
@@ -32,7 +30,6 @@ namespace SIRG.IOC.Dependencies
             services.AddScoped<ISalesServices, SaleServices>();
             services.AddScoped<ISaleDetailsServices, SaleDetailsServices>();
 
-            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
 
             #endregion
