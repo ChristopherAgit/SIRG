@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
 using SIRG.IOC.Dependencies;
-
+using SIRG.Api.Extensions;
 
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,16 +39,6 @@ builder.Services.AddSwaggerExtension();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "SIRG API",
-        Version = "v1",
-        Description = "API de Sistema de gestion de restaurante"
-    });
-
-});
 
 var app = builder.Build();
 await app.Services.RunSeedAsync();
