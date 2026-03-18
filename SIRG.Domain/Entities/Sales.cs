@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SIRG.Domain.Entities
+﻿namespace SIRG.Domain.Entities
 {
     public class Sales
     {
-        [Key]
         public required int SaleID { get; set; }
         public required int OrderID { get; set; }
         public DateTime? SaleDate { get; set; } = DateTime.Now;
@@ -12,5 +9,6 @@ namespace SIRG.Domain.Entities
 
         //Navigation properties
         public List<SaleDetails>? SaleDetails { get; set; }
+        public Orders? Order { get; set; }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Ignore Spelling: SIRG
 
 namespace SIRG.Domain.Entities
 {
     public class OrderDetails
     {
-        [Key]
-
         public required int OrderDetailsID { get; set; }
         public required int OrderID { get; set; }
         public required int DishID { get; set; }

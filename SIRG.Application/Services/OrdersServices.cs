@@ -78,7 +78,7 @@ namespace SIRG.Application.Services
         public async Task<bool> UpdateOrderStatus(int orderId, int orderStatusId)
         {
             var result = await _repository.GetAllQuerry().Where(o => o.OrderID == orderId)
-                                                                                    .ExecuteUpdateAsync(o => o.SetProperty(o => o.StatusID, orderStatusId));
+                                                                                   .ExecuteUpdateAsync(o => o.SetProperty(o => o.StatusID, orderStatusId));
             return result > 0;
         }
     }

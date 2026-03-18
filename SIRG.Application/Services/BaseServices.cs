@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿// Ignore Spelling: SIRG dto
+
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using SIRG.Application.Interfaces;
@@ -86,7 +88,7 @@ namespace SIRG.Application.Services
                 TEntity? reeturnEntity = await _repository.SaveEntityAsync(entity);
                 if (reeturnEntity == null)
                 {
-                    return null;
+                    return null!;
                 }
 
                 return _mapper.Map<TDtos>(reeturnEntity);

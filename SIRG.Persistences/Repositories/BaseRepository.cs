@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Ignore Spelling: Persistences SIRG Querry
+
+using Microsoft.EntityFrameworkCore;
 using SIRG.Domain.Interfaces;
 using SIRG.Persistences.Context;
-using System.ComponentModel.Design;
 
 namespace SIRG.Persistences.Repositories
 {
@@ -12,8 +13,8 @@ namespace SIRG.Persistences.Repositories
         protected DbSet<TEntity> Entity { get; }
         public BaseRepository(SIRGContext context)
         {
-           _context = context;
-           Entity = context.Set<TEntity>();
+            _context = context;
+            Entity = context.Set<TEntity>();
         }
 
         public virtual async Task<TEntity?> GetEntityByIdAsync(int Id)
@@ -33,18 +34,18 @@ namespace SIRG.Persistences.Repositories
             var entry = await Entity.FindAsync(id);
 
             if (entry != null)
-            { 
+            {
                 _context.Entry(entry).CurrentValues.SetValues(entity);
-                 await _context.SaveChangesAsync();
-                 return entry;
-            
+                await _context.SaveChangesAsync();
+                return entry;
+
             }
             return null;
         }
 
         public async Task<List<TEntity>> GetAllEntitiesAsync()
         {
-           return await Entity.ToListAsync();
+            return await Entity.ToListAsync();
         }
 
         public IQueryable<TEntity> GetAllQuerry()
@@ -82,7 +83,7 @@ namespace SIRG.Persistences.Repositories
             var entity = await Entity.FindAsync(id);
 
             if (entity != null)
-            { 
+            {
                 Entity.Remove(entity);
                 await _context.SaveChangesAsync();
             }

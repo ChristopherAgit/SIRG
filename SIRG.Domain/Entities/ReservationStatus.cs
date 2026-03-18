@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SIRG.Domain.Entities
+﻿namespace SIRG.Domain.Entities
 {
     public class ReservationStatus
     {
-        [Key]
-
         public required int StatusID { get; set; }
         public string? StatusName { get; set; }
         //Navigation property

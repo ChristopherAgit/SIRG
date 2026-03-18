@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Ignore Spelling: Persistences SIRG
+
+using Microsoft.EntityFrameworkCore;
 using SIRG.Domain.Entities;
+using System.Reflection;
 
 namespace SIRG.Persistences.Context
 {
-    public class SIRGContext : DbContext
+    public class SIRGContext(DbContextOptions<SIRGContext> options) : DbContext(options)
     {
-        public SIRGContext(DbContextOptions<SIRGContext> options) : base(options) 
-        {
-        
-        }
-
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Customers> Customers { get; set; }
         public DbSet<Dishes> Dishes { get; set; }
@@ -25,5 +23,11 @@ namespace SIRG.Persistences.Context
         public DbSet<RestaurantTables> RestaurantTables { get; set; }
         public DbSet<SaleDetails> SaleDetails { get; set; }
         public DbSet<Sales> Sales { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
     }
 }

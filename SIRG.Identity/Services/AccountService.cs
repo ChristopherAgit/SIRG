@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿// Ignore Spelling: SIRG Uri
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using SIRG.Application.Dtos.Emails;
@@ -75,7 +77,7 @@ namespace SIRG.Identity.Services
             response.Id = user.Id;
             response.Name = user.FirstName;
             response.LastName = user.LastName;
-            response.Cedula = user.Cedula ?? "";
+            response.Cedula = user.Document ?? "";
             response.Email = user.Email ?? "";
             response.UserName = user.UserName ?? "";
             response.IsVerified = user.EmailConfirmed;
@@ -118,11 +120,11 @@ namespace SIRG.Identity.Services
                 return response;
             }
 
-            AppUser user = new AppUser()
+            AppUser user = new()
             {
                 FirstName = saveDto.Name,
                 LastName = saveDto.LastName,
-                Cedula = saveDto.Cedula,
+                Document = saveDto.Cedula,
                 Email = saveDto.Email,
                 UserName = saveDto.UserName,
                 EmailConfirmed = false,
@@ -134,7 +136,7 @@ namespace SIRG.Identity.Services
             {
                 await _userManager.AddToRoleAsync(user, saveDto.Role);
 
-                string verificationUri = await GetVerificationEmailUri(user, origin);
+                string verificationUri = await GetVerificationEmailUri(user, origin!);
 
                 await _emailService.SendAsync(new EmailRequestDto()
                 {
@@ -229,7 +231,7 @@ namespace SIRG.Identity.Services
             response.Id = user.Id;
             response.Name = user.FirstName;
             response.LastName = user.LastName;
-            response.Cedula = user.Cedula ?? "";
+            response.Cedula = user.Document ?? "";
             response.Email = user.Email ?? "";
             response.UserName = user.UserName ?? "";
             response.IsVerified = user.EmailConfirmed;
@@ -252,7 +254,6 @@ namespace SIRG.Identity.Services
                 HasError = false,
                 Errors = []
             };
-
 
             var userWithSameUserName = await _userManager.Users.FirstOrDefaultAsync(w => w.UserName == saveDto.UserName && w.Id != saveDto.Id);
             if (userWithSameUserName != null)
@@ -287,9 +288,8 @@ namespace SIRG.Identity.Services
 
             user.FirstName = saveDto.Name;
             user.LastName = saveDto.LastName;
-            user.Cedula = saveDto.Cedula;
+            user.Document = saveDto.Cedula;
             user.UserName = saveDto.UserName;
-
 
             bool emailChanged = !string.Equals(user.Email, saveDto.Email, StringComparison.OrdinalIgnoreCase);
             if (emailChanged)
@@ -305,7 +305,6 @@ namespace SIRG.Identity.Services
 
                 user.EmailConfirmed = user.EmailConfirmed && user.Email == saveDto.Email;
             }
-
 
             if (!string.IsNullOrWhiteSpace(saveDto.Password) && isNotcreated)
             {
@@ -324,7 +323,6 @@ namespace SIRG.Identity.Services
             {
                 user.EmailConfirmed = true;
             }
-
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -417,7 +415,7 @@ namespace SIRG.Identity.Services
                 response.Id = user.Id;
                 response.Name = user.FirstName;
                 response.LastName = user.LastName;
-                response.Cedula = user.Cedula ?? "";
+                response.Cedula = user.Document ?? "";
                 response.Email = user.Email ?? "";
                 response.UserName = user.UserName ?? "";
                 response.IsVerified = user.EmailConfirmed;
@@ -456,7 +454,6 @@ namespace SIRG.Identity.Services
                 HtmlBody = $"Por favor restablece tu contraseña utilizando este token {resetToken}",
                 Subject = "Restablecer contraseña"
             });
-
 
             return response;
         }
@@ -524,7 +521,7 @@ namespace SIRG.Identity.Services
                 Id = user.Id,
                 Name = user.FirstName,
                 LastName = user.LastName,
-                Cedula = user.Cedula ?? "",
+                Cedula = user.Document ?? "",
                 Email = user.Email ?? "",
                 UserName = user.UserName ?? "",
                 isVerified = user.EmailConfirmed,
@@ -550,13 +547,12 @@ namespace SIRG.Identity.Services
                 Id = user.Id,
                 Name = user.FirstName,
                 LastName = user.LastName,
-                Cedula = user.Cedula ?? "",
+                Cedula = user.Document ?? "",
                 Email = user.Email ?? "",
                 UserName = user.UserName ?? "",
                 isVerified = user.EmailConfirmed,
                 Role = rolesList.FirstOrDefault() ?? "",
                 Status = user.Status
-
             };
 
             return userDto;
@@ -577,13 +573,12 @@ namespace SIRG.Identity.Services
                 Id = user.Id,
                 Name = user.FirstName,
                 LastName = user.LastName,
-                Cedula = user.Cedula ?? "",
+                Cedula = user.Document ?? "",
                 Email = user.Email ?? "",
                 UserName = user.UserName ?? "",
                 isVerified = user.EmailConfirmed,
                 Role = rolesList.FirstOrDefault() ?? "",
                 Status = user.Status
-
             };
 
             return userDto;
@@ -610,7 +605,7 @@ namespace SIRG.Identity.Services
                     Id = user.Id,
                     Name = user.FirstName,
                     LastName = user.LastName,
-                    Cedula = user.Cedula ?? "",
+                    Cedula = user.Document ?? "",
                     Email = user.Email ?? "",
                     UserName = user.UserName ?? "",
                     isVerified = user.EmailConfirmed,
@@ -644,7 +639,6 @@ namespace SIRG.Identity.Services
             }
         }
 
-
         #region "Protected methods"
 
         protected async Task<string> GetVerificationEmailUri(AppUser user, string origin)
@@ -658,6 +652,7 @@ namespace SIRG.Identity.Services
 
             return verificationUri;
         }
+
         protected async Task<string> GetResetPasswordUri(AppUser user, string origin)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -677,6 +672,7 @@ namespace SIRG.Identity.Services
 
             return token;
         }
+
         protected async Task<string?> GetResetPasswordToken(AppUser user)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);

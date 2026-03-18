@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Ignore Spelling: SIRG
 
 namespace SIRG.Domain.Entities
 {
-    public class Categories 
+    public class Categories
     {
-        [Key]
         public required int CategoryID { get; set; }
         public required string CategoryName { get; set; }
         public string? Description { get; set; }

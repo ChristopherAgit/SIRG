@@ -24,29 +24,29 @@ namespace SIRG.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ReservationsDto>> GetAllReservationsAsync(
-            DateOnly? date,
-            TimeOnly? time,
-            int? statusId)
-        {
-            var query = _reservationRepository.GetAllQuerry()
-                .Include(r => r.RestaurantTables)
-                .Include(r => r.ReservationStatus)
-                .AsQueryable();
+        //public async Task<List<ReservationsDto>> GetAllReservationsAsync(
+        //    DateOnly? date,
+        //    TimeOnly? time,
+        //    int? statusId)
+        //{
+        //    var query = _reservationRepository.GetAllQuerry()
+        //        .Include(r => r.RestaurantTables)
+        //        .Include(r => r.ReservationStatus)
+        //        .AsQueryable();
 
-            if (date.HasValue)
-                query = query.Where(r => r.ReservationDate == date.Value);
+        //    if (date.HasValue)
+        //        query = query.Where(r => r.ReservationDate == date.Value);
 
-            if (time.HasValue)
-                query = query.Where(r => r.ReservationTime == time.Value);
+        //    if (time.HasValue)
+        //        query = query.Where(r => r.ReservationTime == time.Value);
 
-            if (statusId.HasValue)
-                query = query.Where(r => r.StatusID == statusId.Value);
+        //    if (statusId.HasValue)
+        //        query = query.Where(r => r.StatusID == statusId.Value);
 
-            return await query
-                .ProjectTo<ReservationsDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
+        //    return await query
+        //        .ProjectTo<ReservationsDto>(_mapper.ConfigurationProvider)
+        //        .ToListAsync();
+        //}
 
         public async Task<ReservationsDto?> SaveReservationAsync(ReservationsDto dto)
         {

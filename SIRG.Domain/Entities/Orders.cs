@@ -8,8 +8,10 @@ namespace SIRG.Domain.Entities
 
         public required int OrderID { get; set; }
         public required int ReservationID { get; set; }
-        public required int WaiterID { get; set; }
         public required int StatusID { get; set; }
+
+        //WaierID = es el id del usuario con el rol de camarero
+        public required int WaiterID { get; set; }
         public required int UserID { get; set; }
         public required DateTime OrderDate { get; set; } = DateTime.Now;
 
@@ -17,5 +19,6 @@ namespace SIRG.Domain.Entities
         public Reservations? Reservations { get; set; }
         public List<OrderDetails>? OrderDetails { get; set; }
         public OrderStatus? OrderStatus { get; set; }
+        public Sales? Sale { get; set; }
     }
 }

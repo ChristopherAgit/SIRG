@@ -11,7 +11,7 @@ namespace SIRG.Application.Interfaces.Contracts
            int? statusId = null,
            string? reservationType = null);
 
-                Task<ReservationsDto?> GetReservationWithDetailsById(int id);
+        Task<ReservationsDto?> GetReservationWithDetailsById(int id);
 
         Task<ReservationsDto?> SaveReservationAsync(ReservationsDto dto);
         Task<ReservationsDto?> UpdateReservationAsync(int id, ReservationsDto dto);
