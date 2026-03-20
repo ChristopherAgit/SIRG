@@ -1,4 +1,6 @@
-﻿using SIRG.Application.Dtos.Login;
+﻿// Ignore Spelling: SIRG
+
+using SIRG.Application.Dtos.Login;
 using SIRG.Application.Dtos.User;
 
 namespace SIRG.Application.Interfaces
@@ -16,7 +18,7 @@ namespace SIRG.Application.Interfaces
         Task<RegisterResponseDto> RegisterUser(SaveUserDto saveDto, string? origin);
         Task<UserResponseDto> ResetPasswordAsync(ResetPasswordRequestDto request);
 
-        Task<LoginResponseDto> AuthenticateAsync(LoginDto loginDto);
+        Task<UserAuthenticationResponseDto> AuthenticateAsync(LoginDto loginDto);
         Task SignOutAsync();
     }
 }

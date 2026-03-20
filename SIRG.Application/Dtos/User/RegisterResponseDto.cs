@@ -1,11 +1,13 @@
-﻿namespace SIRG.Application.Dtos.User
+﻿// Ignore Spelling: Dto dtos sirg
+
+namespace SIRG.Application.Dtos.User
 {
     public class RegisterResponseDto
     {
         public required string Id { get; set; }
         public required string Name { get; set; }
         public required string LastName { get; set; }
-        public required string Cedula { get; set; }
+        public required string Document { get; set; }
         public required string Email { get; set; }
         public required string UserName { get; set; }
         public List<string>? Roles { get; set; }

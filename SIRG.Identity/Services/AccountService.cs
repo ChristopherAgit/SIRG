@@ -1,13 +1,18 @@
-﻿// Ignore Spelling: SIRG Uri
+﻿// Ignore Spelling: SIRG Uri Dto jwt
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SIRG.Application.Dtos.Emails;
 using SIRG.Application.Dtos.Login;
 using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
+using SIRG.Domain.Setting;
 using SIRG.Identity.Entities;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace SIRG.Identity.Services
@@ -15,28 +20,20 @@ namespace SIRG.Identity.Services
     public class AccountService : IAccountService
     {
         private readonly UserManager<AppUser> _userManager;
-        public readonly IEmailService _emailService;
         private readonly SignInManager<AppUser> _signInManager;
-        public AccountService(UserManager<AppUser> userManager, IEmailService emailService, SignInManager<AppUser> signInManager)
+        public readonly IEmailService _emailService;
+        private readonly JwtSettings _jwtSettings;
+        public AccountService(UserManager<AppUser> userManager, IEmailService emailService, SignInManager<AppUser> signInManager, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _emailService = emailService;
             _signInManager = signInManager;
+            _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<LoginResponseDto> AuthenticateAsync(LoginDto loginDto)
+        public async Task<UserAuthenticationResponseDto> AuthenticateAsync(LoginDto loginDto)
         {
-            LoginResponseDto response = new()
-            {
-                Id = "",
-                Name = "",
-                LastName = "",
-                Cedula = "",
-                Email = "",
-                UserName = "",
-                HasError = false,
-                Errors = []
-            };
+            UserAuthenticationResponseDto response = new() { HasError = false, Errors = [] };
 
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
 
@@ -69,26 +66,30 @@ namespace SIRG.Identity.Services
                 {
                     response.Errors.Add($"Las credenciales son inválidas para este usuario: {user.UserName}");
                 }
+
+
                 return response;
             }
 
+            JwtSecurityToken jwtSecurityToken = await GenerateJwtToken(user);
+            response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            response.Expiration = jwtSecurityToken.ValidTo;
+
             var rolesList = await _userManager.GetRolesAsync(user);
 
-            response.Id = user.Id;
-            response.Name = user.FirstName;
-            response.LastName = user.LastName;
-            response.Cedula = user.Document ?? "";
-            response.Email = user.Email ?? "";
-            response.UserName = user.UserName ?? "";
-            response.IsVerified = user.EmailConfirmed;
-            response.Roles = rolesList.ToList();
+            response.User!.Id = user.Id;
+            response.User!.FirstName = user.FirstName;
+            response.User!.LastName = user.LastName;
+            response.User!.Document = user.Document ?? "";
+            response.User!.Email = user.Email ?? "";
+            response.User!.UserName = user.UserName ?? "";
+            response.User!.IsVerified = user.EmailConfirmed;
+            response.User!.Roles = rolesList.ToList();
 
             return response;
         }
-        public async Task SignOutAsync()
-        {
-            await _signInManager.SignOutAsync();
-        }
+
+        public async Task SignOutAsync() => await _signInManager.SignOutAsync();
 
         public async Task<RegisterResponseDto> RegisterUser(SaveUserDto saveDto, string? origin)
         {
@@ -97,7 +98,7 @@ namespace SIRG.Identity.Services
                 Id = "",
                 Name = "",
                 LastName = "",
-                Cedula = "",
+                Document = "",
                 Email = "",
                 UserName = "",
                 HasError = false,
@@ -124,7 +125,7 @@ namespace SIRG.Identity.Services
             {
                 FirstName = saveDto.Name,
                 LastName = saveDto.LastName,
-                Document = saveDto.Cedula,
+                Document = saveDto.Document,
                 Email = saveDto.Email,
                 UserName = saveDto.UserName,
                 EmailConfirmed = false,
@@ -231,7 +232,7 @@ namespace SIRG.Identity.Services
             response.Id = user.Id;
             response.Name = user.FirstName;
             response.LastName = user.LastName;
-            response.Cedula = user.Document ?? "";
+            response.Document = user.Document ?? "";
             response.Email = user.Email ?? "";
             response.UserName = user.UserName ?? "";
             response.IsVerified = user.EmailConfirmed;
@@ -240,7 +241,7 @@ namespace SIRG.Identity.Services
             return response;
         }
 
-        public async Task<EditResponseDto> EditUser(SaveUserDto saveDto, string origin, bool? isCreated = false)
+        public async Task<EditResponseDto> EditUser(SaveUserDto saveDto, string? origin, bool? isCreated = false)
         {
             bool isNotcreated = !isCreated ?? false;
             EditResponseDto response = new()
@@ -271,7 +272,7 @@ namespace SIRG.Identity.Services
                 return response;
             }
 
-            var user = await _userManager.FindByIdAsync(saveDto.Id);
+            var user = await _userManager.FindByIdAsync(saveDto.Id!);
 
             if (user == null)
             {
@@ -288,7 +289,7 @@ namespace SIRG.Identity.Services
 
             user.FirstName = saveDto.Name;
             user.LastName = saveDto.LastName;
-            user.Document = saveDto.Cedula;
+            user.Document = saveDto.Document;
             user.UserName = saveDto.UserName;
 
             bool emailChanged = !string.Equals(user.Email, saveDto.Email, StringComparison.OrdinalIgnoreCase);
@@ -327,10 +328,9 @@ namespace SIRG.Identity.Services
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-
                 if (!user.EmailConfirmed && isNotcreated)
                 {
-                    string verificationUri = await GetVerificationEmailUri(user, origin);
+                    string verificationUri = await GetVerificationEmailUri(user, origin!);
                     await _emailService.SendAsync(new EmailRequestDto()
                     {
                         To = saveDto.Email,
@@ -641,19 +641,20 @@ namespace SIRG.Identity.Services
 
         #region "Protected methods"
 
-        protected async Task<string> GetVerificationEmailUri(AppUser user, string origin)
+        private async Task<string> GetVerificationEmailUri(AppUser user, string origin)
         {
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            string token = await GetVerificationEmailToken(user) ?? "";
+            //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             var route = "Login/ConfirmEmail";
-            var completeUrl = new Uri(string.Concat(origin, "/", route));
-            var verificationUri = QueryHelpers.AddQueryString(completeUrl.ToString(), "userId", user.Id);
+            Uri? completeUrl = new(string.Concat(origin, "/", route));
+            string? verificationUri = QueryHelpers.AddQueryString(completeUrl.ToString(), "userId", user.Id);
             verificationUri = QueryHelpers.AddQueryString(verificationUri.ToString(), "token", token);
 
             return verificationUri;
         }
 
-        protected async Task<string> GetResetPasswordUri(AppUser user, string origin)
+        private async Task<string> GetResetPasswordUri(AppUser user, string origin)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
@@ -665,7 +666,7 @@ namespace SIRG.Identity.Services
             return resetUri;
         }
 
-        protected async Task<string?> GetVerificationEmailToken(AppUser user)
+        private async Task<string?> GetVerificationEmailToken(AppUser user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
@@ -673,12 +674,51 @@ namespace SIRG.Identity.Services
             return token;
         }
 
-        protected async Task<string?> GetResetPasswordToken(AppUser user)
+        private async Task<string?> GetResetPasswordToken(AppUser user)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
             return token;
+        }
+
+        private async Task<JwtSecurityToken> GenerateJwtToken(AppUser user)
+        {
+
+            var userClaimsTask = _userManager.GetClaimsAsync(user);
+            var rolesTask = _userManager.GetRolesAsync(user);
+
+            await Task.WhenAll(userClaimsTask, rolesTask);
+
+            var userClaims = await userClaimsTask;
+            var roles = await rolesTask;
+
+            var rolesClaims = new List<Claim>();
+            foreach (var role in roles)
+            {
+                rolesClaims.Add(new Claim("roles", role));
+            }
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub,user.UserName ?? ""),
+                //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                //new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                new Claim("uid",user.Id.ToString())
+            }.Union(userClaims).Union(rolesClaims);
+
+            SymmetricSecurityKey? symmetricSecurityKey = new(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
+            SigningCredentials? signingCredentials = new(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
+                signingCredentials: signingCredentials
+            );
+
+            return jwtSecurityToken;
         }
         #endregion
     }

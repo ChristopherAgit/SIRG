@@ -1,11 +1,14 @@
-﻿using AutoMapper;
+﻿// Ignore Spelling: SIRG dto
+
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SIRG.Application.Dtos.Login;
 using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
 using SIRG.Application.ViewModels.Login;
-using SIRG.Application.ViewModels.Users;
+using SIRG.Application.Wrappers;
 using SIRG.Identity.Entities;
 
 namespace SIRG.Server.Controllers
@@ -14,112 +17,103 @@ namespace SIRG.Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAccountService _accountServiceForWebApp;
+        private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager; // Necesario para logout
 
         public AuthController(
-            IAccountService accountServiceForWebApp,
+            IAccountService accountService,
             IMapper mapper,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager)
         {
-            _accountServiceForWebApp = accountServiceForWebApp;
+            _accountService = accountService;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         // GET: api/auth/current-user
+        [Authorize]
         [HttpGet("current-user")]
         public async Task<IActionResult> GetCurrentUser()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-                return Ok(new { isAuthenticated = false });
+            //var user = await _userManager.GetUserAsync(User);
+            string? username = User.Identity?.Name;
+            if (username == null)
+                return Unauthorized(new ApiResponse("No esta autorizado para ejecutar esta acción"));
 
-            var userDto = await _accountServiceForWebApp.GetUserByUserName(user.UserName);
-            return Ok(new
-            {
-                isAuthenticated = true,
-                userName = user.UserName,
-                email = user.Email,
-                roles = userDto?.Role
-            });
+            var userDto = await _accountService.GetUserByUserName(username);
+            if (userDto is null) return NotFound(new ApiResponse("Usuario no encontrado"));
+            //return Ok(new
+            //{
+            //    isAuthenticated = true,
+            //    userName = user.UserName,
+            //    email = user.Email,
+            //    roles = userDto?.Role
+            //});
+
+            return Ok(new ApiResponse<UserDto>(userDto));
         }
 
         // POST: api/auth/login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel vm) // Usa un DTO específico
+        public async Task<IActionResult> Login([FromBody] LoginDto dto) // Usa un DTO específico
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            //Con [ApiController], la validación de modelo se hace automáticamente, pero puedes personalizar la respuesta si quieres
+            //if (!ModelState.IsValid)
+            //    return BadRequest(ModelState);
 
-            var loginDto = new LoginDto
+            var userDto = await _accountService.AuthenticateAsync(dto);
+
+            if (userDto is null || userDto.HasError)
             {
-                Password = vm.Password,
-                UserName = vm.UserName
-            };
-
-            var userDto = await _accountServiceForWebApp.AuthenticateAsync(loginDto);
-
-            if (userDto == null || userDto.HasError)
-            {
-                return Unauthorized(new { errors = userDto?.Errors.ToArray() ?? new[] { "Credenciales inválidas" } });
+                return BadRequest(new ApiResponse(userDto!.Errors));
             }
 
             // Aquí deberías generar un token JWT (ver paso 2)
             // Por ahora devolvemos los datos del usuario
-            return Ok(new
-            {
-                userName = userDto.UserName,
-                email = userDto.Email,
-                roles = userDto.Roles,
-                token = "JWT_TOKEN" // Más adelante
-            });
+            //return Ok(new
+            //{
+            //    userName = userDto.UserName,
+            //    email = userDto.Email,
+            //    roles = userDto.Roles,
+            //    token = "JWT_TOKEN" // Más adelante
+            //});
+
+            return Ok(new ApiResponse<UserAuthenticationResponseDto>(userDto));
         }
 
         // POST: api/auth/logout
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            return Ok();
+            await _accountService.SignOutAsync();
+            return NoContent();
         }
 
         // POST: api/auth/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel vm)
+        public async Task<IActionResult> Register([FromBody] SaveUserDto dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var dto = _mapper.Map<SaveUserDto>(vm);
-            dto.Role = "Cashier";
-            var origin = Request.Headers["Origin"].ToString();
-
-            var returnUser = await _accountServiceForWebApp.RegisterUser(dto, origin);
+            string origin = Request.Headers.Origin.ToString();
+            var returnUser = await _accountService.RegisterUser(dto, origin);
 
             if (returnUser.HasError)
             {
-                return BadRequest(new { errors = returnUser.Errors });
+                return BadRequest(new ApiResponse(returnUser.Errors));
             }
 
-            if (!string.IsNullOrWhiteSpace(returnUser.Id))
-            {
-                dto.Id = returnUser.Id;
-                await _accountServiceForWebApp.EditUser(dto, origin, true);
-            }
-
-            return Ok(new { message = "Usuario registrado. Revisa tu email para confirmar." });
+            return Ok(new ApiResponse<RegisterResponseDto>(returnUser));
         }
 
         // GET: api/auth/confirm-email
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
         {
-            var response = await _accountServiceForWebApp.ConfirmAccountAsync(userId, token);
+            //Hay que enviar el token de confirmación como respuesta.
+            var response = await _accountService.ConfirmAccountAsync(userId, token);
             return Ok(new { message = response });
         }
 
@@ -127,13 +121,10 @@ namespace SIRG.Server.Controllers
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestViewModel vm)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var origin = Request.Headers["Origin"].ToString();
+            string origin = Request.Headers.Origin.ToString();
             var dto = new ForgotPasswordRequestDto { UserName = vm.UserName, Origin = origin };
 
-            var returnUser = await _accountServiceForWebApp.ForgotPasswordAsync(dto);
+            var returnUser = await _accountService.ForgotPasswordAsync(dto);
 
             if (returnUser.HasError)
             {
@@ -147,9 +138,6 @@ namespace SIRG.Server.Controllers
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestViewModel vm)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var dto = new ResetPasswordRequestDto
             {
                 Id = vm.Id,
@@ -157,7 +145,7 @@ namespace SIRG.Server.Controllers
                 Token = vm.Token
             };
 
-            var returnUser = await _accountServiceForWebApp.ResetPasswordAsync(dto);
+            var returnUser = await _accountService.ResetPasswordAsync(dto);
 
             if (returnUser.HasError)
             {

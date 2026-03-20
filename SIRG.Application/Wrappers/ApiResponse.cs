@@ -2,26 +2,35 @@
 
 namespace SIRG.Application.Wrappers
 {
-    public class ApiResponse<Type>
+    public class ApiResponse
     {
         public ApiResponse() { }
-
-        public ApiResponse(Type data, string? message = null)
+        public ApiResponse(string message, bool succeeded = false)
         {
-            Succeeded = true;
-            Data = data;
-            Message = message ?? string.Empty;
-        }
-
-        public ApiResponse(string message)
-        {
-            Succeeded = false;
+            Succeeded = succeeded;
             Message = message;
         }
 
-        public bool Succeeded { get; set; }
-        public string? Message { get; set; }
-        public List<string>? Errors { get; set; }
+        public ApiResponse(List<string> errors, string? message = null)
+        {
+            Errors = errors;
+            Message = message;
+        }
+
+        protected bool Succeeded { get; set; }
+        protected string? Message { get; set; }
+        protected List<string>? Errors { get; set; }
+    }
+
+    public class ApiResponse<Type> : ApiResponse
+    {
+        public ApiResponse(Type data, string? message = null) : base(message!, true)
+        {
+            Data = data;
+        }
+
+        public ApiResponse(string message) : base(message) { }
+
         public Type? Data { get; set; }
     }
 }
