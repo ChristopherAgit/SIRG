@@ -1,0 +1,56 @@
+.reservation-section{
+    padding: 80px 20px;
+    background: #f4f4f4;
+}
+.reservation-container{
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.reservation-header{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.reservation-header h2{
+    font-size: 32px;
+}
+.reservation-subtitle{
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #b22222;
+}
+.reservation-form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.form-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+label{
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+input, select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button{
+    padding: 15px;
+    background: #b22222;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover{
+  background:#8b1a1a;
+}
