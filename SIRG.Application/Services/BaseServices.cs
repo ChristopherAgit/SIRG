@@ -17,9 +17,17 @@ namespace SIRG.Application.Services
             
         }
 
-        public Task<bool> DeleteDtoAync(int dtoDelete)
+        public async Task<bool> DeleteDtoAync(int dtoDelete)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _repository.RemoveAsync(dtoDelete);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public async Task<List<TDtos>> GetAllListDto()
@@ -28,7 +36,7 @@ namespace SIRG.Application.Services
             {
                 var listEntity = await _repository.GetAllEntitiesAsync();
 
-                var listDto = new List<TDtos>();
+                var listDto = _mapper.Map<List<TDtos>>(listEntity);
                 return listDto;
             }
             catch (Exception)
@@ -84,10 +92,13 @@ namespace SIRG.Application.Services
                 return _mapper.Map<TDtos>(reeturnEntity);
 
             }
-            catch
+            catch (Exception ex)
             {
+                {
 
-                return null;
+                    throw new Exception(
+               $"Error mapeando {typeof(TDtos).Name} -> {typeof(TEntity).Name}: {ex.Message}", ex);
+                }
             }
         }
 

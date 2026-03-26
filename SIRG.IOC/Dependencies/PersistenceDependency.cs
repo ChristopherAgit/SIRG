@@ -26,7 +26,23 @@ namespace SIRG.IOC.Dependencies
             }
 
             #endregion
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+            services.AddScoped<ICustomersRepository, CustomersRepository>();
+            services.AddScoped<IDishersRepository, DishersRepository>();
+            services.AddScoped<IDishIngredientsRepository, DishIngredientsRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IInventoryMovementsRepository, InventoryMovementsRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
+            services.AddScoped<IOrderDetailsRepository, OrdersDetailsRepository>();
+            services.AddScoped<IOrderStatusRepository, OrdersStatusRepository>();
+            services.AddScoped<IReservationsRepository, ReservationRepository>();
+            services.AddScoped<IReservationStatusRepository, ReservationStatusRepository>();
+            services.AddScoped<IRetaurantTableRepository, RetaurantTableRepository>();
+            services.AddScoped<ISalesRepository, SaleRepository>();
+            services.AddScoped<ISalesDetailsRepository, SalesDetailsRepository>();
+
+
+
         }
     }
 }

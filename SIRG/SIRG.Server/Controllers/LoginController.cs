@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SIRG.Application.Dtos.Login;
@@ -10,17 +11,18 @@ using SIRG.Identity.Entities;
 
 namespace SIRG.Server.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAccountService _accountServiceForWebApp;
+        private readonly IAccountServiceForWebApp _accountServiceForWebApp;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager; // Necesario para logout
+        private readonly SignInManager<AppUser> _signInManager;
 
         public AuthController(
-            IAccountService accountServiceForWebApp,
+            IAccountServiceForWebApp accountServiceForWebApp,
             IMapper mapper,
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager)
@@ -51,33 +53,25 @@ namespace SIRG.Server.Controllers
 
         // POST: api/auth/login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel vm) // Usa un DTO específico
+        public async Task<IActionResult> Login([FromBody] LoginViewModel vm)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var loginDto = new LoginDto
+            var result = await _signInManager.PasswordSignInAsync(vm.UserName, vm.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
             {
-                Password = vm.Password,
-                UserName = vm.UserName
-            };
-
-            var userDto = await _accountServiceForWebApp.AuthenticateAsync(loginDto);
-
-            if (userDto == null || userDto.HasError)
-            {
-                return Unauthorized(new { errors = userDto?.Errors.ToArray() ?? new[] { "Credenciales inválidas" } });
+                var user = await _userManager.FindByNameAsync(vm.UserName);
+                var userDto = await _accountServiceForWebApp.GetUserByUserName(user.UserName);
+                return Ok(new
+                {
+                    userName = user.UserName,
+                    email = user.Email,
+                    roles = userDto?.Role
+                });
             }
 
-            // Aquí deberías generar un token JWT (ver paso 2)
-            // Por ahora devolvemos los datos del usuario
-            return Ok(new
-            {
-                userName = userDto.UserName,
-                email = userDto.Email,
-                roles = userDto.Roles,
-                token = "JWT_TOKEN" // Más adelante
-            });
+            return Unauthorized(new { errors = new[] { "Credenciales inválidas" } });
         }
 
         // POST: api/auth/logout
