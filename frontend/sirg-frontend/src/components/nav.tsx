@@ -33,7 +33,7 @@ const Nav = () => {
 
         {/* LOGO */}
         <a href="#" className="logo" >
-          <span>Fuego</span> & Sal
+          <span></span>Constantinopla
         </a>
 
         {/* LINKS DESKTOP */}

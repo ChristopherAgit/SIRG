@@ -29,9 +29,13 @@ namespace SIRG.Application.Mapper.AutoMapper
             CreateMap(typeof(SaleDetails), typeof(SaleDetailsDto)).ReverseMap();
             CreateMap(typeof(Sales), typeof(SalesDto)).ReverseMap();
 
-            CreateMap<RestaurantTables, RestaurantTablesDto>();
+            // Mapeo de entidad a DTO
+            CreateMap<RestaurantTables, RestaurantTablesDto>()
+                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations));
+
+            // (Opcional) Mapeo inverso de DTO a entidad
             CreateMap<RestaurantTablesDto, RestaurantTables>()
-                .ForMember(dest => dest.Reservations, opt => opt.Ignore());
+                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations));
 
             CreateMap<Reservations, ReservationsDto>();
             CreateMap<ReservationsDto, Reservations>()

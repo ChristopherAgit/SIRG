@@ -5,7 +5,6 @@ namespace SIRG.Domain.Entities
     public class RestaurantTables
     {
         [Key]
-
         public required int TableID { get; set; }
         public required int TableNumber { get; set; }
         public required int Capacity { get; set; }

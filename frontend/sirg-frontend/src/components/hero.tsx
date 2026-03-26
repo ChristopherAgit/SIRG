@@ -11,7 +11,7 @@ const Hero= () =>{
             <div className="hero-content" >
                 <p className="hero-subtitle">Experiencia Gastronomica Unica</p>
                 <h1 className="hero-title">
-                    <span>Fuego</span> & Sal
+                    <span>Constantinopla</span>
                 </h1>
                 <p className="hero-description">
                     Donde cada plato es un obra maestra y cada vocado es un viaje de esplosion de sabores al paladar
