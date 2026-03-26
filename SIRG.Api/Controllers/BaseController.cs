@@ -126,19 +126,6 @@ namespace SIRG.API.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Obtiene registros con inclusión de propiedades relacionadas.
-        /// </summary>
-        /// <param name="properties">Lista de propiedades a incluir (por query string, ej: ?properties=Propiedad1,Propiedad2).</param>
-        /// <returns>Lista de DTOs con las propiedades incluidas.</returns>
-        [HttpGet("with-include")]
-        public virtual async Task<ActionResult<List<TDtos>>> GetWithInclude([FromQuery] List<string> properties)
-        {
-            if (properties == null || properties.Count == 0)
-                return BadRequest("Debe especificar al menos una propiedad a incluir.");
-
-            var result = await _service.GetWithInclude(properties);
-            return Ok(result);
-        }
     }
+    public record PaginatedResult<T>(int Page, int PageSize, int Total, IReadOnlyCollection<T> Data);
 }

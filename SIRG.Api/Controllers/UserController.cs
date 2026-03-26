@@ -1,28 +1,27 @@
 ﻿using Asp.Versioning;
-using HermesBanking.Application.Dto.User;
-using HermesBanking.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SIRG.API.Controllers;
+using SIRG.Application.Dtos.User;
+using SIRG.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace HermesBankingApi.Controllers.v1
+namespace SIRG.Api.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrador")]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/users")]
-    [SwaggerTag("Administrative operations to manage user accounts")]
-    public class UserController : BaseApiController
+    [SwaggerTag("Endoints para manejar las cuentas de los usuarios")]
+    public class UserController : ControllerBase
     {
         private readonly IAccountServiceForWebApi _accountServiceForWebApi;
-        private readonly ICommerceServices _commerceService;
 
-        public UserController(IAccountServiceForWebApi accountServiceForWebApi, ICommerceServices commerceService)
+        public UserController(IAccountServiceForWebApi accountServiceForWebApi)
         {
             _accountServiceForWebApi = accountServiceForWebApi;
-            _commerceService = commerceService;
         }
-
+        
         [HttpGet]
         [SwaggerOperation(Summary = "Get all users", Description = "Retrieves paginated users (excluding Commerce role)")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<UserDto>))]
@@ -135,55 +134,6 @@ namespace HermesBankingApi.Controllers.v1
             }
         }
 
-        [HttpPost("commerce/{commerceId}")]
-        [SwaggerOperation(Summary = "Create a new user with commerce", Description = "Registers a new user with a commerce")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Create([FromForm] CreateCommerceUserDto dto, int commerceId)
-        {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest();
-
-                var save = new SaveUserDto
-                {
-                    Id = "",
-                    Email = dto.Email,
-                    LastName = dto.LastName,
-                    Name = dto.Name,
-                    Password = dto.Password,
-                    Cedula = dto.Cedula,
-                    Role = "Commerce",
-                    UserName = dto.UserName
-                };
-
-                var commerce = await _commerceService.GetDtoById(commerceId);
-                if (commerce is null) return BadRequest("Commerce not found");
-
-                if (!string.IsNullOrEmpty(commerce.CommerceUserId))
-                    return BadRequest("Commerce already has an associated user");
-
-                var result = await _accountServiceForWebApi.RegisterUser(save, null, true);
-                if (result == null || result.HasError)
-                    return BadRequest(result?.Errors);
-
-                save.Id = result.Id;
-                commerce.CommerceUserId = save.Id;
-
-                await _commerceService.UpdateDtoAsync(commerce, commerceId);
-
-                var resultEdit = await _accountServiceForWebApi.EditUser(save, null, true, true);
-                if (resultEdit == null || resultEdit.HasError)
-                    return BadRequest(resultEdit?.Errors);
-
-                return Created();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
 
         [HttpPut("{id}")]
         [SwaggerOperation(Summary = "Update an existing user", Description = "Updates the information")]

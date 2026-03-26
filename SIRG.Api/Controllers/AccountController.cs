@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIRG.Application.Dtos.Login;
+using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Web.Http.ModelBinding;
-using System.Web.Mvc;
 
 namespace SIRG.Api.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/account")]
-    [SwaggerTag("Endpoints for user authentication, registration, and account recovery")]
-    public class AccountController
+    [SwaggerTag("Endpoints para la autenticacion, registro y recuperacion de cuentas de usuarios")]
+    public class AccountController : ControllerBase
     {
         private readonly IAccountServiceForWebApi _accountServiceForWebApi;
 

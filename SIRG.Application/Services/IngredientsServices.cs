@@ -6,15 +6,15 @@ using SIRG.Domain.Interfaces;
 
 namespace SIRG.Application.Services
 {
-    internal class IngredientsServices : BaseServices<DishIngredients, DishIngredientsDto>, IDishIngredientsServices
+    internal class IngredientsServices : BaseServices<Ingredients, IngredientsDto>, IIgredientsServices
     {
         private readonly IMapper _mapper;
-        private readonly IDishIngredientsRepository _repository;
-        public IngredientsServices(IMapper mapper, IDishIngredientsRepository dishersRepository) : base(dishersRepository, mapper)
+        private readonly IIgredientsRepository _repository;
+        public IngredientsServices(IMapper mapper, IIgredientsRepository repository) : base(repository, mapper)
         {
 
             _mapper = mapper;
-            _repository = dishersRepository;
+            _repository = repository;
 
         }
     }
