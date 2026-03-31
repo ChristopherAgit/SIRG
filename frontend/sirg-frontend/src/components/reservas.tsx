@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "../styles/reservas.css"
+import { useNavigate } from 'react-router-dom';
+
 
  interface Reservacion{
             nombre:string;
@@ -12,6 +14,8 @@ import "../styles/reservas.css"
 
         }
 const Reservas = () => {
+        const navega = useNavigate();
+
     const [form, setForm] = useState<Reservacion>({
             nombre: "",
             cedula:"",
@@ -124,7 +128,9 @@ const Reservas = () => {
                             </div>
                         </div>
                         <button type="submit">Confirmar Reserva</button>
+                        <button onClick={() => navega("/")}>Volver</button>
                     </form>
+
                 )}
             </div>
         </section>

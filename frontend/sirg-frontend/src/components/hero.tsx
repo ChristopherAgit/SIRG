@@ -1,6 +1,9 @@
 import imagen from '../assets/imagenes/restaurante.jpeg'
 import "../styles/hero.css";
+import { useNavigate } from 'react-router-dom';
+
 const Hero= () =>{
+    const navega = useNavigate();
 
     return(
         <section className="hero">
@@ -16,7 +19,7 @@ const Hero= () =>{
                 <p className="hero-description">
                     Donde cada plato es un obra maestra y cada vocado es un viaje de esplosion de sabores al paladar
                 </p>
-                <a  href="#reservas" className="hero-button"> Reservar Mesa</a>
+                <button className='hero-button' id='reservas' onClick={() => navega("/reservas") }>Reservar Mesa</button>
             </div>
         </section>
     )
