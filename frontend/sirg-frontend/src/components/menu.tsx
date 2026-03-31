@@ -1,6 +1,8 @@
 const Menu = () => {
     return(
-        <h1></h1>
+        <section id="menu">
+            <h1>LOL</h1>
+        </section>
     )
 
 }

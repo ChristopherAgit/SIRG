@@ -16,7 +16,7 @@ const Hero= () =>{
                 <p className="hero-description">
                     Donde cada plato es un obra maestra y cada vocado es un viaje de esplosion de sabores al paladar
                 </p>
-                <a id="reservas" href="#reservas" className="hero-button"> Reservar Mesa</a>
+                <a  href="#reservas" className="hero-button"> Reservar Mesa</a>
             </div>
         </section>
     )

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/reservas.css"
+
  interface Reservacion{
             nombre:string;
             cedula:string;
@@ -77,7 +78,7 @@ const Reservas = () => {
         }
     };
     return(
-        <section className="reservation-section">
+        <section id="reservas" className="reservation-section">
             <div className="reservation-container">
                 <div className="reservation-header">
                     <p className="reservation-subtitle">Tu Mesa te Espera</p>
@@ -129,4 +130,6 @@ const Reservas = () => {
         </section>
     )
 }
+
 export default Reservas;
+

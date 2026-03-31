@@ -1,5 +1,5 @@
 import "../styles/nosotros.css"
-const About = () => {
+const Nosotros = () => {
  const status = [
   {num: "10+", label: "Años de experiencia"},
   {num: "40+", label: "Platos e el menu"},
@@ -59,4 +59,4 @@ const About = () => {
   </section>
  );
 };
-export default About;
+export default Nosotros;
