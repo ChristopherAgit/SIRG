@@ -19,7 +19,7 @@ const Hero= () =>{
                 <p className="hero-description">
                     Donde cada plato es un obra maestra y cada vocado es un viaje de esplosion de sabores al paladar
                 </p>
-                <button className='hero-button' id='reservas' onClick={() => navega("/reservas") }>Reservar Mesa</button>
+                <button className='hero-button'  onClick={() => navega("/reservas") }>Reservar Mesa</button>
             </div>
         </section>
     )
