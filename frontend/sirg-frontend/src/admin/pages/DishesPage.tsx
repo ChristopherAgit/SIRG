@@ -8,7 +8,7 @@ export function DishesPage() {
   const [refresh, setRefresh] = useState(0);
   const [query, setQuery] = useState('');
   const [editing, setEditing] = useState<Dish | null>(null);
-  const [form, setForm] = useState({ name: '', category: '', price: '' });
+  const [form, setForm] = useState({ name: '', category: '', price: '', image: '' });
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const toast = useToast();
 
@@ -21,13 +21,14 @@ export function DishesPage() {
 
   function resetForm() {
     setEditing(null);
-    setForm({ name: '', category: '', price: '' });
+    setForm({ name: '', category: '', price: '', image: '' });
   }
 
   function submit() {
     const name = form.name.trim();
     const category = form.category.trim() || undefined;
     const price = Number(form.price);
+    const image = form.image.trim() || undefined;
     if (!name) {
       toast.push({ type: 'error', title: 'Falta el nombre', message: 'Escribe el nombre del plato.' });
       return;
@@ -46,10 +47,10 @@ export function DishesPage() {
     }
 
     if (editing) {
-      dishRepo.update(editing.id, { name, category: category ?? '', price });
+      dishRepo.update(editing.id, { name, category: category ?? '', price, image });
       toast.push({ type: 'success', title: 'Plato actualizado', message: `Se actualizó "${name}".` });
     } else {
-      dishRepo.create({ name, category, price });
+      dishRepo.create({ name, category, price, image });
       toast.push({ type: 'success', title: 'Plato creado', message: `Se creó "${name}".` });
     }
     setRefresh((x) => x + 1);
@@ -65,13 +66,13 @@ export function DishesPage() {
 
   function startEdit(dish: Dish) {
     setEditing(dish);
-    setForm({ name: dish.name, category: dish.category ?? '', price: String(dish.price) });
+    setForm({ name: dish.name, category: dish.category ?? '', price: String(dish.price), image: dish.image ?? '' });
     setIsEditorOpen(true);
   }
 
   function openCreate() {
     setEditing(null);
-    setForm({ name: '', category: '', price: '' });
+    setForm({ name: '', category: '', price: '', image: '' });
     setIsEditorOpen(true);
   }
 
@@ -119,6 +120,15 @@ export function DishesPage() {
           <div className="col12">
             <label className="adminLabel">Nombre</label>
             <input className="adminInput" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+          </div>
+          <div className="col12">
+            <label className="adminLabel">Imagen (opcional: URL o DataURL)</label>
+            <input
+              className="adminInput"
+              value={form.image}
+              onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+              placeholder="https://... o data:image/png;base64,..."
+            />
           </div>
           <div className="col9">
             <label className="adminLabel">Categoría (opcional)</label>

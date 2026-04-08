@@ -1,4 +1,4 @@
-import type { Dish, Ingredient, Recipe, Role } from '../models';
+import type { Dish, Ingredient, Recipe, RestaurantTable, Role } from '../models';
 import { readJson, uid, writeJson } from './storage';
 
 const KEYS = {
@@ -7,6 +7,7 @@ const KEYS = {
   dishes: 'sirg_admin_dishes',
   recipes: 'sirg_admin_recipes',
   movements: 'sirg_admin_inventory_movements',
+  tables: 'sirg_admin_tables',
 } as const;
 
 export function ensureAdminSeedData() {
@@ -80,6 +81,16 @@ export function ensureAdminSeedData() {
       });
     }
     writeJson<Recipe[]>(KEYS.recipes, seeded);
+  }
+
+  // Mesas
+  const tables = readJson<RestaurantTable[]>(KEYS.tables, []);
+  if (tables.length === 0) {
+    const now = new Date().toISOString();
+    writeJson<RestaurantTable[]>(KEYS.tables, [
+      { id: uid('table'), number: 1, seats: 4, isActive: true, createdAt: now },
+      { id: uid('table'), number: 2, seats: 4, isActive: true, createdAt: now },
+    ]);
   }
 }
 

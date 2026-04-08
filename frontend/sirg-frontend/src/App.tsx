@@ -8,6 +8,7 @@ import { RolesPage } from './admin/pages/RolesPage';
 import { IngredientsPage } from './admin/pages/IngredientsPage';
 import { DishesPage } from './admin/pages/DishesPage';
 import { RecipesPage } from './admin/pages/RecipesPage';
+import { TablesPage } from './admin/pages/TablesPage';
 import { InventoryPage } from './admin/pages/InventoryPage';
 import { AnalyticsPage } from './admin/pages/AnalyticsPage';
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="ingredientes" element={<IngredientsPage />} />
             <Route path="platos" element={<DishesPage />} />
             <Route path="recetas" element={<RecipesPage />} />
+            <Route path="mesas" element={<TablesPage />} />
             <Route path="inventario" element={<InventoryPage />} />
             <Route path="analitica" element={<AnalyticsPage />} />
           </Route>

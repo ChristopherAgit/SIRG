@@ -20,6 +20,11 @@ export type Dish = {
   name: string;
   category?: string;
   price: number;
+  /**
+   * Imagen del plato en formato Data URL (base64) o URL externa.
+   * Nota: se guarda en localStorage (solo frontend).
+   */
+  image?: string;
   isActive: boolean;
   createdAt: string;
 };
@@ -43,6 +48,14 @@ export type InventoryMovement = {
   type: InventoryMovementType;
   qty: number; // positive number
   reason?: string;
+  createdAt: string;
+};
+
+export type RestaurantTable = {
+  id: string;
+  number: number;
+  seats: number;
+  isActive: boolean;
   createdAt: string;
 };
 

@@ -1,4 +1,4 @@
-import type { Dish, Ingredient, InventoryMovement, Recipe, Role } from '../models';
+import type { Dish, Ingredient, InventoryMovement, Recipe, RestaurantTable, Role } from '../models';
 import { readJson, writeJson, uid } from './storage';
 import { STORAGE_KEYS } from './seed';
 
@@ -79,7 +79,7 @@ export const dishRepo = {
   list(): Dish[] {
     return readJson<Dish[]>(STORAGE_KEYS.dishes, []).sort((a, b) => a.name.localeCompare(b.name));
   },
-  create(input: Pick<Dish, 'name' | 'category' | 'price'>): Dish {
+  create(input: Pick<Dish, 'name' | 'category' | 'price' | 'image'>): Dish {
     const all = readJson<Dish[]>(STORAGE_KEYS.dishes, []);
     const now = new Date().toISOString();
     const dish: Dish = {
@@ -87,13 +87,14 @@ export const dishRepo = {
       name: input.name.trim(),
       category: input.category?.trim() || undefined,
       price: input.price,
+      image: input.image,
       isActive: true,
       createdAt: now,
     };
     writeJson(STORAGE_KEYS.dishes, [...all, dish]);
     return dish;
   },
-  update(id: string, patch: Partial<Pick<Dish, 'name' | 'category' | 'price' | 'isActive'>>): Dish | null {
+  update(id: string, patch: Partial<Pick<Dish, 'name' | 'category' | 'price' | 'isActive' | 'image'>>): Dish | null {
     const all = readJson<Dish[]>(STORAGE_KEYS.dishes, []);
     const idx = all.findIndex((d) => d.id === id);
     if (idx < 0) return null;
@@ -102,6 +103,7 @@ export const dishRepo = {
       name: patch.name !== undefined ? patch.name.trim() : all[idx].name,
       category: patch.category !== undefined ? patch.category?.trim() || undefined : all[idx].category,
       price: patch.price !== undefined ? patch.price : all[idx].price,
+      image: patch.image !== undefined ? patch.image : all[idx].image,
       isActive: patch.isActive !== undefined ? patch.isActive : all[idx].isActive,
     };
     all[idx] = next;
@@ -165,4 +167,31 @@ export function computeStock(ingredientId: string): number {
   }
   return stock;
 }
+
+export const tableRepo = {
+  list(): RestaurantTable[] {
+    return readJson<RestaurantTable[]>(STORAGE_KEYS.tables, []).sort((a, b) => a.number - b.number);
+  },
+  create(input: Pick<RestaurantTable, 'number' | 'seats'>): RestaurantTable {
+    const all = readJson<RestaurantTable[]>(STORAGE_KEYS.tables, []);
+    const now = new Date().toISOString();
+    const t: RestaurantTable = { id: uid('table'), number: input.number, seats: input.seats, isActive: true, createdAt: now };
+    writeJson(STORAGE_KEYS.tables, [...all, t]);
+    return t;
+  },
+  update(id: string, patch: Partial<Pick<RestaurantTable, 'number' | 'seats' | 'isActive'>>): RestaurantTable | null {
+    const all = readJson<RestaurantTable[]>(STORAGE_KEYS.tables, []);
+    const idx = all.findIndex((t) => t.id === id);
+    if (idx < 0) return null;
+    const next: RestaurantTable = {
+      ...all[idx],
+      number: patch.number !== undefined ? patch.number : all[idx].number,
+      seats: patch.seats !== undefined ? patch.seats : all[idx].seats,
+      isActive: patch.isActive !== undefined ? patch.isActive : all[idx].isActive,
+    };
+    all[idx] = next;
+    writeJson(STORAGE_KEYS.tables, all);
+    return next;
+  },
+};
 

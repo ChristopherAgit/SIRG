@@ -9,6 +9,7 @@ const navItems = [
   { to: '/admin/ingredientes', label: 'Ingredientes' },
   { to: '/admin/platos', label: 'Platos' },
   { to: '/admin/recetas', label: 'Recetas' },
+  { to: '/admin/mesas', label: 'Mesas' },
   { to: '/admin/inventario', label: 'Inventario' },
   { to: '/admin/analitica', label: 'Analítica' },
 ];
