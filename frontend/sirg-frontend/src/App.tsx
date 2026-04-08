@@ -11,6 +11,7 @@ import { RecipesPage } from './admin/pages/RecipesPage';
 import { TablesPage } from './admin/pages/TablesPage';
 import { InventoryPage } from './admin/pages/InventoryPage';
 import { AnalyticsPage } from './admin/pages/AnalyticsPage';
+import { MeseroPage } from './mesero/pages/MeseroPage';
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
             <Route path="inventario" element={<InventoryPage />} />
             <Route path="analitica" element={<AnalyticsPage />} />
           </Route>
+
+          <Route path="/mesero" element={<MeseroPage />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
