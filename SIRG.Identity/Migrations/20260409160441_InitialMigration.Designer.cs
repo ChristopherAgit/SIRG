@@ -12,8 +12,8 @@ using SIRG.Identity.Context;
 namespace SIRG.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20260326171553_InitialMigrationUser")]
-    partial class InitialMigrationUser
+    [Migration("20260409160441_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

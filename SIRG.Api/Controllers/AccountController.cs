@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SIRG.Application.Dtos.Login;
 using SIRG.Application.Dtos.User;
@@ -44,7 +43,7 @@ namespace SIRG.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,23 +67,23 @@ namespace SIRG.Api.Controllers
                     Name = dto.Name,
                     Password = dto.Password,
                     Cedula = dto.Cedula,
-                    Role = dto.Role,
+                    Role = "Cliente",
                     UserName = dto.UserName,
                 };
 
-                var result = await _accountServiceForWebApi.RegisterUser(save, null, true);
+                var result = await _accountServiceForWebApi.RegisterUser(save, null, false);
 
                 if (result == null || result.HasError)
                     return BadRequest(result?.Errors);
 
                 save.Id = result.Id;
 
-                var resultEdit = await _accountServiceForWebApi.EditUser(save, null, true, true);
+                var resultEdit = await _accountServiceForWebApi.EditUser(save, null, true, false);
 
                 if (resultEdit == null || resultEdit.HasError)
                     return BadRequest(resultEdit?.Errors);
 
-                return StatusCode(StatusCodes.Status201Created);
+                return Ok(resultEdit.Id);
             }
             catch (Exception ex)
             {
@@ -92,7 +91,6 @@ namespace SIRG.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("confirm-account")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -121,7 +119,6 @@ namespace SIRG.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("get-reset-token")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -151,7 +148,6 @@ namespace SIRG.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("change-password")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

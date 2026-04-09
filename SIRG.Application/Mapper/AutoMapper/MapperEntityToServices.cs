@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SIRG.Application.Dtos;
+using SIRG.Application.Dtos.Categories;
 using SIRG.Application.Dtos.EntitiesDto;
 using SIRG.Domain.Base;
 using SIRG.Domain.Entities;
@@ -16,6 +17,16 @@ namespace SIRG.Application.Mapper.AutoMapper
 
             #region Mapper entity to Dto
             CreateMap(typeof(Categories), typeof(CategoriesDto)).ReverseMap();
+
+            CreateMap<CreateCategoriesViewModel, CategoriesDto>()
+                .ForMember(dest => dest.CategoryID, opt => opt.Ignore())
+                .ForMember(dest => dest.DishesDto, opt => opt.Ignore()).ReverseMap();
+
+            CreateMap<CreateCategoriesViewModel, Categories>()
+            .ForMember(dest => dest.CategoryID, opt => opt.Ignore()) 
+            .ForMember(dest => dest.Dishes, opt => opt.Ignore()).ReverseMap();     
+
+
             CreateMap(typeof(Customers), typeof(CustomersDto)).ReverseMap();
             CreateMap(typeof(Dishes), typeof(DishesDto)).ReverseMap();
             CreateMap(typeof(DishIngredients), typeof(DishIngredientsDto)).ReverseMap();
@@ -43,6 +54,7 @@ namespace SIRG.Application.Mapper.AutoMapper
                 .ForMember(dest => dest.ReservationStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.Customers, opt => opt.Ignore())
                 .ForMember(dest => dest.Orders, opt => opt.Ignore());
+
             #endregion
         }
     }

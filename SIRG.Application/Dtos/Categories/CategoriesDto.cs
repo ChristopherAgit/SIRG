@@ -1,4 +1,6 @@
-﻿namespace SIRG.Application.Dtos.EntitiesDto
+﻿using SIRG.Application.Dtos.EntitiesDto;
+
+namespace SIRG.Application.Dtos.Categories
 {
     public class CategoriesDto
     {

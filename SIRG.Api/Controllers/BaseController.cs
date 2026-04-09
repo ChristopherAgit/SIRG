@@ -30,10 +30,22 @@ namespace SIRG.API.Controllers
         /// </summary>
         /// <returns>Lista de DTOs (vacía si no hay registros).</returns>
         [HttpGet]
-        public virtual async Task<ActionResult<List<TDtos>>> GetAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public virtual async Task<IActionResult> GetAll()
         {
-            var result = await _service.GetAllListDto();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetAllListDto();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
         }
 
         /// <summary>
@@ -42,13 +54,24 @@ namespace SIRG.API.Controllers
         /// <param name="id">Identificador del registro.</param>
         /// <returns>DTO del registro si existe; de lo contrario, 404 Not Found.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<TDtos>> GetById(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById(int id)
         {
-            var dto = await _service.GetDtoById(id);
-            if (dto == null)
-                return NotFound();
+            try
+            {
+                var dto = await _service.GetDtoById(id);
+                if (dto == null)
+                    return NotFound();
 
-            return Ok(dto);
+                return Ok(dto);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>
@@ -57,7 +80,10 @@ namespace SIRG.API.Controllers
         /// <param name="dto">DTO con los datos del nuevo registro.</param>
         /// <returns>DTO del registro creado con su identificador, y la ubicación del recurso.</returns>
         [HttpPost]
-        public virtual async Task<ActionResult<TDtos>> Create([FromBody] TDtos dto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public virtual async Task<IActionResult> Create([FromBody] TDtos dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -92,7 +118,10 @@ namespace SIRG.API.Controllers
         /// <param name="dto">DTO con los datos actualizados.</param>
         /// <returns>DTO actualizado si el registro existe; de lo contrario, 404 Not Found.</returns>
         [HttpPut("{id}")]
-        public virtual async Task<ActionResult<TDtos>> Update(int id, [FromBody] TDtos dto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public virtual async Task<IActionResult> Update(int id, [FromBody] TDtos dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -117,6 +146,9 @@ namespace SIRG.API.Controllers
         /// <param name="id">Identificador del registro a eliminar.</param>
         /// <returns>204 No Content si se elimina correctamente; 404 Not Found si no existe.</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public virtual async Task<IActionResult> Delete(int id)
         {
             var success = await _service.DeleteDtoAync(id);

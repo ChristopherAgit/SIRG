@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi;
-using SIRG.IOC.Dependencies;
 using SIRG.Api.Extensions;
-
+using SIRG.IOC.Dependencies;
 using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +25,7 @@ builder.Services.AddControllers(opt =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddPersistenceDependencies(builder.Configuration);
-builder.Services.AddApplicationDependencies();
+builder.Services.AddApplicationDependencies(builder.Configuration);
 builder.Services.AddIdentityLayerIocForWebApi(builder.Configuration);
 builder.Services.AddIdentityIocForWebApp(builder.Configuration);
 builder.Services.AddOpenApi();

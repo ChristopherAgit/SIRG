@@ -23,7 +23,7 @@ namespace SIRG.Api.Controllers
         }
         
         [HttpGet]
-        [SwaggerOperation(Summary = "Get all users", Description = "Retrieves paginated users (excluding Commerce role)")]
+        [SwaggerOperation(Summary = "Get all users", Description = "Retrieves paginated users (excluding Client role)")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<UserDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string? role = null)
@@ -32,7 +32,7 @@ namespace SIRG.Api.Controllers
             {
                 var users = await _accountServiceForWebApi.GetAllUser();
 
-                users = users.Where(u => u.Status && u.Role != "Commerce").ToList();
+                users = users.Where(u => u.Status && u.Role != "Cliente").ToList();
 
                 if (!string.IsNullOrWhiteSpace(role))
                     users = users.Where(u => u.Role == role).ToList();
@@ -54,15 +54,15 @@ namespace SIRG.Api.Controllers
             
         }
 
-        [HttpGet("commerce")]
-        [SwaggerOperation(Summary = "Get all commerce users", Description = "Retrieves paginated Commerce users")]
+        [HttpGet("client")]
+        [SwaggerOperation(Summary = "Get all client users", Description = "Retrieves paginated Client users")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<UserDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllCommerce([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetAllClient([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
             var commerce = await _accountServiceForWebApi.GetAllUser();
 
-            commerce = commerce.Where(u => u.Status && u.Role == "Commerce")
+            commerce = commerce.Where(u => u.Status && u.Role == "Cliente")
                          .OrderByDescending(u => u.CreatedAt).ToList();
 
             var total = commerce.Count();
@@ -121,6 +121,7 @@ namespace SIRG.Api.Controllers
                     return BadRequest(result?.Errors);
 
                 save.Id = result.Id;
+
 
                 var resultEdit = await _accountServiceForWebApi.EditUser(save, null, true, true);
                 if (resultEdit == null || resultEdit.HasError)

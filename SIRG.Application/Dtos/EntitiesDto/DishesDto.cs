@@ -1,4 +1,6 @@
-﻿namespace SIRG.Application.Dtos.EntitiesDto
+﻿using SIRG.Application.Dtos.Categories;
+
+namespace SIRG.Application.Dtos.EntitiesDto
 {
     public class DishesDto
     {
