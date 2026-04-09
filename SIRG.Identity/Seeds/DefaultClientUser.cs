@@ -13,7 +13,7 @@ namespace SIRG.Identity.Seeds
                 FirstName = "Wilfredo Valentin",
                 LastName = "Feliz Caba",
                 Cedula = "402-0873439-8",
-                Email = "wfelizcaba7@gmail.com",
+                Email = "Client@gmail.com",
                 EmailConfirmed = true,
                 Status = true,
                 PhoneNumberConfirmed = true,

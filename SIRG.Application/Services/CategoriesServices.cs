@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SIRG.Application.Dtos.EntitiesDto;
+using SIRG.Application.Dtos.Categories;
 using SIRG.Application.Interfaces.Contracts;
 using SIRG.Domain.Entities;
 using SIRG.Domain.Interfaces;
@@ -15,6 +15,23 @@ namespace SIRG.Application.Services
             _repository = repository;
             _mapper = mapper;
 
+        }
+
+        public async Task<CreateCategoriesViewModel> CreateCategories(CreateCategoriesViewModel dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Categories>(dto);
+                var createdEntity = await _repository.SaveEntityAsync(entity);
+
+                return _mapper.Map<CreateCategoriesViewModel>(createdEntity);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
     }
 }

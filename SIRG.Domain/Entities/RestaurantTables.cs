@@ -10,7 +10,5 @@ namespace SIRG.Domain.Entities
         public required int Capacity { get; set; }
         public bool IsActive { get; set; } = true;
         public List<Reservations>? Reservations { get; set; }
-
-
     }
 }
