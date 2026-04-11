@@ -17,6 +17,7 @@ namespace SIRG.Identity.Seeds
                 Status = true,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
+                CreatedAt = DateTime.UtcNow,
                 UserName = "Admin"
             };
 

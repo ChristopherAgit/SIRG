@@ -9,5 +9,6 @@
         IQueryable<T> GetAllQuerry();
         Task<List<T>> GetAllListWithInclude(List<string> properties);
         IQueryable<T> GetAllQuerryWithInclude(List<string> properties);
+        Task RemoveAsync(int id);
     }
 }
