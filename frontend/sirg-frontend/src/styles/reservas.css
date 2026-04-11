@@ -1,6 +1,7 @@
 .reservation-section{
     padding: 80px 20px;
     background: #f4f4f4;
+     background: white;
 }
 .reservation-container{
     max-width: 800px;
@@ -29,7 +30,7 @@
 }
 .form-grid{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr ;
     gap: 20px;
 }
 label{
@@ -50,7 +51,14 @@ button{
     border: none;
     font-size: 16px;
     cursor: pointer;
+    border-radius: 4px;
 }
 button:hover{
   background:#8b1a1a;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
 }

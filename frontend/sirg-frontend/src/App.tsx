@@ -1,20 +1,17 @@
-import Nav from './components/nav';
-import Hero from './components/hero';
-import Nosotros from './components/nosotros'
-import Menu from './components/menu'
-import Reservas from './components/reservas'
+
+import Reservas from './components/reservas';
+import Home from './Home';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
   return (
-      <>
-      <Nav/>
-      <Hero/>
-      <Menu/>
-      <Nosotros/>
-      <Reservas/>
-      
-      </>
+      <BrowserRouter>
+        <Routes>
+          <Route   path='' element={<Home/>} />
+          <Route path='/reservas' element={<Reservas/>} />
+        </Routes>
+      </BrowserRouter>  
   );
 }
 

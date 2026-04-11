@@ -40,9 +40,9 @@ const Nav = () => {
         <ul className="nav-links">
           <li><a href="#menu">Menú</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
-          <li><a href="#horarios">Horarios</a></li>
+          <li><a href="#horario">Horarios</a></li>
           <li><a href="#contacto">Contacto</a></li>
-          <li><a href="#reservas" className="btn-reservar">Reservar</a></li>
+          <li><a href="#reservas">Reservar</a></li>
         </ul>
 
         {/* BOTÓN MÓVIL */}
@@ -63,7 +63,7 @@ const Nav = () => {
             <li><a href="#about" onClick={() => setIsOpen(false)}>Nosotros</a></li>
             <li><a href="#horarios" onClick={() => setIsOpen(false)}>Horarios</a></li>
             <li><a href="#contacto" onClick={() => setIsOpen(false)}>Contacto</a></li>
-            <li><a href="#reservas" onClick={() => setIsOpen(false)}>Reservar</a></li>
+            <li><a href="reservas" onClick={() => setIsOpen(false)}>Reservar</a></li>
           </ul>
         </div>
       )}

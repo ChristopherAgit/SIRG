@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "../styles/reservas.css"
+import { useNavigate } from 'react-router-dom';
+
+
  interface Reservacion{
             nombre:string;
             cedula:string;
@@ -11,6 +14,8 @@ import "../styles/reservas.css"
 
         }
 const Reservas = () => {
+        const navega = useNavigate();
+
     const [form, setForm] = useState<Reservacion>({
             nombre: "",
             cedula:"",
@@ -77,7 +82,7 @@ const Reservas = () => {
         }
     };
     return(
-        <section className="reservation-section">
+        <section id="reservas" className="reservation-section">
             <div className="reservation-container">
                 <div className="reservation-header">
                     <p className="reservation-subtitle">Tu Mesa te Espera</p>
@@ -91,42 +96,46 @@ const Reservas = () => {
                 ):(
                     <form onSubmit={handleSubmit} className="reservation-form">
                         <div className="form-grid">
-                            <div>
+                            <div className="form-group">
                                 <label>Nombre Completo</label>
                                 <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
                             </div>
-                            <div>
+                            <div className="form-group">
                                 <label >Cedula</label>
                                 <input type="text" name="cedula" value={form.cedula} onChange={handleChange} placeholder="00000000000" required />
                             </div>
-                              <div>
+                              <div className="form-group">
                                 <label >Celular</label>
                                 <input type="text" name="celular" value={form.celular} onChange={handleChange} placeholder="0000000000" required />
                             </div>
-                              <div>
+                              <div className="form-group">
                                 <label >Correo</label>
                                 <input type="email" name="correo" value={form.correo} onChange={handleChange} placeholder="soy@gmail.com" required  />
                             </div>
-                            <div>
+                            <div className="form-group">
+                                <label >Fecha</label>
+                                <input type="date" name="fecha" value={form.fecha} onChange={handleChange} required />
+                            </div>
+                            <div className="form-group">
                                 <label >Numero de Personas</label>
                                 <select name="mesa" value={form.mesa} onChange={handleChange}>
                                     {[1,2,3,4,5,6,7,8].map ((n)=>( <option key={n} value={String (n)}> {n} {n === 1 ? "persona" : "personas"} </option> ))}
                                 </select>
                             </div>
-                            <div>
-                                <label >Fecha</label>
-                                <input type="date" name="fecha" value={form.fecha} onChange={handleChange} required />
-                            </div>
-                            <div>
+                            <div className="form-group">
                                 <label>Hora</label>
                                 <select name="hora" value={form.hora} onChange={handleChange}> {["12:00","13:00","14:00","19:00","20:00","21:00"].map((t)=>( <option key={t} value={t}>{t} </option> ))}</select>
                             </div>
                         </div>
                         <button type="submit">Confirmar Reserva</button>
+                        <button onClick={() => navega("/")}>Volver</button>
                     </form>
+
                 )}
             </div>
         </section>
     )
 }
+
 export default Reservas;
+
