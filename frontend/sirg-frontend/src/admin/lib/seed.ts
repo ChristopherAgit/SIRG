@@ -8,6 +8,7 @@ const KEYS = {
   recipes: 'sirg_admin_recipes',
   movements: 'sirg_admin_inventory_movements',
   tables: 'sirg_admin_tables',
+  staff: 'sirg_admin_staff',
 } as const;
 
 export function ensureAdminSeedData() {

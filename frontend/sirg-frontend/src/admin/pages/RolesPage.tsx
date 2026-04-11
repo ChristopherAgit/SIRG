@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import type { Role } from '../models';
-import { roleRepo } from '../lib/repo';
+import type { Role, StaffMember } from '../models';
+import { roleRepo, staffRepo } from '../lib/repo';
 import { Modal } from '../components/Modal';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { useToast } from '../components/toast/ToastContext';
@@ -12,6 +12,13 @@ export function RolesPage() {
   const [editing, setEditing] = useState<Role | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [confirmRole, setConfirmRole] = useState<Role | null>(null);
+
+  const [staffQuery, setStaffQuery] = useState('');
+  const [staffForm, setStaffForm] = useState({ name: '', roleId: '', schedule: '', isActive: true });
+  const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
+  const [isStaffEditorOpen, setIsStaffEditorOpen] = useState(false);
+  const [confirmStaff, setConfirmStaff] = useState<StaffMember | null>(null);
+
   const toast = useToast();
 
   const roles = useMemo(() => {
@@ -20,6 +27,27 @@ export function RolesPage() {
     if (!q) return all;
     return all.filter((r) => r.name.toLowerCase().includes(q) || (r.description ?? '').toLowerCase().includes(q));
   }, [refresh, query]);
+
+  const allRoles = useMemo(() => roleRepo.list(), [refresh]);
+
+  const staffList = useMemo(() => {
+    const all = staffRepo.list();
+    const q = staffQuery.trim().toLowerCase();
+    if (!q) return all;
+    return all.filter((s) => {
+      const roleName = allRoles.find((r) => r.id === s.roleId)?.name ?? '';
+      return (
+        s.name.toLowerCase().includes(q) ||
+        s.schedule.toLowerCase().includes(q) ||
+        roleName.toLowerCase().includes(q)
+      );
+    });
+  }, [refresh, staffQuery, allRoles]);
+
+  function roleLabel(id?: string) {
+    if (!id) return '—';
+    return allRoles.find((r) => r.id === id)?.name ?? '(Rol)';
+  }
 
   function resetForm() {
     setForm({ name: '', description: '' });
@@ -58,7 +86,6 @@ export function RolesPage() {
   }
 
   function requestRemove(role: Role) {
-    // Los roles del sistema se protegen para evitar que el panel quede inconsistente.
     if (role.isSystem) {
       toast.push({ type: 'info', title: 'Acción no permitida', message: 'Este rol es del sistema y no se puede eliminar.' });
       return;
@@ -72,12 +99,62 @@ export function RolesPage() {
     setIsEditorOpen(true);
   }
 
+  function resetStaffForm() {
+    setStaffForm({ name: '', roleId: '', schedule: '', isActive: true });
+    setEditingStaff(null);
+  }
+
+  function openCreateStaff() {
+    resetStaffForm();
+    setIsStaffEditorOpen(true);
+  }
+
+  function startEditStaff(s: StaffMember) {
+    setEditingStaff(s);
+    setStaffForm({
+      name: s.name,
+      roleId: s.roleId ?? '',
+      schedule: s.schedule,
+      isActive: s.isActive,
+    });
+    setIsStaffEditorOpen(true);
+  }
+
+  function submitStaff() {
+    const name = staffForm.name.trim();
+    const schedule = staffForm.schedule.trim();
+    if (!name) {
+      toast.push({ type: 'error', title: 'Falta el nombre', message: 'Indica el nombre del empleado.' });
+      return;
+    }
+
+    const roleId = staffForm.roleId.trim() || undefined;
+
+    if (editingStaff) {
+      staffRepo.update(editingStaff.id, {
+        name,
+        roleId,
+        schedule,
+        isActive: staffForm.isActive,
+      });
+      toast.push({ type: 'success', title: 'Empleado actualizado', message: name });
+    } else {
+      staffRepo.create({ name, roleId, schedule, isActive: staffForm.isActive });
+      toast.push({ type: 'success', title: 'Empleado registrado', message: name });
+    }
+    setRefresh((x) => x + 1);
+    resetStaffForm();
+    setIsStaffEditorOpen(false);
+  }
+
   return (
     <div>
       <div className="adminPageTitleRow">
         <div>
-          <div className="adminPageTitle">Roles</div>
-          <div className="adminPageDesc">Administra roles del sistema (persistencia: localStorage).</div>
+          <div className="adminPageTitle">Roles y personal</div>
+          <div className="adminPageDesc">
+            Define roles del negocio y registra empleados con su <b>horario</b> (texto libre: días y franja, turnos, etc.). El panel principal muestra cuántos están activos.
+          </div>
         </div>
         <div className="adminActions">
           <button className="adminButton primary" type="button" onClick={openCreate}>
@@ -89,7 +166,7 @@ export function RolesPage() {
       <Modal
         open={isEditorOpen}
         title={editing ? 'Editar rol' : 'Crear rol'}
-        description="Los roles definen permisos (por ahora solo se gestionan en frontend)."
+        description="Los roles agrupan permisos (la app seguirá creciendo)."
         onClose={() => {
           setIsEditorOpen(false);
           resetForm();
@@ -134,6 +211,68 @@ export function RolesPage() {
         </div>
       </Modal>
 
+      <Modal
+        open={isStaffEditorOpen}
+        title={editingStaff ? 'Editar empleado' : 'Agregar empleado'}
+        description="Horario en texto libre (ej: Lun–Vie 10:00–18:00, o turno noche)."
+        onClose={() => {
+          setIsStaffEditorOpen(false);
+          resetStaffForm();
+        }}
+        footer={
+          <>
+            <button
+              className="adminButton"
+              type="button"
+              onClick={() => {
+                setIsStaffEditorOpen(false);
+                resetStaffForm();
+              }}
+            >
+              Cancelar
+            </button>
+            <button className="adminButton primary" type="button" onClick={submitStaff}>
+              {editingStaff ? 'Guardar' : 'Registrar'}
+            </button>
+          </>
+        }
+      >
+        <div className="adminFormGrid" style={{ margin: 0 }}>
+          <div className="col12">
+            <label className="adminLabel">Nombre</label>
+            <input className="adminInput" value={staffForm.name} onChange={(e) => setStaffForm((f) => ({ ...f, name: e.target.value }))} placeholder="Ej: María López" />
+          </div>
+          <div className="col12">
+            <label className="adminLabel">Rol (opcional)</label>
+            <select className="adminSelect" value={staffForm.roleId} onChange={(e) => setStaffForm((f) => ({ ...f, roleId: e.target.value }))}>
+              <option value="">— Sin asignar —</option>
+              {allRoles.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col12">
+            <label className="adminLabel">Horario</label>
+            <textarea
+              className="adminInput"
+              rows={3}
+              value={staffForm.schedule}
+              onChange={(e) => setStaffForm((f) => ({ ...f, schedule: e.target.value }))}
+              placeholder="Ej: Lun a Sáb 9:00–17:00 · Descanso domingo"
+              style={{ resize: 'vertical', minHeight: 72 }}
+            />
+          </div>
+          <div className="col12">
+            <label className="adminLabel" style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+              <input type="checkbox" checked={staffForm.isActive} onChange={(e) => setStaffForm((f) => ({ ...f, isActive: e.target.checked }))} />
+              Activo (cuenta en el panel como personal activo)
+            </label>
+          </div>
+        </div>
+      </Modal>
+
       <ConfirmModal
         open={!!confirmRole}
         title="Eliminar rol"
@@ -149,16 +288,31 @@ export function RolesPage() {
         onClose={() => setConfirmRole(null)}
       />
 
+      <ConfirmModal
+        open={!!confirmStaff}
+        title="Eliminar empleado"
+        description={confirmStaff ? `Se eliminará del registro a "${confirmStaff.name}".` : undefined}
+        destructive
+        confirmText="Eliminar"
+        onConfirm={() => {
+          if (!confirmStaff) return;
+          staffRepo.remove(confirmStaff.id);
+          setRefresh((x) => x + 1);
+          toast.push({ type: 'success', title: 'Empleado eliminado', message: confirmStaff.name });
+        }}
+        onClose={() => setConfirmStaff(null)}
+      />
+
       <div className="adminCard">
         <div className="adminPageTitleRow" style={{ marginBottom: 10 }}>
           <div>
-            <div className="adminCardLabel">Listado</div>
+            <div className="adminCardLabel">Roles</div>
             <div className="adminPageDesc" style={{ marginTop: 4 }}>
-              System roles vienen pre-cargados (Admin, Mesero, Cocinero, Host).
+              Roles predefinidos: Admin, Mesero, Cocinero, Host. Puedes añadir los que necesites.
             </div>
           </div>
           <div style={{ width: 320 }}>
-            <input className="adminInput" placeholder="Buscar..." value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input className="adminInput" placeholder="Buscar rol..." value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
         </div>
 
@@ -200,7 +354,70 @@ export function RolesPage() {
           </tbody>
         </table>
       </div>
+
+      <div className="adminCard" style={{ marginTop: 16 }}>
+        <div className="adminPageTitleRow" style={{ marginBottom: 10 }}>
+          <div>
+            <div className="adminCardLabel">Personal y horarios</div>
+            <div className="adminPageDesc" style={{ marginTop: 4 }}>
+              Cada restaurante registra a su equipo. El horario es libre (como lo trabajes en tu local).
+            </div>
+          </div>
+          <div className="adminActions" style={{ flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ width: 280 }}>
+              <input
+                className="adminInput"
+                placeholder="Buscar empleado u horario..."
+                value={staffQuery}
+                onChange={(e) => setStaffQuery(e.target.value)}
+              />
+            </div>
+            <button className="adminButton primary" type="button" onClick={openCreateStaff}>
+              + Agregar empleado
+            </button>
+          </div>
+        </div>
+
+        <table className="adminTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Horario</th>
+              <th>Estado</th>
+              <th style={{ width: 200 }}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {staffList.length === 0 ? (
+              <tr>
+                <td colSpan={5} style={{ color: 'rgba(255,255,255,0.7)' }}>
+                  Aún no hay empleados. Usa “Agregar empleado” para el primero.
+                </td>
+              </tr>
+            ) : (
+              staffList.map((s) => (
+                <tr key={s.id}>
+                  <td style={{ fontWeight: 700 }}>{s.name}</td>
+                  <td>{roleLabel(s.roleId)}</td>
+                  <td style={{ color: 'rgba(255,255,255,0.78)', whiteSpace: 'pre-wrap' }}>{s.schedule || '—'}</td>
+                  <td>{s.isActive ? 'Activo' : 'Inactivo'}</td>
+                  <td>
+                    <div className="adminRowActions">
+                      <button className="adminButton" type="button" onClick={() => startEditStaff(s)}>
+                        Editar
+                      </button>
+                      <button className="adminButton danger" type="button" onClick={() => setConfirmStaff(s)}>
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
-

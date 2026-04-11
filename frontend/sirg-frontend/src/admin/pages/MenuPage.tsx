@@ -13,11 +13,20 @@ type DishDraft = {
   image: string;
 };
 
-export function RecipesPage() {
+export function MenuPage() {
   const [refresh, setRefresh] = useState(0);
+  const [query, setQuery] = useState('');
   const toast = useToast();
 
-  const dishes = useMemo(() => dishRepo.list(), [refresh]);
+  const allDishes = useMemo(() => dishRepo.list(), [refresh]);
+  const dishes = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return allDishes;
+    return allDishes.filter(
+      (d) => d.name.toLowerCase().includes(q) || (d.category ?? '').toLowerCase().includes(q),
+    );
+  }, [allDishes, query]);
+
   const ingredients = useMemo(() => ingredientRepo.list().filter((i) => i.isActive), [refresh]);
   const recipes = useMemo(() => recipeRepo.list(), [refresh]);
 
@@ -50,7 +59,6 @@ export function RecipesPage() {
 
   function openCreate() {
     resetEditor();
-    // Importante: setState es async; inicializamos líneas explícitamente aquí.
     if (ingredients.length > 0) setLines([{ ingredientId: ingredients[0].id, qty: '0' }]);
     else setLines([]);
     setIsEditorOpen(true);
@@ -83,6 +91,12 @@ export function RecipesPage() {
     setLines((prev) => prev.filter((_, i) => i !== idx));
   }
 
+  function toggleActive(dish: Dish) {
+    dishRepo.update(dish.id, { isActive: !dish.isActive });
+    setRefresh((x) => x + 1);
+    toast.push({ type: 'info', title: dish.isActive ? 'Oculto del menú' : 'Visible en menú', message: dish.name });
+  }
+
   async function onPickImage(file: File) {
     const reader = new FileReader();
     const p = new Promise<string>((resolve, reject) => {
@@ -109,24 +123,34 @@ export function RecipesPage() {
       toast.push({ type: 'error', title: 'Precio inválido', message: 'Debe ser un número mayor o igual a 0.' });
       return;
     }
-    if (ingredients.length === 0) {
-      toast.push({ type: 'error', title: 'Sin ingredientes', message: 'Primero crea ingredientes para poder armar la receta.' });
+
+    const exists = dishRepo.list().some((d) => d.name.toLowerCase() === name.toLowerCase() && d.id !== editDish?.id);
+    if (exists) {
+      toast.push({ type: 'error', title: 'Plato duplicado', message: 'Ya existe un ítem con ese nombre en el menú.' });
       return;
     }
 
     const parsed: RecipeLine[] = [];
     for (const l of lines) {
       if (!l.ingredientId) continue;
+      const raw = l.qty.trim();
+      if (raw === '' || raw === '0') continue;
       const qty = Number(l.qty);
       if (Number.isNaN(qty) || qty <= 0) {
-        toast.push({ type: 'error', title: 'Cantidad inválida', message: 'Todas las cantidades deben ser números mayores que 0.' });
+        toast.push({ type: 'error', title: 'Cantidad inválida', message: 'En receta, cada cantidad debe ser mayor que 0.' });
         return;
       }
       parsed.push({ ingredientId: l.ingredientId, qty });
     }
+
+    if (parsed.length > 0 && ingredients.length === 0) {
+      toast.push({ type: 'error', title: 'Sin insumos', message: 'Agrega productos en Inventario o en Ingredientes antes de armar una receta.' });
+      return;
+    }
+
     const unique = new Set(parsed.map((p) => p.ingredientId));
     if (unique.size !== parsed.length) {
-      toast.push({ type: 'error', title: 'Ingrediente repetido', message: 'No repitas el mismo ingrediente dentro de la receta.' });
+      toast.push({ type: 'error', title: 'Ingrediente repetido', message: 'No repitas el mismo insumo en la receta.' });
       return;
     }
 
@@ -134,15 +158,17 @@ export function RecipesPage() {
     if (editDish) {
       dishRepo.update(editDish.id, { name, category: category ?? '', price, image });
       dishId = editDish.id;
-      toast.push({ type: 'success', title: 'Plato actualizado', message: name });
+      toast.push({ type: 'success', title: 'Ítem actualizado', message: name });
     } else {
       const created = dishRepo.create({ name, category, price, image });
       dishId = created.id;
-      toast.push({ type: 'success', title: 'Plato creado', message: name });
+      toast.push({ type: 'success', title: 'Agregado al menú', message: name });
     }
 
     recipeRepo.upsert({ dishId, lines: parsed });
-    toast.push({ type: 'success', title: 'Receta guardada', message: 'Se guardó la receta del plato.' });
+    if (parsed.length > 0) {
+      toast.push({ type: 'success', title: 'Receta guardada', message: 'Así podrás enlazar consumo con inventario cuando registres ventas.' });
+    }
 
     setIsEditorOpen(false);
     resetEditor();
@@ -153,18 +179,31 @@ export function RecipesPage() {
     <div>
       <div className="adminPageTitleRow">
         <div>
-          <div className="adminPageTitle">Recetas</div>
-          <div className="adminPageDesc">Gestión de platos y sus recetas (ingredientes y cantidades). Solo frontend.</div>
+          <div className="adminPageTitle">Menú</div>
+          <div className="adminPageDesc">
+            Todo lo que ofreces al cliente: agrega platos nuevos, precio y foto. La receta (insumos por porción) es opcional pero recomendada para
+            descontar inventario cuando tengas ventas registradas. Cada restaurante define su propio catálogo.
+          </div>
         </div>
         <div className="adminActions">
           <button className="adminButton primary" type="button" onClick={openCreate}>
-            + Crear plato con receta
+            + Agregar al menú
           </button>
         </div>
       </div>
 
+      <div className="adminCard" style={{ marginBottom: 14 }}>
+        <div className="adminPageTitleRow" style={{ marginBottom: 0 }}>
+          <div className="adminCardLabel" style={{ margin: 0 }}>
+            Listado completo
+          </div>
+          <div style={{ width: '100%', maxWidth: 320 }}>
+            <input className="adminInput" placeholder="Buscar por nombre o categoría..." value={query} onChange={(e) => setQuery(e.target.value)} />
+          </div>
+        </div>
+      </div>
+
       <div className="adminCard">
-        <div className="adminCardLabel">Platos</div>
         <table className="adminTable" style={{ marginTop: 10 }}>
           <thead>
             <tr>
@@ -173,14 +212,14 @@ export function RecipesPage() {
               <th>Categoría</th>
               <th>Precio</th>
               <th>Receta</th>
-              <th style={{ width: 260 }}>Acciones</th>
+              <th style={{ width: 300 }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {dishes.length === 0 ? (
               <tr>
                 <td colSpan={6} style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  No hay platos. Crea uno con receta para comenzar.
+                  No hay ítems. Usa “Agregar al menú” para el primero.
                 </td>
               </tr>
             ) : (
@@ -202,20 +241,23 @@ export function RecipesPage() {
                     </td>
                     <td>
                       <div style={{ fontWeight: 800 }}>{d.name}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>{d.isActive ? 'Activo' : 'Inactivo'}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>{d.isActive ? 'Visible' : 'Oculto'}</div>
                     </td>
                     <td>{d.category ?? '—'}</td>
                     <td>{d.price}</td>
                     <td>
-                      <span className={`adminBadge ${hasRecipe ? '' : 'low'}`}>{hasRecipe ? 'Configurada' : 'Sin receta'}</span>
+                      <span className={`adminBadge ${hasRecipe ? '' : 'low'}`}>{hasRecipe ? 'Con insumos' : 'Solo menú'}</span>
                     </td>
                     <td>
-                      <div className="adminRowActions">
+                      <div className="adminRowActions" style={{ flexWrap: 'wrap' }}>
                         <button className="adminButton" type="button" onClick={() => openView(d)}>
-                          Ver
+                          Ver receta
                         </button>
                         <button className="adminButton" type="button" onClick={() => openEdit(d)}>
-                          {hasRecipe ? 'Editar' : 'Completar'}
+                          Editar
+                        </button>
+                        <button className="adminButton" type="button" onClick={() => toggleActive(d)}>
+                          {d.isActive ? 'Ocultar' : 'Mostrar'}
                         </button>
                       </div>
                     </td>
@@ -229,8 +271,8 @@ export function RecipesPage() {
 
       <Modal
         open={isViewOpen}
-        title="Detalle de receta"
-        description={viewDish ? `Plato: ${viewDish.name}` : undefined}
+        title="Receta del plato"
+        description={viewDish ? viewDish.name : undefined}
         onClose={() => setIsViewOpen(false)}
         footer={
           <>
@@ -264,10 +306,16 @@ export function RecipesPage() {
               />
             ) : null}
             <div className="adminDivider" />
-            <div style={{ fontWeight: 800, marginBottom: 8 }}>Ingredientes</div>
+            <div style={{ fontWeight: 800, marginBottom: 8 }}>Insumos por porción</div>
             {(() => {
               const r = recipeRepo.getByDishId(viewDish.id);
-              if (!r || r.lines.length === 0) return <div style={{ color: 'rgba(255,255,255,0.7)' }}>Este plato no tiene receta.</div>;
+              if (!r || r.lines.length === 0) {
+                return (
+                  <div style={{ color: 'rgba(255,255,255,0.7)' }}>
+                    Este ítem está solo en menú (sin receta). Puedes editarlo y agregar insumos para vincular con inventario.
+                  </div>
+                );
+              }
               return (
                 <ul style={{ margin: 0, paddingLeft: 18, color: 'rgba(255,255,255,0.78)', lineHeight: 1.6 }}>
                   {r.lines.map((l) => (
@@ -284,8 +332,8 @@ export function RecipesPage() {
 
       <Modal
         open={isEditorOpen}
-        title={editDish ? 'Editar plato y receta' : 'Crear plato con receta'}
-        description="Completa los campos del plato, agrega ingredientes dinámicamente y guarda."
+        title={editDish ? 'Editar ítem del menú' : 'Agregar al menú'}
+        description="Datos del plato y, si quieres, la receta con insumos (opcional). Sin receta el plato igual aparece en el menú."
         onClose={() => {
           setIsEditorOpen(false);
           resetEditor();
@@ -303,7 +351,7 @@ export function RecipesPage() {
               Cancelar
             </button>
             <button className="adminButton primary" type="button" onClick={saveDishAndRecipe}>
-              {editDish ? 'Guardar cambios' : 'Crear'}
+              {editDish ? 'Guardar' : 'Crear'}
             </button>
           </>
         }
@@ -346,21 +394,28 @@ export function RecipesPage() {
             <div className="adminDivider" />
             <div className="adminActions" style={{ justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontWeight: 800 }}>Ingredientes de la receta</div>
-                <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>Usa “+” para agregar más ingredientes.</div>
+                <div style={{ fontWeight: 800 }}>Receta (opcional)</div>
+                <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>
+                  Cantidades por una porción vendida. Deja vacío o quita líneas si aún no defines insumos.
+                </div>
               </div>
               <button className="adminButton" type="button" onClick={addLine} disabled={ingredients.length === 0}>
-                + Ingrediente
+                + Insumo
               </button>
             </div>
+            {ingredients.length === 0 ? (
+              <div style={{ marginTop: 10, color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>
+                No hay insumos activos. Regístralos en <b>Ingredientes</b> o desde <b>Inventario → Agregar producto</b>.
+              </div>
+            ) : null}
           </div>
 
           <div className="col12">
             <table className="adminTable">
               <thead>
                 <tr>
-                  <th>Ingrediente</th>
-                  <th style={{ width: 240 }}>Cantidad</th>
+                  <th>Insumo</th>
+                  <th style={{ width: 240 }}>Cantidad / porción</th>
                   <th style={{ width: 120 }}>Acciones</th>
                 </tr>
               </thead>
@@ -368,7 +423,7 @@ export function RecipesPage() {
                 {lines.length === 0 ? (
                   <tr>
                     <td colSpan={3} style={{ color: 'rgba(255,255,255,0.7)' }}>
-                      Agrega ingredientes para la receta.
+                      Sin receta: el plato se guarda solo en el menú.
                     </td>
                   </tr>
                 ) : (
@@ -414,4 +469,3 @@ export function RecipesPage() {
     </div>
   );
 }
-

@@ -59,3 +59,13 @@ export type RestaurantTable = {
   createdAt: string;
 };
 
+/** Personal del local: rol asignado y horario en texto libre (ej. Lun–Dom 9:00–17:00). */
+export type StaffMember = {
+  id: string;
+  name: string;
+  roleId?: string;
+  schedule: string;
+  isActive: boolean;
+  createdAt: string;
+};
+
