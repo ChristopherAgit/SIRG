@@ -12,6 +12,7 @@ import { TablesPage } from './admin/pages/TablesPage';
 import { InventoryPage } from './admin/pages/InventoryPage';
 import { AnalyticsPage } from './admin/pages/AnalyticsPage';
 import { MeseroPage } from './mesero/pages/MeseroPage';
+import { CocineroPage } from './cocinero/pages/CocineroPage';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           </Route>
 
           <Route path="/mesero" element={<MeseroPage />} />
+          <Route path="/cocinero" element={<CocineroPage />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
