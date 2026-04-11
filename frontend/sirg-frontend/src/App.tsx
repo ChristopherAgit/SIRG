@@ -28,6 +28,9 @@ function App() {
             <Route path="inventario" element={<InventoryPage />} />
           </Route>
 
+          <Route path="/mesero" element={<MeseroPage />} />
+          <Route path="/cocinero" element={<CocineroPage />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>  

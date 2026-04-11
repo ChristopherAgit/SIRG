@@ -1,6 +1,0 @@
-@SIRG.Server_HostAddress = http://localhost:5129
-
-GET {{SIRG.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

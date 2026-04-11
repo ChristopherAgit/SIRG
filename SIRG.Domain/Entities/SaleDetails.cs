@@ -1,7 +1,11 @@
-﻿namespace SIRG.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SIRG.Domain.Entities
 {
     public class SaleDetails
     {
+        [Key]
+
         public required int SaleDetailsID { get; set; }
         public required int SaleID { get; set; }
         public required int DishID { get; set; }

@@ -1,0 +1,155 @@
+/**
+ * Estilos para /mesero y /cocinero: misma línea visual que la landing
+ * (fondo oscuro, texto claro, acento crimson).
+ */
+.sirgStaffViewport {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background:
+    radial-gradient(900px 500px at 10% 0%, rgba(220, 20, 60, 0.18), transparent 55%),
+    radial-gradient(700px 400px at 90% 20%, rgba(0, 0, 0, 0.35), transparent 50%),
+    linear-gradient(165deg, #0d0d0d 0%, #1a1a1a 45%, #111 100%);
+}
+
+.sirgStaffShell {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: clamp(20px, 4vw, 36px);
+  max-width: 1200px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.sirgStaffShell .adminPageTitle {
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.sirgStaffShell .adminPageTitleRow .adminPageTitle {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.sirgStaffShell .adminPageDesc {
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 52ch;
+}
+
+.sirgStaffShell .adminCard {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.sirgStaffShell .adminCardLabel {
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+
+.sirgStaffShell .adminTable {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.sirgStaffShell .adminTable th {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.sirgStaffShell .adminTable td {
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.sirgStaffShell .adminTable tbody tr:hover td {
+  background: rgba(220, 20, 60, 0.06);
+}
+
+.sirgStaffShell .adminBadge {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.sirgStaffShell .adminBadge.low {
+  border-color: rgba(220, 20, 60, 0.45);
+  background: rgba(220, 20, 60, 0.15);
+  color: #ffb4c0;
+}
+
+.sirgStaffShell .adminButton {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.sirgStaffShell .adminButton:hover:not(:disabled) {
+  border-color: rgba(220, 20, 60, 0.55);
+  background: rgba(220, 20, 60, 0.12);
+}
+
+.sirgStaffShell .adminButton.primary {
+  border-color: rgba(220, 20, 60, 0.85);
+  background: #b9102a;
+  color: #ffffff;
+}
+
+.sirgStaffShell .adminButton.primary:hover:not(:disabled) {
+  background: crimson;
+  border-color: crimson;
+}
+
+.sirgStaffShell .adminButton.danger {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fecaca;
+}
+
+.sirgStaffShell .adminButton.danger:hover:not(:disabled) {
+  border-color: rgba(248, 113, 113, 0.6);
+  background: rgba(127, 29, 29, 0.45);
+}
+
+.sirgStaffShell .adminInput,
+.sirgStaffShell .adminSelect {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+}
+
+.sirgStaffShell .adminLabel {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sirgStaffShell .adminDivider {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Modal (mismo tono cálido / oscuro que el hero overlay) */
+.sirgStaffShell .adminModal {
+  background: rgba(17, 17, 17, 0.96);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.sirgStaffShell .adminModalTitle {
+  color: #ffffff;
+}
+
+.sirgStaffShell .adminModalDesc {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.sirgStaffShell .adminModalHeader,
+.sirgStaffShell .adminModalFooter {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.sirgStaffShell .adminModalBody {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.sirgStaffViewport .sirgStaffShell .adminModalOverlay {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}

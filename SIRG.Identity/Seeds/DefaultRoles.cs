@@ -2,7 +2,7 @@
 
 namespace SIRG.Identity.Seeds
 {
-    public class DefaultRoles
+    public static class DefaultRoles
     {
         public async static Task SeedAsync(RoleManager<IdentityRole> roleManager)
         {
