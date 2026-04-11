@@ -9,6 +9,8 @@ import { IngredientsPage } from './admin/pages/IngredientsPage';
 import { MenuPage } from './admin/pages/MenuPage';
 import { TablesPage } from './admin/pages/TablesPage';
 import { InventoryPage } from './admin/pages/InventoryPage';
+import { MeseroPage } from './mesero/pages/MeseroPage';
+import { CocineroPage } from './cocinero/pages/CocineroPage';
 
 function App() {
 
