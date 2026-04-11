@@ -10,6 +10,8 @@ export type OrderItem = {
 
 export type Order = {
   id: string;
+  /** Mismo identificador que sesión/reserva en API. */
+  serviceId?: string;
   tableId: string;
   tableNumber: number;
   status: OrderStatus;
