@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SIRG.Application\SIRG.Application.csproj" />
     <ProjectReference Include="..\SIRG.Identity\SIRG.Identity.csproj" />
     <ProjectReference Include="..\SIRG.Persistences\SIRG.Persistences.csproj" />
     <ProjectReference Include="..\SIRG.Shared\SIRG.Shared.csproj" />

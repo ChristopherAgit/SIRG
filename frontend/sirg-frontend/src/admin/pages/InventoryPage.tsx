@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { InventoryMovementType } from '../models';
 import { computeStock, ingredientRepo, movementRepo } from '../lib/repo';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { Modal } from '../components/Modal';
 import { useToast } from '../components/toast/ToastContext';
 
 export function InventoryPage() {
@@ -9,6 +10,8 @@ export function InventoryPage() {
   const ingredients = useMemo(() => ingredientRepo.list(), [refresh]);
   const movements = useMemo(() => movementRepo.list(), [refresh]);
   const [confirmMovementId, setConfirmMovementId] = useState<string | null>(null);
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name: '', unit: 'g', minStock: '' });
   const toast = useToast();
 
   const [form, setForm] = useState({
@@ -79,14 +82,87 @@ export function InventoryPage() {
     return 'Entrada/Salida suman o restan al stock.';
   }
 
+  function submitNewProduct() {
+    const name = newProduct.name.trim();
+    const unit = newProduct.unit.trim();
+    const minStock = newProduct.minStock.trim() ? Number(newProduct.minStock) : undefined;
+    if (!name || !unit) {
+      toast.push({ type: 'error', title: 'Datos incompletos', message: 'Nombre y unidad son obligatorios.' });
+      return;
+    }
+    if (minStock !== undefined && (Number.isNaN(minStock) || minStock < 0)) {
+      toast.push({ type: 'error', title: 'Stock mínimo inválido', message: 'Debe ser un número mayor o igual a 0.' });
+      return;
+    }
+    const exists = ingredientRepo.list().some((i) => i.name.toLowerCase() === name.toLowerCase());
+    if (exists) {
+      toast.push({ type: 'error', title: 'Ya existe', message: 'Hay un producto con ese nombre. Edítalo en Ingredientes si hace falta.' });
+      return;
+    }
+    ingredientRepo.create({ name, unit, minStock });
+    setNewProduct({ name: '', unit: 'g', minStock: '' });
+    setIsAddProductOpen(false);
+    setRefresh((x) => x + 1);
+    toast.push({ type: 'success', title: 'Producto registrado', message: `Ya puedes registrar entradas de "${name}".` });
+  }
+
   return (
     <div>
       <div className="adminPageTitleRow">
         <div>
           <div className="adminPageTitle">Inventario</div>
-          <div className="adminPageDesc">Stock actual + movimientos + historial (persistencia: localStorage).</div>
+          <div className="adminPageDesc">
+            Cada negocio carga lo que tiene en físico. Si compras algo nuevo que no estaba en el sistema, regístralo aquí y luego registra entradas.
+          </div>
+        </div>
+        <div className="adminActions">
+          <button className="adminButton primary" type="button" onClick={() => setIsAddProductOpen(true)}>
+            + Agregar producto
+          </button>
         </div>
       </div>
+
+      <Modal
+        open={isAddProductOpen}
+        title="Agregar producto al inventario"
+        description="Crea un insumo nuevo (harina, bebidas, etc.). Después podrás darle entrada y usarlo en recetas del menú."
+        onClose={() => {
+          setIsAddProductOpen(false);
+          setNewProduct({ name: '', unit: 'g', minStock: '' });
+        }}
+        footer={
+          <>
+            <button
+              className="adminButton"
+              type="button"
+              onClick={() => {
+                setIsAddProductOpen(false);
+                setNewProduct({ name: '', unit: 'g', minStock: '' });
+              }}
+            >
+              Cancelar
+            </button>
+            <button className="adminButton primary" type="button" onClick={submitNewProduct}>
+              Guardar producto
+            </button>
+          </>
+        }
+      >
+        <div className="adminFormGrid" style={{ margin: 0 }}>
+          <div className="col12">
+            <label className="adminLabel">Nombre del producto</label>
+            <input className="adminInput" value={newProduct.name} onChange={(e) => setNewProduct((f) => ({ ...f, name: e.target.value }))} placeholder="Ej: Aceite de oliva" />
+          </div>
+          <div className="col6">
+            <label className="adminLabel">Unidad de medida</label>
+            <input className="adminInput" value={newProduct.unit} onChange={(e) => setNewProduct((f) => ({ ...f, unit: e.target.value }))} placeholder="g, ml, unidad, caja..." />
+          </div>
+          <div className="col6">
+            <label className="adminLabel">Stock mínimo alerta (opcional)</label>
+            <input className="adminInput" value={newProduct.minStock} onChange={(e) => setNewProduct((f) => ({ ...f, minStock: e.target.value }))} placeholder="Ej: 500" />
+          </div>
+        </div>
+      </Modal>
 
       <ConfirmModal
         open={!!confirmMovementId}
