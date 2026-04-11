@@ -4,14 +4,12 @@ import { ensureAdminSeedData } from '../lib/seed';
 import { useEffect } from 'react';
 
 const navItems = [
-  { to: '/admin', label: 'Dashboard', end: true },
-  { to: '/admin/roles', label: 'Roles' },
+  { to: '/admin', label: 'Panel', end: true },
+  { to: '/admin/roles', label: 'Roles y personal' },
   { to: '/admin/ingredientes', label: 'Ingredientes' },
-  { to: '/admin/platos', label: 'Platos' },
-  { to: '/admin/recetas', label: 'Recetas' },
+  { to: '/admin/menu', label: 'Menú' },
   { to: '/admin/mesas', label: 'Mesas' },
   { to: '/admin/inventario', label: 'Inventario' },
-  { to: '/admin/analitica', label: 'Analítica' },
 ];
 
 export function AdminLayout() {

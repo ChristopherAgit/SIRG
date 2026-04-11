@@ -1,4 +1,4 @@
-import type { Dish, Ingredient, InventoryMovement, Recipe, RestaurantTable, Role } from '../models';
+import type { Dish, Ingredient, InventoryMovement, Recipe, RestaurantTable, Role, StaffMember } from '../models';
 import { readJson, writeJson, uid } from './storage';
 import { STORAGE_KEYS } from './seed';
 
@@ -192,6 +192,53 @@ export const tableRepo = {
     all[idx] = next;
     writeJson(STORAGE_KEYS.tables, all);
     return next;
+  },
+};
+
+export const staffRepo = {
+  list(): StaffMember[] {
+    return readJson<StaffMember[]>(STORAGE_KEYS.staff, []).sort((a, b) => a.name.localeCompare(b.name));
+  },
+  create(input: Pick<StaffMember, 'name' | 'schedule' | 'isActive'> & { roleId?: string }): StaffMember {
+    const all = readJson<StaffMember[]>(STORAGE_KEYS.staff, []);
+    const now = new Date().toISOString();
+    const s: StaffMember = {
+      id: uid('staff'),
+      name: input.name.trim(),
+      roleId: input.roleId?.trim() || undefined,
+      schedule: input.schedule.trim(),
+      isActive: input.isActive,
+      createdAt: now,
+    };
+    writeJson(STORAGE_KEYS.staff, [...all, s]);
+    return s;
+  },
+  update(
+    id: string,
+    patch: Partial<Pick<StaffMember, 'name' | 'roleId' | 'schedule' | 'isActive'>>,
+  ): StaffMember | null {
+    const all = readJson<StaffMember[]>(STORAGE_KEYS.staff, []);
+    const idx = all.findIndex((s) => s.id === id);
+    if (idx < 0) return null;
+    const next: StaffMember = {
+      ...all[idx],
+      name: patch.name !== undefined ? patch.name.trim() : all[idx].name,
+      roleId: patch.roleId !== undefined ? patch.roleId?.trim() || undefined : all[idx].roleId,
+      schedule: patch.schedule !== undefined ? patch.schedule.trim() : all[idx].schedule,
+      isActive: patch.isActive !== undefined ? patch.isActive : all[idx].isActive,
+    };
+    all[idx] = next;
+    writeJson(STORAGE_KEYS.staff, all);
+    return next;
+  },
+  remove(id: string): boolean {
+    const all = readJson<StaffMember[]>(STORAGE_KEYS.staff, []);
+    if (!all.some((s) => s.id === id)) return false;
+    writeJson(
+      STORAGE_KEYS.staff,
+      all.filter((s) => s.id !== id),
+    );
+    return true;
   },
 };
 
