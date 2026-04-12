@@ -2,6 +2,7 @@
     padding: 80px 20px;
     background: #f4f4f4;
      background: white;
+      padding-top: 0;
 }
 .reservation-container{
     max-width: 800px;
@@ -44,6 +45,18 @@ input, select{
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.btn-volver{
+    padding: 15px 25px;
+    background: #b22222;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+    /* position: relative;
+    top: -20; */
+}
 button{
     padding: 15px;
     background: #b22222;
@@ -61,4 +74,7 @@ button:hover{
     flex-direction: column;
     gap: 6px;
     margin-bottom: 10px;
+}
+.icon-flip {
+  transform: scaleX(-1);
 }

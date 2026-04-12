@@ -1,6 +1,7 @@
 .menu-header{
     text-align: center;
     margin-bottom: 40px;
+    scroll-margin-top: 70px;
 }
 .menu-subtitle{
     font-size: 12px;

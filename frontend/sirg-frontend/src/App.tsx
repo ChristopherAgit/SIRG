@@ -1,6 +1,6 @@
-
-import Reservas from './components/reservas';
 import Home from './Home';
+import Reservas from './components/reservas';
+import Menucomplete from './components/menucomplete';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from './admin/layouts/AdminLayout';
 import { AdminDashboardPage } from './admin/pages/AdminDashboardPage';
@@ -12,6 +12,7 @@ import { InventoryPage } from './admin/pages/InventoryPage';
 import { MeseroPage } from './mesero/pages/MeseroPage';
 import { CocineroPage } from './cocinero/pages/CocineroPage';
 
+
 function App() {
 
   return (
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route   path='' element={<Home/>} />
           <Route path='/reservas' element={<Reservas/>} />
+          <Route path="/menucomplete" element={<Menucomplete/>} />
 
           {/* Admin */}
           <Route path="/admin" element={<AdminLayout />}>

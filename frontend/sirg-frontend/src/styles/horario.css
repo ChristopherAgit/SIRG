@@ -1,6 +1,7 @@
 .hours-section{
     padding: 100px 20px;
     background-color: #f9f9f9;
+    scroll-margin-top: 80px;
 }
 .hours-container{
     max-width: 900px;

@@ -4,13 +4,10 @@ import "../styles/nav.css";
 
 const Nav = () => {
 
-  // estado para abrir/cerrar menú móvil
   const [isOpen, setIsOpen] = useState(false);
 
-  // estado para detectar scroll
   const [scrolled, setScrolled] = useState(false);
 
-  // Detectar scroll
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -22,7 +19,6 @@ const Nav = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    // limpiar evento
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -31,25 +27,18 @@ const Nav = () => {
 
       <div className="navbar-container">
 
-        {/* LOGO */}
         <a href="#" className="logo" >
-<<<<<<< HEAD
           <span>Constan</span>Tinopla
-=======
-          <span></span>Constantinopla
->>>>>>> main
         </a>
 
-        {/* LINKS DESKTOP */}
         <ul className="nav-links">
           <li><a href="#menu">Menú</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#horario">Horarios</a></li>
           <li><a href="#contacto">Contacto</a></li>
-          <li><a href="#reservas">Reservar</a></li>
+          <li><a href="/reservas">Reservar</a></li>
         </ul>
 
-        {/* BOTÓN MÓVIL */}
         <button
           className="menu-toggle"
           onClick={() => setIsOpen(!isOpen)}
@@ -59,7 +48,6 @@ const Nav = () => {
 
       </div>
 
-      {/* MENÚ MÓVIL */}
       {isOpen && (
         <div className="mobile-menu">
           <ul>
