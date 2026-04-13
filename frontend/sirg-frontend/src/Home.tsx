@@ -4,7 +4,7 @@ import Nosotros from './components/nosotros'
 import Menu from './components/menu'
 import Horario from './components/horario'
 import Contacto from './components/contacto'
-// import { BrowserRouter, Router, Route } from 'react-router-dom';
+import Footer from './components/footer'
 
 function Home() {
 
@@ -16,6 +16,7 @@ function Home() {
       <Nosotros/>
       <Horario/>
       <Contacto/>
+      <Footer/>
       
       </>
   );
