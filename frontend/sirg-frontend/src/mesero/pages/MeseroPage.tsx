@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../admin/styles/admin.css';
 import '../../styles/staff-landing.css';
 import { dishRepo, tableRepo } from '../../admin/lib/repo';
@@ -15,6 +16,45 @@ type ItemDraft = { dishId: string; qty: string };
 function shortId(id: string) {
   if (id.length <= 14) return id;
   return `${id.slice(0, 8)}…${id.slice(-6)}`;
+}
+
+function NavActions() {
+  const navigate = useNavigate();
+  const userName = (() => {
+    try {
+      const raw = localStorage.getItem('sirg_auth');
+      if (!raw) return '';
+      const p = JSON.parse(raw);
+      return p?.name ?? '';
+    } catch {
+      return '';
+    }
+  })();
+
+  return (
+    <>
+      {userName ? <div style={{ color: 'rgba(255,255,255,0.7)', marginRight: 8 }}>{userName}</div> : null}
+      <button
+        className="adminButton"
+        type="button"
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        Volver
+      </button>
+      <button
+        className="adminButton"
+        type="button"
+        onClick={() => {
+          localStorage.removeItem('sirg_auth');
+          navigate('/login');
+        }}
+      >
+        Cerrar sesión
+      </button>
+    </>
+  );
 }
 
 export function MeseroPage() {
@@ -213,6 +253,8 @@ export function MeseroPage() {
             </div>
           </div>
           <div className="adminActions" style={{ flexWrap: 'wrap' }}>
+            {/* navegación y logout */}
+            <NavActions />
             <button
               className="adminButton primary"
               type="button"

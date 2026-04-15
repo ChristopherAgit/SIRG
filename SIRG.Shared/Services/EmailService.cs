@@ -10,6 +10,7 @@ namespace SIRG.Shared.Services
     {
         private readonly MailSettings _mailSettings;
 
+
         public EmailService(IOptions<MailSettings> mailSettings)
         {
             _mailSettings = mailSettings.Value;

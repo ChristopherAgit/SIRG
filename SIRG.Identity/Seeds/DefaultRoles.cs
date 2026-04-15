@@ -9,7 +9,8 @@ namespace SIRG.Identity.Seeds
             await roleManager.CreateAsync(new IdentityRole("Administrador"));
             await roleManager.CreateAsync(new IdentityRole("Cliente"));
             await roleManager.CreateAsync(new IdentityRole("Mesero"));
-
+            await roleManager.CreateAsync(new IdentityRole("Recepcionista"));
+            await roleManager.CreateAsync(new IdentityRole("Cocinero"));
         }
     }
 }

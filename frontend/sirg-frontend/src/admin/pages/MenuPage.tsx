@@ -96,6 +96,8 @@ export function MenuPage() {
     (async () => {
       try {
         await apiFetch(`/dishes/${dish.id}`, { method: 'PUT', body: JSON.stringify({ isActive: !dish.isActive }) });
+        // actualizar repo local para mantener coherencia UI si la API responde correctamente
+        dishRepo.update(dish.id, { isActive: !dish.isActive });
         toast.push({ type: 'info', title: dish.isActive ? 'Oculto del menú' : 'Visible en menú', message: dish.name });
       } catch {
         dishRepo.update(dish.id, { isActive: !dish.isActive });

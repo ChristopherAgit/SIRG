@@ -5,6 +5,7 @@ import Login from './Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from './admin/layouts/AdminLayout';
 import { AdminDashboardPage } from './admin/pages/AdminDashboardPage';
+import { ReservationsPage } from './admin/pages/ReservationsPage';
 import { RolesPage } from './admin/pages/RolesPage';
 import { IngredientsPage } from './admin/pages/IngredientsPage';
 import { MenuPage } from './admin/pages/MenuPage';
@@ -25,8 +26,9 @@ function App() {
           <Route path="/menucomplete" element={<Menucomplete/>} />
 
           {/* Admin */}
-          <Route path="/admin" element={<PrivateRoute roles={["Administrador"]}><AdminLayout /></PrivateRoute>}>
+          <Route path="/admin" element={<PrivateRoute roles={["Administrador", "Recepcionista"]}><AdminLayout /></PrivateRoute>}>
             <Route index element={<AdminDashboardPage />} />
+            <Route path="reservaciones" element={<ReservationsPage />} />
             <Route path="roles" element={<RolesPage />} />
             <Route path="ingredientes" element={<IngredientsPage />} />
             <Route path="menu" element={<MenuPage />} />
