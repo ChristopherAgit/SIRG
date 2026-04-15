@@ -174,6 +174,20 @@ namespace SIRG.IOC.Dependencies
             await DefaultRoles.SeedAsync(roleManager);
             await DefaultAdminUser.SeedAsync(userManager);
             await DefaultClientUser.SeedAsync(userManager);
+            await DefaultWaiterUser.SeedAsync(userManager);
+            // seed sample data in persistence DB
+            try
+            {
+                var persistence = servicesProvider.GetService<SIRG.Persistences.Context.SIRGContext>();
+                if (persistence != null)
+                {
+                    await SIRG.Persistences.Seeds.DefaultSampleData.SeedAsync(persistence);
+                }
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         #region Private methods

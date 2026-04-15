@@ -163,13 +163,24 @@ namespace SIRG.Application.Services
             }
             catch
             {
-                return [];
+                return new List<ReservationsDto>();
             }
         }
 
-        public Task<ReservationsDto?> GetReservationWithDetailsById(int id)
+        public async Task<ReservationsDto?> GetReservationWithDetailsById(int id)
         {
-            throw new NotImplementedException();
+            var query = _reservationRepository.GetAllQuerry()
+                .Include(r => r.RestaurantTables)
+                .Include(r => r.ReservationStatus)
+                .Include(r => r.Customers)
+                .Include(r => r.Orders!).ThenInclude(o => o.OrderDetails)
+                .AsQueryable();
+
+            var entity = await query.FirstOrDefaultAsync(r => r.ReservationID == id);
+
+            if (entity == null) return null;
+
+            return _mapper.Map<ReservationsDto>(entity);
         }
     }
 }

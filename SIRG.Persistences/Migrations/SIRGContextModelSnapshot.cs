@@ -207,6 +207,29 @@ namespace SIRG.Persistences.Migrations
                     b.ToTable("InventoryMovements");
                 });
 
+            modelBuilder.Entity("SIRG.Domain.Entities.MeseroSessions", b =>
+                {
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("OpenedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TableNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("ServiceId");
+
+                    b.ToTable("MeseroSessions");
+                });
+
             modelBuilder.Entity("SIRG.Domain.Entities.OrderDetails", b =>
                 {
                     b.Property<int>("OrderDetailsID")

@@ -5,6 +5,7 @@ using SIRG.Application.Dtos.EntitiesDto;
 using SIRG.Application.Interfaces.Contracts;
 using SIRG.Domain.Entities;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SIRG.Api.Controllers
 {
@@ -12,6 +13,7 @@ namespace SIRG.Api.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/ingredients")]
     [SwaggerTag("Endoints para manejar los ingredientes")]
+    [Authorize(Roles = "Administrador")]
     public class IngredientsController : BaseController<Ingredients, IngredientsDto>
     {
         private readonly IIgredientsServices _Service;

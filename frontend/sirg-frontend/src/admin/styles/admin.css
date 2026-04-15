@@ -296,6 +296,19 @@ body {
   gap: 10px;
 }
 
+.adminSpinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: 6px solid rgba(255,255,255,0.08);
+  border-top-color: var(--admin-accent);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .adminToastTitle {
   font-weight: 800;
   font-size: 13px;

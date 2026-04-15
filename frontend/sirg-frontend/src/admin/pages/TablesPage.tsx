@@ -3,6 +3,7 @@ import type { RestaurantTable } from '../models';
 import { tableRepo } from '../lib/repo';
 import { Modal } from '../components/Modal';
 import { useToast } from '../components/toast/ToastContext';
+import apiFetch from '../../lib/api';
 
 export function TablesPage() {
   const [refresh, setRefresh] = useState(0);
@@ -34,9 +35,19 @@ export function TablesPage() {
   }
 
   function toggleActive(t: RestaurantTable) {
-    tableRepo.update(t.id, { isActive: !t.isActive });
-    setRefresh((x) => x + 1);
-    toast.push({ type: 'info', title: t.isActive ? 'Mesa desactivada' : 'Mesa activada', message: `Mesa ${t.number}` });
+    // attempt server update first
+    (async () => {
+      try {
+        await apiFetch(`/tables/${t.id}`, { method: 'PUT', body: JSON.stringify({ isActive: !t.isActive }) });
+        toast.push({ type: 'info', title: t.isActive ? 'Mesa desactivada' : 'Mesa activada', message: `Mesa ${t.number}` });
+      } catch {
+        // fallback local
+        tableRepo.update(t.id, { isActive: !t.isActive });
+        toast.push({ type: 'info', title: t.isActive ? 'Mesa desactivada' : 'Mesa activada', message: `Mesa ${t.number} (local)` });
+      } finally {
+        setRefresh((x) => x + 1);
+      }
+    })();
   }
 
   function submit() {
@@ -58,11 +69,29 @@ export function TablesPage() {
     }
 
     if (editing) {
-      tableRepo.update(editing.id, { number, seats });
-      toast.push({ type: 'success', title: 'Mesa actualizada', message: `Mesa ${number}` });
+      (async () => {
+        try {
+          await apiFetch(`/tables/${editing.id}`, { method: 'PUT', body: JSON.stringify({ number, seats }) });
+          toast.push({ type: 'success', title: 'Mesa actualizada', message: `Mesa ${number}` });
+        } catch {
+          tableRepo.update(editing.id, { number, seats });
+          toast.push({ type: 'success', title: 'Mesa actualizada', message: `Mesa ${number} (local)` });
+        } finally {
+          setRefresh((x) => x + 1);
+        }
+      })();
     } else {
-      tableRepo.create({ number, seats });
-      toast.push({ type: 'success', title: 'Mesa creada', message: `Mesa ${number}` });
+      (async () => {
+        try {
+          await apiFetch('/tables', { method: 'POST', body: JSON.stringify({ number, seats }) });
+          toast.push({ type: 'success', title: 'Mesa creada', message: `Mesa ${number}` });
+        } catch {
+          tableRepo.create({ number, seats });
+          toast.push({ type: 'success', title: 'Mesa creada', message: `Mesa ${number} (local)` });
+        } finally {
+          setRefresh((x) => x + 1);
+        }
+      })();
     }
 
     setRefresh((x) => x + 1);

@@ -23,6 +23,7 @@ namespace SIRG.Persistences.Context
         public DbSet<Reservations> Reservations { get; set; }
         public DbSet<ReservationStatus> ReservationStatus { get; set; }
         public DbSet<RestaurantTables> RestaurantTables { get; set; }
+        public DbSet<MeseroSessions> MeseroSessions { get; set; }
         public DbSet<SaleDetails> SaleDetails { get; set; }
         public DbSet<Sales> Sales { get; set; }
     }

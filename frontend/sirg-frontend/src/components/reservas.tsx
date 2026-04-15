@@ -238,21 +238,51 @@ const Reservas = () => {
     }
 
     try {
-      const response = await fetch("", {
+      // Obtener mesas y escoger una que soporte la cantidad de personas
+      const tablesResp = await fetch("/api/v1/tables");
+      if (!tablesResp.ok) throw new Error("Error al obtener mesas");
+      const tables = await tablesResp.json();
+
+      const numPeople = Number(form.mesa) || 1;
+      const table = tables.find((t: any) => t.isActive !== false && t.capacity >= numPeople);
+
+      if (!table) {
+        alert("No hay mesas disponibles para la cantidad de personas seleccionada.");
+        return;
+      }
+
+      const payload = {
+        tableID: table.tableID,
+        statusID: 1,
+        reservationDate: form.fecha, // YYYY-MM-DD
+        reservationTime: form.hora + ":00", // HH:mm -> HH:mm:00
+        numberOfPeople: numPeople,
+        createdAt: new Date().toISOString(),
+        customersDto: {
+          name: form.nombre,
+          cedula: form.cedula,
+          phone: form.celular,
+          email: form.correo,
+        },
+      };
+
+      const response = await fetch("/api/v1/reservations/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         setSubmitted(true);
       } else {
-        alert("Error al guardar Reserva.");
+        const text = await response.text();
+        alert("Error al guardar Reserva: " + text);
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("Ocurrió un error al procesar la reserva.");
     }
   };
 

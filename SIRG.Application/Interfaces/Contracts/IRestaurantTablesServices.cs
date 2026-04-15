@@ -5,7 +5,7 @@ namespace SIRG.Application.Interfaces.Contracts
 {
     public interface IRestaurantTablesServices : IBaseServices<RestaurantTables, RestaurantTablesDto>
     {
-        Task<RestaurantTablesDto> GetTableWithReservationsById(int id);
+        Task<RestaurantTablesDto?> GetTableWithReservationsById(int id);
         Task<List<RestaurantTablesDto>> GetAllTablesWithReservations();
     }
 }

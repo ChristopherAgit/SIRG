@@ -6,6 +6,7 @@ import { Modal } from '../../admin/components/Modal';
 import { useToast } from '../../admin/components/toast/ToastContext';
 import type { RestaurantTable } from '../../admin/models';
 import { orderRepo } from '../../shared/orders';
+import { listTables, listDishes, createOrder } from '../api';
 import type { ServiceSession } from '../lib/sessions';
 import { sessionRepo } from '../lib/sessions';
 
@@ -20,8 +21,8 @@ export function MeseroPage() {
   const toast = useToast();
   const [refresh, setRefresh] = useState(0);
 
-  const tables = useMemo(() => tableRepo.list().filter((t: RestaurantTable) => t.isActive), [refresh]);
-  const dishes = useMemo(() => dishRepo.list().filter((d) => d.isActive), [refresh]);
+  const [tables, setTables] = useState<RestaurantTable[]>([]);
+  const [dishes, setDishes] = useState<any[]>([]);
   const openSessions = useMemo(() => sessionRepo.listOpen(), [refresh]);
 
   const [walkInOpen, setWalkInOpen] = useState(false);
@@ -31,10 +32,31 @@ export function MeseroPage() {
 
   const [menuSession, setMenuSession] = useState<ServiceSession | null>(null);
   const [items, setItems] = useState<ItemDraft[]>([]);
+  const [loading, setLoading] = useState(false);
 
   function bump() {
     setRefresh((x) => x + 1);
   }
+
+  // load remote data
+  async function load() {
+    try {
+      const t = await listTables();
+      setTables((t as any[]).filter((x) => x.isActive).map((x) => ({ id: x.id, number: x.number, seats: x.seats, isActive: x.isActive, createdAt: new Date().toISOString() })));
+      const d = await listDishes();
+      setDishes((d as any[]).filter((x) => x.isActive).map((x) => ({ id: x.id, name: x.name, price: x.price, isActive: x.isActive })));
+    } catch (err) {
+      // fallback to local repo if API fails
+      setTables(tableRepo.list().filter((t: RestaurantTable) => t.isActive));
+      setDishes(dishRepo.list().filter((d) => d.isActive));
+    }
+  }
+
+  // initial load and on refresh
+  useMemo(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refresh]);
 
   function openMenuForSession(s: ServiceSession) {
     setMenuSession(s);
@@ -47,47 +69,57 @@ export function MeseroPage() {
   }
 
   function submitWalkIn() {
-    const table = tables.find((t) => t.id === walkInTableId) ?? null;
-    if (!table) {
-      toast.push({ type: 'error', title: 'Mesa', message: 'Selecciona una mesa.' });
-      return;
+    setLoading(true);
+    try {
+      const table = tables.find((t) => t.id === walkInTableId) ?? null;
+      if (!table) {
+        toast.push({ type: 'error', title: 'Mesa', message: 'Selecciona una mesa.' });
+        return;
+      }
+      if (sessionRepo.findOpenByTableId(table.id)) {
+        toast.push({ type: 'error', title: 'Mesa ocupada', message: `Ya hay un servicio abierto en mesa ${table.number}. Ciérralo o usa esa mesa para pedidos.` });
+        return;
+      }
+      const s = sessionRepo.create({ tableId: table.id, tableNumber: table.number });
+      setWalkInOpen(false);
+      bump();
+      toast.push({ type: 'success', title: 'Servicio abierto', message: `Walk-in · Mesa ${table.number} · ID ${shortId(s.serviceId)}` });
+      openMenuForSession(s);
+    } finally {
+      setLoading(false);
     }
-    if (sessionRepo.findOpenByTableId(table.id)) {
-      toast.push({ type: 'error', title: 'Mesa ocupada', message: `Ya hay un servicio abierto en mesa ${table.number}. Ciérralo o usa esa mesa para pedidos.` });
-      return;
-    }
-    const s = sessionRepo.create({ tableId: table.id, tableNumber: table.number });
-    setWalkInOpen(false);
-    bump();
-    toast.push({ type: 'success', title: 'Servicio abierto', message: `Walk-in · Mesa ${table.number} · ID ${shortId(s.serviceId)}` });
-    openMenuForSession(s);
   }
 
   function submitWithServiceId() {
-    const sid = resForm.serviceId.trim();
-    const table = tables.find((t) => t.id === resForm.tableId) ?? null;
-    if (!sid) {
-      toast.push({ type: 'error', title: 'ID de servicio', message: 'Pega el código que dio reservas (o el sistema); es el mismo ID que usará la base de datos.' });
-      return;
+    setLoading(true);
+    try {
+      const sid = resForm.serviceId.trim();
+      const table = tables.find((t) => t.id === resForm.tableId) ?? null;
+      if (!sid) {
+        toast.push({ type: 'error', title: 'ID de servicio', message: 'Pega el código que dio reservas (o el sistema); es el mismo ID que usará la base de datos.' });
+        return;
+      }
+      if (!table) {
+        toast.push({ type: 'error', title: 'Mesa', message: 'Selecciona la mesa asignada.' });
+        return;
+      }
+      if (sessionRepo.findOpenByServiceId(sid)) {
+        toast.push({ type: 'error', title: 'ID ya en uso', message: 'Ese servicio ya está abierto. Continúa desde la lista.' });
+        return;
+      }
+      if (sessionRepo.findOpenByTableId(table.id)) {
+        toast.push({ type: 'error', title: 'Mesa ocupada', message: `Ya hay otro servicio abierto en mesa ${table.number}.` });
+        return;
+      }
+      const s = sessionRepo.create({ tableId: table.id, tableNumber: table.number, serviceId: sid });
+      setReservationOpen(false);
+      setResForm({ serviceId: '', tableId: '' });
+      bump();
+      toast.push({ type: 'success', title: 'Servicio abierto', message: `Mesa ${table.number} · ID ${shortId(s.serviceId)}` });
+      openMenuForSession(s);
+    } finally {
+      setLoading(false);
     }
-    if (!table) {
-      toast.push({ type: 'error', title: 'Mesa', message: 'Selecciona la mesa asignada.' });
-      return;
-    }
-    if (sessionRepo.findOpenByServiceId(sid)) {
-      toast.push({ type: 'error', title: 'ID ya en uso', message: 'Ese servicio ya está abierto. Continúa desde la lista.' });
-      return;
-    }
-    if (sessionRepo.findOpenByTableId(table.id)) {
-      toast.push({ type: 'error', title: 'Mesa ocupada', message: `Ya hay otro servicio abierto en mesa ${table.number}.` });
-      return;
-    }
-    const s = sessionRepo.create({ tableId: table.id, tableNumber: table.number, serviceId: sid });
-    setReservationOpen(false);
-    setResForm({ serviceId: '', tableId: '' });
-    bump();
-    toast.push({ type: 'success', title: 'Servicio abierto', message: `Mesa ${table.number} · ID ${shortId(s.serviceId)}` });
-    openMenuForSession(s);
   }
 
   function addItem() {
@@ -125,6 +157,7 @@ export function MeseroPage() {
       byDish.set(it.dishId, prev ? { ...prev, qty: prev.qty + it.qty } : it);
     }
 
+    setLoading(true);
     orderRepo.create({
       serviceId: menuSession.serviceId,
       tableId: menuSession.tableId,
@@ -132,6 +165,23 @@ export function MeseroPage() {
       status: 'sent',
       items: Array.from(byDish.values()),
     });
+
+    // try to persist to API (non-blocking)
+    (async () => {
+      try {
+        await createOrder({
+          serviceId: menuSession.serviceId,
+          tableId: menuSession.tableId,
+          tableNumber: menuSession.tableNumber,
+          status: 'sent',
+          items: Array.from(byDish.values()),
+        });
+      } catch (e) {
+        // ignore
+      } finally {
+        setLoading(false);
+      }
+    })();
 
     toast.push({ type: 'success', title: 'Pedido enviado a cocina', message: `Mesa ${menuSession.tableNumber}` });
     closeMenu();
@@ -150,6 +200,11 @@ export function MeseroPage() {
   return (
     <div className="sirgStaffViewport">
       <div className="sirgStaffShell">
+        {loading ? (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.35)', zIndex: 40 }}>
+            <div className="adminSpinner" aria-hidden />
+          </div>
+        ) : null}
         <div className="adminPageTitleRow">
           <div>
             <div className="adminPageTitle">Mesero</div>

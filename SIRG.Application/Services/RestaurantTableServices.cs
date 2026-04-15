@@ -28,13 +28,13 @@ namespace SIRG.Application.Services
                                              .ProjectTo<RestaurantTablesDto>(_mapper.ConfigurationProvider)
                                              .ToListAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return [];
+                return new List<RestaurantTablesDto>();
             }
         }
 
-        public async Task<RestaurantTablesDto> GetTableWithReservationsById(int id)
+        public async Task<RestaurantTablesDto?> GetTableWithReservationsById(int id)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace SIRG.Application.Services
 
                 return _mapper.Map<RestaurantTablesDto>(listWnities);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

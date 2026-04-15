@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
         "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -31,6 +31,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
               "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
@@ -53,6 +54,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "AutoMapper": {
@@ -88,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -98,14 +100,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
         "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -119,6 +121,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -137,6 +140,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "imports": [
             "net461",
@@ -154,7 +158,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -164,14 +168,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
         "projectName": "SIRG.Identity",
         "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Identity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -185,6 +189,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
               "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
@@ -210,6 +215,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -261,7 +267,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

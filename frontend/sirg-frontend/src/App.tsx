@@ -1,6 +1,7 @@
 import Home from './Home';
 import Reservas from './components/reservas';
 import Menucomplete from './components/menucomplete';
+import Login from './Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from './admin/layouts/AdminLayout';
 import { AdminDashboardPage } from './admin/pages/AdminDashboardPage';
@@ -11,6 +12,7 @@ import { TablesPage } from './admin/pages/TablesPage';
 import { InventoryPage } from './admin/pages/InventoryPage';
 import { MeseroPage } from './mesero/pages/MeseroPage';
 import { CocineroPage } from './cocinero/pages/CocineroPage';
+import PrivateRoute from './PrivateRoute';
 
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
           <Route path="/menucomplete" element={<Menucomplete/>} />
 
           {/* Admin */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<PrivateRoute roles={["Administrador"]}><AdminLayout /></PrivateRoute>}>
             <Route index element={<AdminDashboardPage />} />
             <Route path="roles" element={<RolesPage />} />
             <Route path="ingredientes" element={<IngredientsPage />} />
@@ -32,8 +34,9 @@ function App() {
             <Route path="inventario" element={<InventoryPage />} />
           </Route>
 
-          <Route path="/mesero" element={<MeseroPage />} />
+          <Route path="/mesero" element={<PrivateRoute roles={["Mesero","Administrador"]}><MeseroPage /></PrivateRoute>} />
           <Route path="/cocinero" element={<CocineroPage />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -3,6 +3,7 @@ import type { Dish, RecipeLine } from '../models';
 import { dishRepo, ingredientRepo, recipeRepo } from '../lib/repo';
 import { useToast } from '../components/toast/ToastContext';
 import { Modal } from '../components/Modal';
+import apiFetch from '../../lib/api';
 
 type LineDraft = { ingredientId: string; qty: string };
 
@@ -92,9 +93,17 @@ export function MenuPage() {
   }
 
   function toggleActive(dish: Dish) {
-    dishRepo.update(dish.id, { isActive: !dish.isActive });
-    setRefresh((x) => x + 1);
-    toast.push({ type: 'info', title: dish.isActive ? 'Oculto del menú' : 'Visible en menú', message: dish.name });
+    (async () => {
+      try {
+        await apiFetch(`/dishes/${dish.id}`, { method: 'PUT', body: JSON.stringify({ isActive: !dish.isActive }) });
+        toast.push({ type: 'info', title: dish.isActive ? 'Oculto del menú' : 'Visible en menú', message: dish.name });
+      } catch {
+        dishRepo.update(dish.id, { isActive: !dish.isActive });
+        toast.push({ type: 'info', title: dish.isActive ? 'Oculto del menú' : 'Visible en menú', message: `${dish.name} (local)` });
+      } finally {
+        setRefresh((x) => x + 1);
+      }
+    })();
   }
 
   async function onPickImage(file: File) {
@@ -156,13 +165,32 @@ export function MenuPage() {
 
     let dishId: string;
     if (editDish) {
-      dishRepo.update(editDish.id, { name, category: category ?? '', price, image });
       dishId = editDish.id;
-      toast.push({ type: 'success', title: 'Ítem actualizado', message: name });
+      (async () => {
+        try {
+          await apiFetch(`/dishes/${editDish.id}`, { method: 'PUT', body: JSON.stringify({ name, category, price, image }) });
+          toast.push({ type: 'success', title: 'Ítem actualizado', message: name });
+        } catch {
+          dishRepo.update(editDish.id, { name, category: category ?? '', price, image });
+          toast.push({ type: 'success', title: 'Ítem actualizado', message: `${name} (local)` });
+        } finally {
+          setRefresh((x) => x + 1);
+        }
+      })();
     } else {
+      // create locally first (synchronous) then try server create
       const created = dishRepo.create({ name, category, price, image });
       dishId = created.id;
-      toast.push({ type: 'success', title: 'Agregado al menú', message: name });
+      (async () => {
+        try {
+          await apiFetch('/dishes', { method: 'POST', body: JSON.stringify({ name, category, price, image }) });
+          toast.push({ type: 'success', title: 'Agregado al menú', message: name });
+        } catch {
+          toast.push({ type: 'success', title: 'Agregado al menú', message: `${name} (local)` });
+        } finally {
+          setRefresh((x) => x + 1);
+        }
+      })();
     }
 
     recipeRepo.upsert({ dishId, lines: parsed });

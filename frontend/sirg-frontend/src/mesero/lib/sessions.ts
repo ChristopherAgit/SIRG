@@ -1,4 +1,5 @@
 import { readJson, uid, writeJson } from '../../admin/lib/storage';
+import apiFetch from '../../lib/api';
 
 export type ServiceSession = {
   serviceId: string;
@@ -26,6 +27,8 @@ function normalizeSession(raw: Record<string, unknown>): ServiceSession | null {
 
 export const sessionRepo = {
   listOpen(): ServiceSession[] {
+    // try server first (synchronous fallback to local storage)
+    // Note: we cannot perform async here; callers should use local fallback which is updated by background sync in MeseroPage
     const all = readJson<Record<string, unknown>[]>(KEY, []);
     return all
       .map((r) => normalizeSession(r))
@@ -44,6 +47,11 @@ export const sessionRepo = {
       status: 'open',
     };
     writeJson(KEY, [row, ...all]);
+
+    // try persist to server (fire-and-forget)
+    try {
+      apiFetch('/mesero/sessions', { method: 'POST', body: JSON.stringify(row) }).catch(() => {});
+    } catch {}
     return row;
   },
 
@@ -64,6 +72,11 @@ export const sessionRepo = {
     if (idx < 0) return false;
     all[idx] = { ...all[idx], status: 'closed' };
     writeJson(KEY, all);
+
+    // try close on server
+    try {
+      apiFetch(`/mesero/sessions/${serviceId}/close`, { method: 'POST' }).catch(() => {});
+    } catch {}
     return true;
   },
 };
