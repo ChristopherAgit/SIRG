@@ -202,6 +202,7 @@ namespace SIRG.Api.Controllers
         }
 
         [HttpPost("confirm/{token}")]
+        [HttpGet("confirm/{token}")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -222,6 +223,7 @@ namespace SIRG.Api.Controllers
         }
 
         [HttpPost("cancel/{token}")]
+        [HttpGet("cancel/{token}")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

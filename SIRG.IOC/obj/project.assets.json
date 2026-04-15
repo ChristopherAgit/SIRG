@@ -4262,8 +4262,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-              "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+            "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+              "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
             },
             "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
               "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"

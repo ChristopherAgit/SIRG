@@ -4,14 +4,14 @@
     "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj": {}
   },
   "projects": {
-    "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+    "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectUniqueName": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
-        "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-        "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
+        "outputPath": "c:\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -92,14 +92,14 @@
         }
       }
     },
-    "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+    "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectUniqueName": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
-        "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-        "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
+        "outputPath": "c:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -187,11 +187,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -294,8 +294,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
               "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj": {
                 "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj"
@@ -373,11 +373,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -466,8 +466,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               }
             }
           }
