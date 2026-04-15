@@ -403,7 +403,7 @@ namespace SIRG.Application.Services
 <head>
     <meta charset='UTF-8'>
     <style>
-        body {{ font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }}
+        body {{ font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }}Q
         .container {{ max-width: 600px; margin: 20px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
         .header {{ text-align: center; border-bottom: 3px solid #22c55e; padding-bottom: 20px; margin-bottom: 20px; }}
         .header h1 {{ color: #22c55e; margin: 0; font-size: 28px; }}
@@ -420,7 +420,7 @@ namespace SIRG.Application.Services
         </div>
         
         <div class='content'>
-            <p>Estimado(a) <strong>{reservation.Customers.FirstName}</strong>,</p>
+            <p>Estimado(a) <strong>{reservation.Customers.FullName}</strong>,</p>
             
             <p>¡Excelente! Tu reserva ha sido <strong>confirmada exitosamente</strong>.</p>
             
@@ -532,7 +532,7 @@ namespace SIRG.Application.Services
         </div>
         
         <div class='content'>
-            <p>Estimado(a) <strong>{reservation.Customers.FirstName}</strong>,</p>
+            <p>Estimado(a) <strong>{reservation.Customers.FullName}</strong>,</p>
             
             <p>Te informamos que tu reserva ha sido <strong>cancelada exitosamente</strong>.</p>
             

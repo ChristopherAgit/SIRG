@@ -111,7 +111,7 @@ namespace SIRG.Api.Controllers
             // Enviar email de cancelación al cliente
             try
             {
-                var reservation = await _Service.GetEntityByIdAsync(id);
+                var reservation = await _Service.GetReservationWithDetailsById(id);
                 if (reservation != null)
                 {
                     var reservationEntity = new Reservations
@@ -123,8 +123,20 @@ namespace SIRG.Api.Controllers
                         ReservationTime = reservation.ReservationTime,
                         NumberOfPeople = reservation.NumberOfPeople,
                         CreatedAt = reservation.CreatedAt,
-                        Customers = new Customers { FirstName = reservation.CustomersDto?.FullName, Email = reservation.CustomersDto?.Email },
-                        RestaurantTables = new RestaurantTables { TableNumber = reservation.RestaurantTablesDto?.TableNumber ?? 0 }
+                        Customers = reservation.CustomersDto == null ? null : new Customers
+                        {
+                            CustomerID = reservation.CustomersDto.CustomerID ?? 0,
+                            FullName = reservation.CustomersDto.FullName,
+                            Email = reservation.CustomersDto.Email,
+                            CreatedAt = reservation.CustomersDto.CreatedAt
+                        },
+                        RestaurantTables = reservation.RestaurantTablesDto == null ? null : new RestaurantTables
+                        {
+                            TableID = reservation.RestaurantTablesDto.TableID,
+                            TableNumber = reservation.RestaurantTablesDto.TableNumber,
+                            Capacity = reservation.RestaurantTablesDto.Capacity,
+                            IsActive = reservation.RestaurantTablesDto.IsActive
+                        }
                     };
                     await _Service.SendCancellationEmailAsync(reservationEntity, "Cancelada por el restaurante");
                 }
@@ -150,7 +162,7 @@ namespace SIRG.Api.Controllers
             {
                 try
                 {
-                    var reservation = await _Service.GetEntityByIdAsync(id);
+                    var reservation = await _Service.GetReservationWithDetailsById(id);
                     if (reservation != null)
                     {
                         var reservationEntity = new Reservations
@@ -162,8 +174,20 @@ namespace SIRG.Api.Controllers
                             ReservationTime = reservation.ReservationTime,
                             NumberOfPeople = reservation.NumberOfPeople,
                             CreatedAt = reservation.CreatedAt,
-                            Customers = new Customers { FirstName = reservation.CustomersDto?.FullName, Email = reservation.CustomersDto?.Email },
-                            RestaurantTables = new RestaurantTables { TableNumber = reservation.RestaurantTablesDto?.TableNumber ?? 0 }
+                            Customers = reservation.CustomersDto == null ? null : new Customers
+                            {
+                                CustomerID = reservation.CustomersDto.CustomerID ?? 0,
+                                FullName = reservation.CustomersDto.FullName,
+                                Email = reservation.CustomersDto.Email,
+                                CreatedAt = reservation.CustomersDto.CreatedAt
+                            },
+                            RestaurantTables = reservation.RestaurantTablesDto == null ? null : new RestaurantTables
+                            {
+                                TableID = reservation.RestaurantTablesDto.TableID,
+                                TableNumber = reservation.RestaurantTablesDto.TableNumber,
+                                Capacity = reservation.RestaurantTablesDto.Capacity,
+                                IsActive = reservation.RestaurantTablesDto.IsActive
+                            }
                         };
                         await _Service.SendCancellationEmailAsync(reservationEntity, "Cancelada por el restaurante");
                     }

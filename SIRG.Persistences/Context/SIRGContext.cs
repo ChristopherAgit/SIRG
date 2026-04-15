@@ -26,5 +26,20 @@ namespace SIRG.Persistences.Context
         public DbSet<MeseroSessions> MeseroSessions { get; set; }
         public DbSet<SaleDetails> SaleDetails { get; set; }
         public DbSet<Sales> Sales { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Alinea las propiedades del modelo con las columnas existentes en la base de datos
+            // Algunas migraciones anteriores crearon columnas con nombres como "CustomersCustomerID"
+            // mientras que las clases de dominio usan la propiedad `CustomerID`. Mapear aquí evita
+            // discrepancias y errores "Invalid column name 'CustomerID'".
+            modelBuilder.Entity<Reservations>(entity =>
+            {
+                // Mapear la propiedad del FK al nombre de columna existente
+                entity.Property(r => r.CustomerID).HasColumnName("CustomersCustomerID");
+            });
+        }
     }
 }
