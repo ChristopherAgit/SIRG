@@ -4,20 +4,20 @@
     "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj": {}
   },
   "projects": {
-    "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+    "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
-        "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-        "outputPath": "c:\\SIRG\\SIRG.Application\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -31,10 +31,11 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -53,6 +54,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "AutoMapper": {
@@ -88,24 +90,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+    "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
-        "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-        "outputPath": "c:\\SIRG\\SIRG.Domain\\obj\\",
+        "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+        "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -119,6 +121,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -137,6 +140,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "imports": [
             "net461",
@@ -154,7 +158,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -164,14 +168,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
         "projectName": "SIRG.Persistences",
         "projectPath": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Persistences\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -185,13 +189,14 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {
-              "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-                "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+              "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
               },
-              "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-                "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+              "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+                "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
               }
             }
           }
@@ -210,6 +215,7 @@
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
@@ -247,7 +253,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

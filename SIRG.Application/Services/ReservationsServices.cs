@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SIRG.Application.Dtos.EntitiesDto;
 using SIRG.Application.Dtos.Emails;
 using SIRG.Application.Interfaces.Contracts;
@@ -17,16 +18,19 @@ namespace SIRG.Application.Services
         private readonly IRetaurantTableRepository _tableRepository;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
         public ReservationsServices(IReservationsRepository reservationRepository,
                                     IRetaurantTableRepository tableRepository,
                                     IEmailService emailService,
-                                    IMapper mapper) : base(reservationRepository, mapper)
+                                    IMapper mapper,
+                                    IConfiguration configuration) : base(reservationRepository, mapper)
         {
             _reservationRepository = reservationRepository;
             _tableRepository = tableRepository;
             _emailService = emailService;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<List<ReservationsDto>> GetAllReservationsAsync(
@@ -135,7 +139,16 @@ namespace SIRG.Application.Services
         {
             var dateFormatted = reservationDate.ToString("dd/MM/yyyy");
             var timeFormatted = reservationTime.ToString("HH:mm");
-            var baseUrl = "https://constantinopla-restaurante.com"; // Cambiar a la URL de producción
+
+            // Obtener base URL desde configuración (ApiBaseUrl). Si no está configurada,
+            // intentar usar FrontendUrl como respaldo, y finalmente usar la URL de producción.
+            var configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/');
+            if (string.IsNullOrEmpty(configuredBase))
+            {
+                configuredBase = _configuration?.GetValue<string>("FrontendUrl")?.TrimEnd('/') ?? "https://constantinopla-restaurante.com";
+            }
+
+            var baseUrl = configuredBase;
             var confirmUrl = $"{baseUrl}/api/v1/reservations/confirm/{confirmationToken}";
             var cancelUrl = $"{baseUrl}/api/v1/reservations/cancel/{confirmationToken}";
 

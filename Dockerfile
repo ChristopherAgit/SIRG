@@ -19,6 +19,7 @@ COPY --from=build /app/publish ./
 # Copy frontend build into wwwroot so ASP.NET can serve it
 COPY --from=build-frontend /src/frontend/sirg-frontend/dist ./wwwroot
 
-ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
-ENTRYPOINT ["dotnet", "SIRG.Api.dll"]
+# Use the PORT env var provided by Render at runtime. The shell form allows
+# expanding ${PORT} at container start so Kestrel listens on the correct port.
+ENTRYPOINT ["sh", "-c", "dotnet SIRG.Api.dll --urls http://*:${PORT:-80}"]
