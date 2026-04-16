@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "r4nuxB8doUg=",
+  "dgSpecHash": "FvSRdm9U454=",
   "success": true,
   "projectFilePath": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
   "expectedPackageFiles": [
@@ -70,6 +70,8 @@
     "C:\\Users\\Novosit\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\mimekit\\4.15.1\\mimekit.4.15.1.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Novosit\\.nuget\\packages\\npgsql\\9.0.1\\npgsql.9.0.1.nupkg.sha512",
+    "C:\\Users\\Novosit\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\9.0.1\\npgsql.entityframeworkcore.postgresql.9.0.1.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\7.1.0\\swashbuckle.aspnetcore.annotations.7.1.0.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\7.1.0\\swashbuckle.aspnetcore.swagger.7.1.0.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\7.1.0\\swashbuckle.aspnetcore.swaggergen.7.1.0.nupkg.sha512",
