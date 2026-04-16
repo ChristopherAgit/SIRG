@@ -209,7 +209,7 @@ namespace SIRG.IOC.Dependencies
                    {
 
                        opt.EnableSensitiveDataLogging();
-                       opt.UseSqlServer(connectionString,
+                       opt.UseNpgsql(connectionString,
                        m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
                    },
                    contextLifetime: ServiceLifetime.Scoped,
