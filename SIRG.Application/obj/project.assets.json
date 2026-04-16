@@ -1233,11 +1233,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+      "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
       "projectName": "SIRG.Application",
-      "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+      "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
       "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-      "outputPath": "c:\\SIRG\\SIRG.Application\\obj\\",
+      "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1259,8 +1259,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-              "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+            "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+              "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
             }
           }
         }

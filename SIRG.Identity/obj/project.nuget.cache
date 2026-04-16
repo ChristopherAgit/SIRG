@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+cc3oHAaYF0=",
+  "dgSpecHash": "WfsZfjve7G4=",
   "success": true,
-  "projectFilePath": "c:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
+  "projectFilePath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Novosit\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",

@@ -61,8 +61,10 @@ git push -u origin main
 7) Frontend
    - El `Dockerfile` construye el frontend y lo copia dentro de `wwwroot` del backend. El frontend usa rutas relativas por defecto (`/api/v1`) por lo que no necesitas cambiar `VITE_API_BASE` para despliegue cuando sirves todo desde el mismo dominio.
 
-8) Opcional: `render.yaml`
-   - Puedes usar `render.yaml` para definir el servicio como infra-as-code. Puedo añadir un `render.yaml` de ejemplo si quieres.
+8) `render.yaml` (opcional, incluido)
+   - El repositorio incluye `render.yaml` que define un único servicio Docker (usa el `Dockerfile` en la raíz).
+   - No pongas secretos sensibles en el archivo: añade credenciales/secrets desde el Dashboard de Render.
+   - Si prefieres desplegar frontend y backend por separado, hay instrucciones en la sección "Separando Frontend y Backend".
 
 ---
 

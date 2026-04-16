@@ -164,7 +164,8 @@ namespace SIRG.Application.Services
             var configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/');
             if (string.IsNullOrEmpty(configuredBase))
             {
-                configuredBase = _configuration?.GetValue<string>("FrontendUrl")?.TrimEnd('/') ?? "https://constantinopla-restaurante.com";
+                // Prefer FrontendUrl if provided; otherwise fallback to the production domain.
+                configuredBase = _configuration?.GetValue<string>("FrontendUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
             }
 
             var baseUrl = configuredBase;
