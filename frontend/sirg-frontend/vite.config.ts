@@ -5,7 +5,10 @@ import react from '@vitejs/plugin-react'
 export default ({ mode }: { mode: string }) => {
   // load env variables to read VITE_API_BASE
   const env = loadEnv(mode, process.cwd(), '');
-  const backend = env.VITE_API_BASE || 'https://localhost:7278';
+  // If VITE_API_BASE is not provided at build time, default to empty so
+  // the frontend uses relative API paths (`/api/v1`) instead of embedding
+  // a localhost URL into production builds.
+  const backend = env.VITE_API_BASE || '';
 
   return defineConfig({
     plugins: [react()],
