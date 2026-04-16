@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, Users, MapPin, Mail, Phone, Eye, CheckCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, Users, MapPin, Eye, CheckCircle, AlertCircle } from 'lucide-react';
 import '../styles/reservations.css';
 
 interface ReservationDetail {
