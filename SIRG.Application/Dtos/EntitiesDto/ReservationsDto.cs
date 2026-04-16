@@ -12,7 +12,7 @@
         public string? ConfirmationToken { get; set; }
         public bool IsConfirmed { get; set; } = false;
         public DateTime? ConfirmedAt { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         //Navigation properties (all optional for flexibility)
         public RestaurantTablesDto? RestaurantTablesDto { get; set; }

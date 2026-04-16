@@ -8,7 +8,7 @@ namespace SIRG.Application.Dtos.EntitiesDto
         public required int IngredientID { get; set; }
         public string? MovementType { get; set; }
         public required decimal Quantity { get; set; }
-        public DateTime MovementDate { get; set; } = DateTime.Now;
+        public DateTime MovementDate { get; set; } = DateTime.UtcNow;
         public string? Reference { get; set; } = string.Empty;
 
         //Navigation property

@@ -80,7 +80,7 @@ namespace SIRG.Application.Services
             if (conflict)
                 throw new Exception("Ya existe una reserva activa para esa mesa.");
 
-            dto.CreatedAt = DateTime.Now;
+            dto.CreatedAt = DateTime.UtcNow;
             // Generar token único para confirmación
             dto.ConfirmationToken = Guid.NewGuid().ToString();
 
@@ -102,7 +102,9 @@ namespace SIRG.Application.Services
                     FullName = dto.CustomersDto.FullName,
                     Email = dto.CustomersDto.Email,
                     Phone = dto.CustomersDto.Phone,
-                    CreatedAt = dto.CustomersDto.CreatedAt ?? DateTime.Now
+                    CreatedAt = dto.CustomersDto.CreatedAt.HasValue
+                        ? DateTime.SpecifyKind(dto.CustomersDto.CreatedAt.Value, DateTimeKind.Utc)
+                        : DateTime.UtcNow
                 };
             }
 
