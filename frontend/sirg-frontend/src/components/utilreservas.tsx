@@ -20,10 +20,11 @@ export const generarHorasDisponibles = (fecha: Date): string[] => {
   let actual = new Date(apertura);
 
   while (actual < cierre) {
-    const diff = (actual.getTime() - ahora.getTime()) / (1000 * 60 * 60);
+    // calcular diferencia en minutos para evitar problemas de redondeo
+    const diffMinutes = (actual.getTime() - ahora.getTime()) / (1000 * 60);
 
-    // ⛔ mínimo 2 horas antes
-    if (diff >= 2) {
+    // ⛔ mínimo 2 horas (120 minutos)
+    if (diffMinutes >= 120) {
       const hh = actual.getHours().toString().padStart(2, "0");
       const mm = actual.getMinutes() === 30 ? "30" : "00";
 

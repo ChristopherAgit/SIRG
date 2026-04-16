@@ -22,7 +22,8 @@ interface Table {
   isActive: boolean;
 }
 
-const today = new Date().toISOString().split("T")[0];
+const nowDate = new Date();
+const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate()).toISOString().split("T")[0];
 
 const Reservas = () => {
   const navega = useNavigate();
@@ -69,7 +70,9 @@ const Reservas = () => {
 
     // Cuando cambia la fecha: cargar horas disponibles
     if (name === "fecha") {
-      const fechaObj = new Date(value);
+      // Parse date string YYYY-MM-DD reliably as local date (avoid timezone parsing issues)
+      const parts = value.split("-").map((p) => Number(p));
+      const fechaObj = new Date(parts[0], parts[1] - 1, parts[2]);
       const horas = generarHorasDisponibles(fechaObj);
       setHorasDisponibles(horas);
       setError("");

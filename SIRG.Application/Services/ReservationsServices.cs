@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -59,6 +60,28 @@ namespace SIRG.Application.Services
 
         public async Task<ReservationsDto?> SaveReservationAsync(ReservationsDto dto)
         {
+            // Validación: permitir reservas el mismo día solo si se realizan
+            // con al menos 2 horas de anticipación respecto al tiempo del servidor.
+            try
+            {
+                var reservationDateTime = dto.ReservationDate.ToDateTime(dto.ReservationTime);
+                // Tratar la fecha/hora como hora local del servidor para la comparación
+                reservationDateTime = DateTime.SpecifyKind(reservationDateTime, DateTimeKind.Local);
+                var nowLocal = DateTime.Now;
+
+                if (reservationDateTime <= nowLocal)
+                    throw new Exception("La fecha/hora de la reserva debe ser en el futuro.");
+
+                var diff = reservationDateTime - nowLocal;
+                if (diff < TimeSpan.FromHours(2))
+                    throw new Exception("Debe reservar con al menos 2 horas de anticipación.");
+            }
+            catch (Exception ex) when (!(ex is NullReferenceException))
+            {
+                // Re-lanzar excepciones de validación para que el controlador las devuelva al usuario
+                throw;
+            }
+
             var table = await _tableRepository.GetEntityByIdAsync(dto.TableID);
 
             if (table == null)
