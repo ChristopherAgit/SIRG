@@ -89,6 +89,23 @@ namespace SIRG.Application.Services
 
             var entity = _mapper.Map<Reservations>(dto);
 
+            // Si el cliente fue provisto en el DTO, crear la entidad Customers
+            // y asociarla a la reserva para evitar violaciones de FK si la columna
+            // espera un valor o para persistir la información del cliente.
+            if (dto.CustomersDto != null)
+            {
+                entity.Customers = new Customers
+                {
+                    // CustomerID is declared as 'required' in the domain model; set to 0
+                    // to satisfy the compiler — EF will treat this as a new entity.
+                    CustomerID = 0,
+                    FullName = dto.CustomersDto.FullName,
+                    Email = dto.CustomersDto.Email,
+                    Phone = dto.CustomersDto.Phone,
+                    CreatedAt = dto.CustomersDto.CreatedAt ?? DateTime.Now
+                };
+            }
+
             var saved = await _reservationRepository.SaveEntityAsync(entity);
 
             var resultDto = _mapper.Map<ReservationsDto>(saved);

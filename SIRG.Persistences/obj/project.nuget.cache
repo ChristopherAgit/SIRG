@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BtkD3N1fW1o=",
+  "dgSpecHash": "ZokpuIbH+m0=",
   "success": true,
-  "projectFilePath": "C:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
+  "projectFilePath": "c:\\SIRG\\SIRG.Persistences\\SIRG.Persistences.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Novosit\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
