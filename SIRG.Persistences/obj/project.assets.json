@@ -4922,11 +4922,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
-              "projectPath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
+            "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj": {
+              "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj"
             },
-            "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
-              "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
+            "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+              "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj"
             }
           }
         }

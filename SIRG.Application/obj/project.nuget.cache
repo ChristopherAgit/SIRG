@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NviwOTRBe3g=",
+  "dgSpecHash": "lpb95dRm05g=",
   "success": true,
-  "projectFilePath": "c:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
+  "projectFilePath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Novosit\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\Novosit\\.nuget\\packages\\microsoft.aspnetcore.http\\2.3.9\\microsoft.aspnetcore.http.2.3.9.nupkg.sha512",
