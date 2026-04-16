@@ -64,6 +64,39 @@ git push -u origin main
 8) Opcional: `render.yaml`
    - Puedes usar `render.yaml` para definir el servicio como infra-as-code. Puedo añadir un `render.yaml` de ejemplo si quieres.
 
+---
+
+Separando Frontend y Backend (recomendado)
+-----------------------------------------
+
+Para optimizar y escalar por separado, es recomendable desplegar el frontend como "Static Site" y el backend como "Web Service (Docker)". Resumen rápido:
+
+1) Frontend (Static Site)
+   - Tipo: Static Site en Render
+   - Build Command: `cd frontend/sirg-frontend && npm ci && npm run build`
+   - Publish Directory: `frontend/sirg-frontend/dist`
+   - Env var (build time): `VITE_API_BASE` = `https://<BACKEND-URL>` (por ejemplo `https://api.constantinopla.onrender.com`)
+
+2) Backend (Web Service)
+   - Tipo: Web Service → Environment: `Docker`
+   - Dockerfile path: `Dockerfile.backend` (creado en la raíz del repo)
+   - Env vars (Render dashboard / Secrets):
+     - `ASPNETCORE_ENVIRONMENT` = `Production`
+     - `ConnectionStrings__ConnectionDb` = `<cadena PostgreSQL sin comillas>`
+     - `FrontendUrl` = `https://<FRONTEND-URL>` (para CORS)
+     - `MailSettings__*` (los mismos que antes)
+
+3) Flujo de despliegue
+   - Crea primero el servicio backend (obtén la URL pública, p.ej. `https://api.constantinopla.onrender.com`).
+   - Crea el servicio frontend y configura `VITE_API_BASE` con la URL del backend.
+   - Redeploy y prueba: `GET /swagger` en el backend y luego la UI del frontend.
+
+Notas importantes
+ - Asegúrate de quitar las comillas envolventes si pegas la cadena de conexión en la UI de Render (esto fue la causa del error 134 que ya resolvimos).
+ - Configura `FrontendUrl` en el servicio backend para permitir CORS sólo desde tu frontend.
+ - Puedes usar `render.yaml` (ejemplo incluido en la raíz) para definir ambos servicios con infra-as-code.
+
+
 Soporte adicional
 - Si quieres que migre la aplicación a PostgreSQL (para usar la base de datos administrada de Render), puedo hacerlo, pero implica cambios en `SIRG.Persistences`, `SIRG.Identity` y recrear migraciones. ¿Prefieres usar Azure SQL (mantener SQL Server) o migrar a Postgres?
 

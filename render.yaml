@@ -1,0 +1,24 @@
+# Example render.yaml for deploying frontend (static) + backend (docker)
+# Replace branch, names and sensitive values in the Render dashboard.
+version: 1
+services:
+  - type: web
+    name: sirg-backend
+    env: docker
+    dockerfilePath: Dockerfile.backend
+    branch: main
+    plan: free
+    # Do NOT store sensitive secrets here. Use the Render dashboard Secrets/Environment.
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+  - type: static
+    name: sirg-frontend
+    branch: main
+    buildCommand: cd frontend/sirg-frontend && npm ci && npm run build
+    publishPath: frontend/sirg-frontend/dist
+    plan: free
+    envVars:
+      - key: VITE_API_BASE
+        value: https://<BACKEND-URL>

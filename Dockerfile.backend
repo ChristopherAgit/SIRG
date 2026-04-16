@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+COPY . .
+WORKDIR /src/SIRG.Api
+
+# Restore and publish the API project only (faster and smaller image)
+RUN dotnet restore SIRG.Api.csproj
+RUN dotnet publish SIRG.Api.csproj -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish ./
+
+EXPOSE 80
+# Use the PORT env var Render provides; shell form expands it.
+ENTRYPOINT ["sh", "-c", "dotnet SIRG.Api.dll --urls http://*:${PORT:-80}"]
