@@ -4230,7 +4230,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\wfeli\\.nuget\\packages\\": {},
+    "C:\\Users\\Novosit\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -4239,14 +4239,14 @@
       "projectUniqueName": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
       "projectName": "SIRG.IOC",
       "projectPath": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
-      "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
       "outputPath": "C:\\SIRG\\SIRG.IOC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4308,7 +4308,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
