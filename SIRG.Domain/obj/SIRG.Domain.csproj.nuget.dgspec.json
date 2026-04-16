@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {}
+    "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {}
   },
   "projects": {
-    "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
+    "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectUniqueName": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
-        "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
+        "projectPath": "c:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
-        "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
+        "outputPath": "c:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

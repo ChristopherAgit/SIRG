@@ -18,11 +18,18 @@ namespace SIRG.IOC.Dependencies
             }
             else
             {
-                var connectionString = config.GetConnectionString("ConnectionDb");
+                // Sanitize connection string coming from environment variables
+                var connectionString = config.GetConnectionString("ConnectionDb")?.Trim();
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    // Remove accidental surrounding quotes that some env panels add
+                    connectionString = connectionString.Trim().Trim('"').Trim('\'');
+                }
+
                 services.AddDbContext<SIRGContext>(opt =>
-                opt.UseNpgsql(connectionString,
-                m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName)), 
-                ServiceLifetime.Scoped);
+                    opt.UseNpgsql(connectionString,
+                        m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName)),
+                    ServiceLifetime.Scoped);
             }
 
             #endregion

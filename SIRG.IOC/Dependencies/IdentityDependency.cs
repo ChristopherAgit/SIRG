@@ -202,13 +202,23 @@ namespace SIRG.IOC.Dependencies
             }
             else
             {
-                var connectionString = config.GetConnectionString("ConnectionDb");
+                // Sanitize connection string coming from environment variables
+                var connectionString = config.GetConnectionString("ConnectionDb")?.Trim();
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    connectionString = connectionString.Trim().Trim('"').Trim('\'');
+                }
+
                 services.AddDbContext<IdentityContext>(
 
                    (servicesProvider, opt) =>
                    {
+                       // Enable sensitive data logging only when explicitly enabled in config
+                       if (config.GetValue<bool>("EnableSensitiveDataLogging"))
+                       {
+                           opt.EnableSensitiveDataLogging();
+                       }
 
-                       opt.EnableSensitiveDataLogging();
                        opt.UseNpgsql(connectionString,
                        m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
                    },

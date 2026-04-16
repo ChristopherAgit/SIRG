@@ -73,7 +73,12 @@ using (var scope = app.Services.CreateScope())
         var db = scope.ServiceProvider.GetService<SIRG.Persistences.Context.SIRGContext>();
         if (db != null)
         {
-            db.Database.Migrate();
+            // Only apply migrations when using a relational database provider
+            // (InMemory provider does not support migrations and will throw).
+            if (db.Database.IsRelational())
+            {
+                db.Database.Migrate();
+            }
         }
     }
     catch (Exception ex)
