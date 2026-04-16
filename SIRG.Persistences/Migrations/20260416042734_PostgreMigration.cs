@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace SIRG.Persistences.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class PostgreMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +16,10 @@ namespace SIRG.Persistences.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CategoryID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,12 +30,12 @@ namespace SIRG.Persistences.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CustomerID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,11 +46,11 @@ namespace SIRG.Persistences.Migrations
                 name: "Ingredients",
                 columns: table => new
                 {
-                    IngredientId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IngredientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MinimunStock = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    IngredientId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IngredientName = table.Column<string>(type: "text", nullable: false),
+                    Unit = table.Column<string>(type: "text", nullable: false),
+                    MinimunStock = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,12 +58,27 @@ namespace SIRG.Persistences.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MeseroSessions",
+                columns: table => new
+                {
+                    ServiceId = table.Column<string>(type: "text", nullable: false),
+                    TableId = table.Column<string>(type: "text", nullable: true),
+                    TableNumber = table.Column<int>(type: "integer", nullable: false),
+                    OpenedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MeseroSessions", x => x.ServiceId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderStatus",
                 columns: table => new
                 {
-                    StatusID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    StatusID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StatusName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -73,9 +89,9 @@ namespace SIRG.Persistences.Migrations
                 name: "ReservationStatus",
                 columns: table => new
                 {
-                    StatusID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    StatusID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StatusName = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,11 +102,11 @@ namespace SIRG.Persistences.Migrations
                 name: "RestaurantTables",
                 columns: table => new
                 {
-                    TableID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TableNumber = table.Column<int>(type: "int", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    TableID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TableNumber = table.Column<int>(type: "integer", nullable: false),
+                    Capacity = table.Column<int>(type: "integer", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,11 +117,11 @@ namespace SIRG.Persistences.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    SaleID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    SaleDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    SaleID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderID = table.Column<int>(type: "integer", nullable: false),
+                    SaleDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,13 +132,13 @@ namespace SIRG.Persistences.Migrations
                 name: "Dishes",
                 columns: table => new
                 {
-                    DishID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DishName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryID1 = table.Column<int>(type: "int", nullable: true)
+                    DishID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryID = table.Column<string>(type: "text", nullable: false),
+                    DishName = table.Column<string>(type: "text", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    CategoryID1 = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,11 +154,11 @@ namespace SIRG.Persistences.Migrations
                 name: "Inventory",
                 columns: table => new
                 {
-                    InventoryID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IngredientID = table.Column<int>(type: "int", nullable: false),
-                    CurrentStock = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    InventoryID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IngredientID = table.Column<int>(type: "integer", nullable: false),
+                    CurrentStock = table.Column<decimal>(type: "numeric", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -159,13 +175,13 @@ namespace SIRG.Persistences.Migrations
                 name: "InventoryMovements",
                 columns: table => new
                 {
-                    MovementID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IngredientID = table.Column<int>(type: "int", nullable: false),
-                    MovementType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MovementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Reference = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    MovementID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IngredientID = table.Column<int>(type: "integer", nullable: false),
+                    MovementType = table.Column<string>(type: "text", nullable: true),
+                    Quantity = table.Column<decimal>(type: "numeric", nullable: false),
+                    MovementDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Reference = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,24 +198,28 @@ namespace SIRG.Persistences.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    ReservationID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TableID = table.Column<int>(type: "int", nullable: false),
-                    StatusID = table.Column<int>(type: "int", nullable: false),
+                    ReservationID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TableID = table.Column<int>(type: "integer", nullable: false),
+                    StatusID = table.Column<int>(type: "integer", nullable: false),
                     ReservationDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ReservationTime = table.Column<TimeOnly>(type: "time", nullable: false),
-                    NumberOfPeople = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RestaurantTablesTableID = table.Column<int>(type: "int", nullable: true),
-                    ReservationStatusStatusID = table.Column<int>(type: "int", nullable: true),
-                    CustomersCustomerID = table.Column<int>(type: "int", nullable: true)
+                    ReservationTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    NumberOfPeople = table.Column<int>(type: "integer", nullable: false),
+                    CustomersCustomerID = table.Column<int>(type: "integer", nullable: true),
+                    ConfirmationToken = table.Column<string>(type: "text", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    ConfirmedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    RestaurantTablesTableID = table.Column<int>(type: "integer", nullable: true),
+                    ReservationStatusStatusID = table.Column<int>(type: "integer", nullable: true),
+                    CustomersCustomerID1 = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.ReservationID);
                     table.ForeignKey(
-                        name: "FK_Reservations_Customers_CustomersCustomerID",
-                        column: x => x.CustomersCustomerID,
+                        name: "FK_Reservations_Customers_CustomersCustomerID1",
+                        column: x => x.CustomersCustomerID1,
                         principalTable: "Customers",
                         principalColumn: "CustomerID");
                     table.ForeignKey(
@@ -218,12 +238,12 @@ namespace SIRG.Persistences.Migrations
                 name: "DishIngredients",
                 columns: table => new
                 {
-                    DishIngredientsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DishID = table.Column<int>(type: "int", nullable: false),
-                    IngredientID = table.Column<int>(type: "int", nullable: false),
-                    QuantityRequired = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    IngredientsIngredientId = table.Column<int>(type: "int", nullable: true)
+                    DishIngredientsId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DishID = table.Column<int>(type: "integer", nullable: false),
+                    IngredientID = table.Column<int>(type: "integer", nullable: false),
+                    QuantityRequired = table.Column<decimal>(type: "numeric", nullable: true),
+                    IngredientsIngredientId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -245,14 +265,14 @@ namespace SIRG.Persistences.Migrations
                 name: "SaleDetails",
                 columns: table => new
                 {
-                    SaleDetailsID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SaleID = table.Column<int>(type: "int", nullable: false),
-                    DishID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SalesSaleID = table.Column<int>(type: "int", nullable: true),
-                    DishesDishID = table.Column<int>(type: "int", nullable: true)
+                    SaleDetailsID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SaleID = table.Column<int>(type: "integer", nullable: false),
+                    DishID = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    SalesSaleID = table.Column<int>(type: "integer", nullable: true),
+                    DishesDishID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,15 +293,15 @@ namespace SIRG.Persistences.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    OrderID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReservationID = table.Column<int>(type: "int", nullable: false),
-                    WaiterID = table.Column<int>(type: "int", nullable: false),
-                    StatusID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReservationsReservationID = table.Column<int>(type: "int", nullable: true),
-                    OrderStatusStatusID = table.Column<int>(type: "int", nullable: true)
+                    OrderID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReservationID = table.Column<int>(type: "integer", nullable: false),
+                    WaiterID = table.Column<int>(type: "integer", nullable: false),
+                    StatusID = table.Column<int>(type: "integer", nullable: false),
+                    UserID = table.Column<int>(type: "integer", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReservationsReservationID = table.Column<int>(type: "integer", nullable: true),
+                    OrderStatusStatusID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,14 +322,14 @@ namespace SIRG.Persistences.Migrations
                 name: "OrderDetails",
                 columns: table => new
                 {
-                    OrderDetailsID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderID = table.Column<int>(type: "int", nullable: false),
-                    DishID = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OrdersOrderID = table.Column<int>(type: "int", nullable: true),
-                    DishesDishID = table.Column<int>(type: "int", nullable: true)
+                    OrderDetailsID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderID = table.Column<int>(type: "integer", nullable: false),
+                    DishID = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    OrdersOrderID = table.Column<int>(type: "integer", nullable: true),
+                    DishesDishID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -372,9 +392,9 @@ namespace SIRG.Persistences.Migrations
                 column: "ReservationsReservationID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_CustomersCustomerID",
+                name: "IX_Reservations_CustomersCustomerID1",
                 table: "Reservations",
-                column: "CustomersCustomerID");
+                column: "CustomersCustomerID1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_ReservationStatusStatusID",
@@ -408,6 +428,9 @@ namespace SIRG.Persistences.Migrations
 
             migrationBuilder.DropTable(
                 name: "InventoryMovements");
+
+            migrationBuilder.DropTable(
+                name: "MeseroSessions");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

@@ -20,7 +20,7 @@ namespace SIRG.IOC.Dependencies
             {
                 var connectionString = config.GetConnectionString("ConnectionDb");
                 services.AddDbContext<SIRGContext>(opt =>
-                opt.UseSqlServer(connectionString,
+                opt.UseNpgsql(connectionString,
                 m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName)), 
                 ServiceLifetime.Scoped);
             }
