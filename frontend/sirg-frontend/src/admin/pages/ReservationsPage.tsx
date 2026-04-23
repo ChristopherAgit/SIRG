@@ -121,6 +121,29 @@ export function ReservationsPage() {
     }
   };
 
+  // Abrir detalles (trae la información completa desde el API)
+  const openDetails = async (reservationID: number) => {
+    try {
+      setLoading(true);
+      const resp = await fetch(`/api/v1/reservations/${reservationID}/details`);
+      if (!resp.ok) {
+        console.error('Error al cargar detalles de la reservación');
+        setSelectedReservation(null);
+        setShowDetailModal(true);
+        return;
+      }
+      const data = await resp.json();
+      setSelectedReservation(data);
+      setShowDetailModal(true);
+    } catch (err) {
+      console.error('Error al cargar detalles:', err);
+      setSelectedReservation(null);
+      setShowDetailModal(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusBadge = (statusID: number) => {
     const status = STATUS_MAP[statusID] || STATUS_MAP[1];
     return (
@@ -263,10 +286,7 @@ export function ReservationsPage() {
                   <td>
                     <button
                       className="adminButton small"
-                      onClick={() => {
-                        setSelectedReservation(res);
-                        setShowDetailModal(true);
-                      }}
+                      onClick={() => openDetails(res.reservationID)}
                     >
                       <Eye size={14} /> Ver
                     </button>

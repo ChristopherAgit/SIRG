@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../admin/styles/admin.css';
 import '../../styles/staff-landing.css';
 import { dishRepo, tableRepo } from '../../admin/lib/repo';
+import apiFetch from '../../lib/api';
 import { Modal } from '../../admin/components/Modal';
 import { useToast } from '../../admin/components/toast/ToastContext';
 import type { RestaurantTable } from '../../admin/models';
@@ -159,6 +160,37 @@ export function MeseroPage() {
       openMenuForSession(s);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function findReservationById() {
+    const raw = resForm.serviceId.trim();
+    if (!raw) {
+      toast.push({ type: 'error', title: 'ID vacío', message: 'Escribe el ID de la reserva.' });
+      return;
+    }
+
+    // intentar parsear como número (reservationID)
+    const id = Number(raw);
+    if (Number.isNaN(id)) {
+      toast.push({ type: 'error', title: 'ID inválido', message: 'El ID debe ser un número de reserva.' });
+      return;
+    }
+
+    try {
+      const data = await apiFetch(`/reservations/${id}/details`);
+      if (!data) {
+        toast.push({ type: 'error', title: 'No encontrado', message: 'No se encontró la reserva.' });
+        return;
+      }
+
+      // Prefill table and service id (usar reservationID como service id para enlazar pedidos)
+      const tableId = data.restaurantTablesDto?.tableID ?? data.tableID ?? '';
+      setResForm((f) => ({ ...f, tableId }));
+      setResForm((f) => ({ ...f, serviceId: String(data.reservationID ?? id) }));
+      toast.push({ type: 'success', title: 'Reserva encontrada', message: `Mesa ${data.restaurantTablesDto?.tableNumber ?? data.tableID}` });
+    } catch (err) {
+      toast.push({ type: 'error', title: 'Error', message: 'No se pudo buscar la reserva.' });
     }
   }
 
@@ -383,7 +415,7 @@ export function MeseroPage() {
           <div className="adminFormGrid" style={{ margin: 0 }}>
             <div className="col12">
               <label className="adminLabel">Mesa</label>
-              <select className="adminSelect" value={walkInTableId} onChange={(e) => setWalkInTableId(e.target.value)}>
+              <select className="adminSelect" value={walkInTableId || (tables[0]?.id ?? '')} onChange={(e) => setWalkInTableId(e.target.value)}>
                 {tables.map((t) => (
                   <option key={t.id} value={t.id}>
                     Mesa {t.number} ({t.seats} sillas)
@@ -413,16 +445,21 @@ export function MeseroPage() {
           <div className="adminFormGrid" style={{ margin: 0 }}>
             <div className="col12">
               <label className="adminLabel">ID de servicio (desde reservas)</label>
-              <input
-                className="adminInput"
-                value={resForm.serviceId}
-                onChange={(e) => setResForm((f) => ({ ...f, serviceId: e.target.value }))}
-                placeholder="Mismo código que usará la API / base de datos"
-              />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <input
+                  className="adminInput"
+                  value={resForm.serviceId}
+                  onChange={(e) => setResForm((f) => ({ ...f, serviceId: e.target.value }))}
+                  placeholder="Pega el ID de reserva (número) y presiona Buscar"
+                />
+                <button className="adminButton" type="button" onClick={() => void findReservationById()}>
+                  Buscar
+                </button>
+              </div>
             </div>
             <div className="col12">
               <label className="adminLabel">Mesa</label>
-              <select className="adminSelect" value={resForm.tableId} onChange={(e) => setResForm((f) => ({ ...f, tableId: e.target.value }))}>
+              <select className="adminSelect" value={resForm.tableId || (tables[0]?.id ?? '')} onChange={(e) => setResForm((f) => ({ ...f, tableId: e.target.value }))}>
                 {tables.map((t) => (
                   <option key={t.id} value={t.id}>
                     Mesa {t.number} ({t.seats} sillas)

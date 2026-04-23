@@ -176,6 +176,7 @@ namespace SIRG.IOC.Dependencies
             await DefaultClientUser.SeedAsync(userManager);
             await DefaultWaiterUser.SeedAsync(userManager);
             await DefaultReceptionistUser.SeedAsync(userManager);
+            await SIRG.Identity.Seeds.DefaultCookUser.SeedAsync(userManager);
             // seed sample data in persistence DB
             try
             {

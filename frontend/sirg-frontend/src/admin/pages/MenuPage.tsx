@@ -171,6 +171,8 @@ export function MenuPage() {
       (async () => {
         try {
           await apiFetch(`/dishes/${editDish.id}`, { method: 'PUT', body: JSON.stringify({ name, category, price, image }) });
+          // actualizar repo local para reflejar cambios inmediatamente
+          dishRepo.update(editDish.id, { name, category: category ?? '', price, image });
           toast.push({ type: 'success', title: 'Ítem actualizado', message: name });
         } catch {
           dishRepo.update(editDish.id, { name, category: category ?? '', price, image });

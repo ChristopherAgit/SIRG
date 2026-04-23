@@ -61,6 +61,10 @@ export function TablesPage() {
       toast.push({ type: 'error', title: 'Sillas inválidas', message: 'La cantidad de sillas debe ser mayor que 0.' });
       return;
     }
+    if (seats > 8) {
+      toast.push({ type: 'error', title: 'Sillas inválidas', message: 'La cantidad máxima de sillas por mesa es 8.' });
+      return;
+    }
 
     const exists = tableRepo.list().some((t) => t.number === number && t.id !== editing?.id);
     if (exists) {
@@ -149,7 +153,7 @@ export function TablesPage() {
           </div>
           <div className="col6">
             <label className="adminLabel">Sillas</label>
-            <input className="adminInput" value={form.seats} onChange={(e) => setForm((f) => ({ ...f, seats: e.target.value }))} placeholder="Ej: 4" />
+            <input type="number" min={1} max={8} className="adminInput" value={form.seats} onChange={(e) => setForm((f) => ({ ...f, seats: e.target.value }))} placeholder="Ej: 4" />
           </div>
         </div>
       </Modal>

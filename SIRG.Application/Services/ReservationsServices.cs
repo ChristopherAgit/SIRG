@@ -103,6 +103,30 @@ namespace SIRG.Application.Services
             if (conflict)
                 throw new Exception("Ya existe una reserva activa para esa mesa.");
 
+            // Evitar que la misma persona (por teléfono o email) haga otra reserva
+            // en la misma fecha y hora.
+            if (dto.CustomersDto != null)
+            {
+                var phone = dto.CustomersDto.Phone?.Trim();
+                var email = dto.CustomersDto.Email?.Trim().ToLower();
+
+                if (!string.IsNullOrEmpty(phone) || !string.IsNullOrEmpty(email))
+                {
+                    bool samePerson = await _reservationRepository.GetAllQuerry()
+                        .Include(r => r.Customers)
+                        .AnyAsync(r =>
+                            r.ReservationDate == dto.ReservationDate &&
+                            r.ReservationTime == dto.ReservationTime &&
+                            (r.StatusID == 1 || r.StatusID == 2) &&
+                            ( (phone != null && r.Customers != null && r.Customers.Phone == phone) ||
+                              (email != null && r.Customers != null && r.Customers.Email != null && r.Customers.Email.ToLower() == email) )
+                        );
+
+                    if (samePerson)
+                        throw new Exception("Ya existe una reserva para esta persona en la misma fecha y hora.");
+                }
+            }
+
             dto.CreatedAt = DateTime.UtcNow;
             // Generar token único para confirmación
             dto.ConfirmationToken = Guid.NewGuid().ToString();
@@ -140,12 +164,16 @@ namespace SIRG.Application.Services
             {
                 try
                 {
+                    // Preferir el número de mesa recuperado desde la entidad guardada si está disponible
+                    var tableNumberForEmail = saved.RestaurantTables?.TableNumber ?? table.TableNumber;
+
                     var emailBody = GenerateReservationConfirmationEmail(
                         customerName: dto.CustomersDto.FullName,
                         reservationDate: dto.ReservationDate,
                         reservationTime: dto.ReservationTime,
                         numberOfPeople: dto.NumberOfPeople,
-                        tableNumber: table.TableNumber,
+                        reservationId: saved.ReservationID,
+                        tableNumber: tableNumberForEmail,
                         confirmationToken: dto.ConfirmationToken
                     );
 
@@ -176,24 +204,25 @@ namespace SIRG.Application.Services
             DateOnly reservationDate,
             TimeOnly reservationTime,
             int numberOfPeople,
+            int reservationId,
             int tableNumber,
             string confirmationToken)
         {
             var dateFormatted = reservationDate.ToString("dd/MM/yyyy");
             var timeFormatted = reservationTime.ToString("HH:mm");
 
-            // Obtener base URL desde configuración (ApiBaseUrl). Si no está configurada,
-            // intentar usar FrontendUrl como respaldo, y finalmente usar la URL de producción.
-            var configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/');
+            // Obtener base URL desde configuración. Preferimos `FrontendUrl` (enlaces hacia la UI),
+            // caer a `ApiBaseUrl` si no está presente, y finalmente usar la URL de producción.
+            var configuredBase = _configuration?.GetValue<string>("FrontendUrl")?.TrimEnd('/');
             if (string.IsNullOrEmpty(configuredBase))
             {
-                // Prefer FrontendUrl if provided; otherwise fallback to the production domain.
-                configuredBase = _configuration?.GetValue<string>("FrontendUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
+                configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
             }
 
             var baseUrl = configuredBase;
-            var confirmUrl = $"{baseUrl}/api/v1/reservations/confirm/{confirmationToken}";
-            var cancelUrl = $"{baseUrl}/api/v1/reservations/cancel/{confirmationToken}";
+            // Enlazamos a rutas frontend para mostrar páginas coherentes de confirmación/cancelación.
+            var confirmUrl = $"{baseUrl}/reservas/confirm/{confirmationToken}?rid={reservationId}";
+            var cancelUrl = $"{baseUrl}/reservas/cancel/{confirmationToken}?rid={reservationId}";
 
             return $@"
 <!DOCTYPE html>

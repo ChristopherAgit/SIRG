@@ -176,8 +176,8 @@ const Reservas = () => {
       return;
     }
 
-    if (form.numberOfPeople <= 0 || form.numberOfPeople > 20) {
-      setError("Ingrese un número válido de personas (1-20).");
+    if (form.numberOfPeople <= 0 || form.numberOfPeople > 8) {
+      setError("Ingrese un número válido de personas (1-8).");
       return;
     }
 
@@ -350,7 +350,7 @@ const Reservas = () => {
                   <option value="">
                     {form.hora ? "Seleccione cantidad" : "Seleccione hora primero"}
                   </option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 15, 20].map((n) => (
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                     <option key={n} value={n}>
                       {n} {n === 1 ? "persona" : "personas"}
                     </option>

@@ -1,5 +1,7 @@
 import Home from './Home';
 import Reservas from './components/reservas';
+import ConfirmReservation from './components/ConfirmReservation';
+import CancelReservation from './components/CancelReservation';
 import Menucomplete from './components/menucomplete';
 import Login from './Login';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
@@ -23,6 +25,8 @@ function App() {
         <Routes>
           <Route   path='' element={<Home/>} />
           <Route path='/reservas' element={<Reservas/>} />
+          <Route path='/reservas/confirm/:token' element={<ConfirmReservation/>} />
+          <Route path='/reservas/cancel/:token' element={<CancelReservation/>} />
           <Route path="/menucomplete" element={<Menucomplete/>} />
 
           {/* Admin */}
