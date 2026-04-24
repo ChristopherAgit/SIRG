@@ -197,7 +197,7 @@ namespace SIRG.Application.Services
                 configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
             }
 
-            var baseUrl = configuredBase;
+            var baseUrl = "https://constantinopla.onrender.com";
             var confirmUrl = $"{baseUrl}/reservas/confirm/{confirmationToken}?rid={reservationId}";
             var cancelUrl = $"{baseUrl}/reservas/cancel/{confirmationToken}?rid={reservationId}";
 

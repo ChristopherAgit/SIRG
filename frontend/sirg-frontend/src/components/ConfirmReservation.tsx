@@ -30,7 +30,7 @@ const ConfirmReservation: React.FC = () => {
       try {
         setLoading(true);
         const apiBase = ((import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') ?? '') + '/api/v1';
-        const resp = await fetch(`${apiBase}/reservations/confirm/${token}`, { method: 'GET' });
+        const resp = await fetch(`$https://constantinopla.onrender.com/reservations/confirm/${token}`, { method: 'GET' });
         const text = await resp.text();
         let body: any = null;
         try { body = JSON.parse(text); } catch { body = null; }
