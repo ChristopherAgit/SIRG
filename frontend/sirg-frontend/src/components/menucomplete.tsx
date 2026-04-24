@@ -1,114 +1,88 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import apiFetch from '../lib/api';
+import { dishRepo } from '../admin/lib/repo';
 import '../admin/styles/admin.css';
 import '../styles/hero.css';
 import '../styles/menucomplete.css';
 import '../styles/menu.css';
 
-type ApiDish = {
-  dishID: number;
-  dishName: string;
-  price: number | null;
-  isActive: boolean;
-  categoryDto?: { categoryName: string } | null;
-};
-
-const PREFERRED_ORDER = ['Entradas', 'Plato Principal', 'Ensaladas', 'Guarnición', 'Postres', 'Bebidas'];
-
-function sortCategories(cats: string[]): string[] {
-  const preferred = PREFERRED_ORDER.map((c) => c.toLowerCase());
-  return [...cats].sort((a, b) => {
-    const ai = preferred.indexOf(a.toLowerCase());
-    const bi = preferred.indexOf(b.toLowerCase());
-    if (ai >= 0 && bi >= 0) return ai - bi;
-    if (ai >= 0) return -1;
-    if (bi >= 0) return 1;
-    return a.localeCompare(b, 'es');
-  });
-}
-
 export const Menucomplete = () => {
-  const navigate = useNavigate();
-  const [dishes, setDishes] = useState<ApiDish[]>([]);
-  const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const dishes = useMemo(() => dishRepo.list().filter((d) => d.isActive), []);
 
-  useEffect(() => {
-    apiFetch('/dishes')
-      .then((data) => {
-        if (Array.isArray(data)) setDishes(data.filter((d: ApiDish) => d.isActive));
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
+    const featured = useMemo(() => {
+        // prefer dishes categorized as 'principal' (case-insensitive), fallback to first 5
+        const byCat = dishes.filter((d) => (d.category ?? '').toLowerCase().includes('principal'));
+        if (byCat.length > 0) return byCat.slice(0, 6);
+        return dishes.slice(0, 6);
+    }, [dishes]);
 
-  const grouped = useMemo(() => {
-    const map = new Map<string, ApiDish[]>();
-    for (const d of dishes) {
-      const cat = d.categoryDto?.categoryName ?? 'Otros';
-      if (!map.has(cat)) map.set(cat, []);
-      map.get(cat)!.push(d);
-    }
-    return map;
-  }, [dishes]);
+    const others = useMemo(() => dishes.filter((d) => !featured.some((f) => f.id === d.id)), [dishes, featured]);
 
-  const sortedCategories = useMemo(() => sortCategories([...grouped.keys()]), [grouped]);
-
-  return (
-    <div>
-      <section className="menucomplete-hero">
-        <div className="menucomplete-hero-inner">
-          <div className="menucomplete-hero-sub">Nuestra Selección</div>
-          <h1 className="menucomplete-hero-title">Menú</h1>
-          <p className="menucomplete-hero-desc">Platos cuidadosamente preparados, descubre nuestras especialidades.</p>
-          <div style={{ marginTop: 18 }}>
-            <button className="hero-button" onClick={() => navigate('/reservas')}>Reservar Mesa</button>
-            <button
-              className="hero-button"
-              style={{ marginLeft: 12, background: 'transparent', border: '1px solid rgba(255,255,255,0.14)' }}
-              onClick={() => navigate('/')}
-            >
-              Volver
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <main className="menucomplete-main">
-        <div style={{ width: '100%', maxWidth: 1100 }}>
-          {loading ? (
-            <div className="menucomplete-empty">Cargando menú…</div>
-          ) : dishes.length === 0 ? (
-            <div className="menucomplete-empty">No hay platos disponibles en este momento.</div>
-          ) : (
-            sortedCategories.map((cat) => (
-              <section key={cat} className="menucomplete-category-section">
-                <h2 className="menucomplete-category-title">{cat}</h2>
-                <div className="menu-grid">
-                  {(grouped.get(cat) ?? []).map((d) => (
-                    <div key={d.dishID} className="menu-card">
-                      <div className="menu-image" style={{ height: 200 }}>
-                        <div className="menucomplete-card-placeholder" style={{ width: '100%', height: '100%', background: '#f3f3f3' }} />
-                      </div>
-                      <div className="menu-name">
-                        <div style={{ fontWeight: 800 }}>{d.dishName}</div>
-                        <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 13, marginTop: 2 }}>{cat}</div>
-                        {d.price != null && (
-                          <div style={{ marginTop: 8, fontWeight: 800, color: '#b91c1c' }}>
-                            ${d.price.toFixed(2)}
-                          </div>
-                        )}
-                      </div>
+    return (
+        <div>
+            <section className="menucomplete-hero">
+                <div className="menucomplete-hero-inner">
+                    <div className="menucomplete-hero-sub">Nuestra Selección</div>
+                    <h1 className="menucomplete-hero-title">Menú</h1>
+                    <p className="menucomplete-hero-desc">Platos cuidadosamente preparados, descubre nuestras especialidades.</p>
+                    <div style={{ marginTop: 18 }}>
+                        <button className="hero-button" onClick={() => navigate('/reservas')}>Reservar Mesa</button>
+                        <button className="hero-button" style={{ marginLeft: 12, background: 'transparent', border: '1px solid rgba(255,255,255,0.14)' }} onClick={() => navigate('/')}>Volver</button>
                     </div>
-                  ))}
                 </div>
-              </section>
-            ))
-          )}
+            </section>
+
+            <main className="menucomplete-main">
+                {/* Pasarela principal (horizontal) */}
+                <section className="menucomplete-pasarela" aria-label="Platos principales">
+                    {featured.length === 0 ? (
+                        <div className="menucomplete-empty">No hay platos destacados.</div>
+                    ) : (
+                        <div className="menucomplete-pasarela-track">
+                            {featured.map((d) => (
+                                <div key={d.id} className="menu-card" style={{ minWidth: 260 }}>
+                                    <div className="menu-image" style={{ height: 220 }}>
+                                        {d.image ? <img src={d.image} alt={d.name} /> : <div className="menucomplete-card-placeholder" />}
+                                    </div>
+                                    <div className="menu-name" style={{ padding: 12 }}>
+                                        <div style={{ fontWeight: 800 }}>{d.name}</div>
+                                        <div style={{ color: 'rgba(0,0,0,0.6)', fontSize: 13 }}>{d.category ?? '—'}</div>
+                                        <div style={{ marginTop: 8, fontWeight: 800 }}>{d.price}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </section>
+
+                {/* Galería debajo con los demás platos */}
+                <section className="menucomplete-gallery" aria-label="Todos los platos">
+                    {dishes.length === 0 ? (
+                        <div className="menucomplete-empty">No hay platos.</div>
+                    ) : others.length === 0 ? (
+                        // Si hay platos pero no "otros", no mostrar mensaje de "No hay más platos"
+                        <></>
+                    ) : (
+                        <div className="menu-grid" style={{ marginTop: 18 }}>
+                            {others.map((d) => (
+                                <div key={d.id} className="menu-card">
+                                    <div className="menu-image" style={{ height: 220 }}>
+                                        {d.image ? <img src={d.image} alt={d.name} /> : <div className="menucomplete-card-placeholder" />}
+                                    </div>
+                                    <div className="menu-name">
+                                        <div style={{ fontWeight: 800 }}>{d.name}</div>
+                                        <div style={{ color: 'rgba(0,0,0,0.6)', fontSize: 13 }}>{d.category ?? '—'}</div>
+                                        <div style={{ marginTop: 8, fontWeight: 800 }}>{d.price}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </section>
+            </main>
         </div>
-      </main>
-    </div>
-  );
+    );
 };
 
 export default Menucomplete;
