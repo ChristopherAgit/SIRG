@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
         "projectName": "SIRG.Application",
         "projectPath": "C:\\SIRG\\SIRG.Application\\SIRG.Application.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -98,14 +98,14 @@
         "projectUniqueName": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
         "projectName": "SIRG.Domain",
         "projectPath": "C:\\SIRG\\SIRG.Domain\\SIRG.Domain.csproj",
-        "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
         "outputPath": "C:\\SIRG\\SIRG.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

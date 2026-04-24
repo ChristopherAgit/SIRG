@@ -58,8 +58,11 @@ export const Menucomplete = () => {
 
                 {/* Galería debajo con los demás platos */}
                 <section className="menucomplete-gallery" aria-label="Todos los platos">
-                    {others.length === 0 ? (
-                        <div className="menucomplete-empty">No hay más platos.</div>
+                    {dishes.length === 0 ? (
+                        <div className="menucomplete-empty">No hay platos.</div>
+                    ) : others.length === 0 ? (
+                        // Si hay platos pero no "otros", no mostrar mensaje de "No hay más platos"
+                        <></>
                     ) : (
                         <div className="menu-grid" style={{ marginTop: 18 }}>
                             {others.map((d) => (

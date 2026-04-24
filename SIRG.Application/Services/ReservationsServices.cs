@@ -34,29 +34,7 @@ namespace SIRG.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<List<ReservationsDto>> GetAllReservationsAsync(
-            DateOnly? date,
-            TimeOnly? time,
-            int? statusId)
-        {
-            var query = _reservationRepository.GetAllQuerry()
-                .Include(r => r.RestaurantTables)
-                .Include(r => r.ReservationStatus)
-                .AsQueryable();
-
-            if (date.HasValue)
-                query = query.Where(r => r.ReservationDate == date.Value);
-
-            if (time.HasValue)
-                query = query.Where(r => r.ReservationTime == time.Value);
-
-            if (statusId.HasValue)
-                query = query.Where(r => r.StatusID == statusId.Value);
-
-            return await query
-                .ProjectTo<ReservationsDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
+        
 
         public async Task<ReservationsDto?> SaveReservationAsync(ReservationsDto dto)
         {
@@ -382,28 +360,33 @@ namespace SIRG.Application.Services
 
         public async Task<List<ReservationsDto>> GetAllReservationsAsync(DateOnly? date = null, TimeOnly? time = null, int? statusId = null, string? reservationType = null)
         {
+            var query = _reservationRepository.GetAllQuerry()
+                .Include(r => r.RestaurantTables)
+                .Include(r => r.ReservationStatus)
+                .Include(r => r.Customers)
+                .AsQueryable();
+
+            if (date.HasValue)
+                query = query.Where(r => r.ReservationDate == date.Value);
+
+            if (time.HasValue)
+                query = query.Where(r => r.ReservationTime == time.Value);
+
+            if (statusId.HasValue)
+                query = query.Where(r => r.StatusID == statusId.Value);
+
+            // reservationType parameter present in interface for future filtering; currently unused
+
             try
             {
-                var query = _reservationRepository.GetAllQuerry()
-                    .Include(r => r.RestaurantTables)
-                    .Include(r => r.ReservationStatus)
-                    .AsQueryable();
-
-                if (date.HasValue)
-                    query = query.Where(r => r.ReservationDate == date.Value);
-
-                if (time.HasValue)
-                    query = query.Where(r => r.ReservationTime == time.Value);
-
-                if (statusId.HasValue)
-                    query = query.Where(r => r.StatusID == statusId.Value);
-
                 return await query
                     .ProjectTo<ReservationsDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
+                // Log and return empty list on mapping/database projection errors
+                Console.WriteLine($"Error obteniendo reservaciones: {ex}");
                 return new List<ReservationsDto>();
             }
         }

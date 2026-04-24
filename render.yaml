@@ -13,7 +13,9 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: ConnectionStrings__ConnectionDb
-        value: "<REPLACE_WITH_DB_CONNECTION>"
+        # Use a Render Secret for the real value. Example format for Postgres:
+        # Host=db-host.onrender.com;Port=5432;Database=mi_db;Username=mi_user;Password=mi_pass;Ssl Mode=Require;
+        value: "Host=<db-host>;Port=5432;Database=<db>;Username=<user>;Password=<pass>;Ssl Mode=Require;"
       - key: MailSettings__EmailFrom
         value: "<your-email@example.com>"
       - key: MailSettings__SmtpHost

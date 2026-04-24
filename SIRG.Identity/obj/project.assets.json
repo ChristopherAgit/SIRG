@@ -6052,7 +6052,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Novosit\\.nuget\\packages\\": {},
+    "C:\\Users\\wfeli\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -6061,14 +6061,14 @@
       "projectUniqueName": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
       "projectName": "SIRG.Identity",
       "projectPath": "C:\\SIRG\\SIRG.Identity\\SIRG.Identity.csproj",
-      "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
       "outputPath": "C:\\SIRG\\SIRG.Identity\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

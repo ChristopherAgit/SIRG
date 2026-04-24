@@ -75,7 +75,7 @@ namespace SIRG.Persistences.Repositories
 
             foreach (var property in properties)
             {
-                querry.Include(property);
+                querry = querry.Include(property);
 
             }
 
@@ -88,7 +88,7 @@ namespace SIRG.Persistences.Repositories
 
             foreach (var property in properties)
             {
-                querry.Include(property);
+                querry = querry.Include(property);
             }
 
             return querry;

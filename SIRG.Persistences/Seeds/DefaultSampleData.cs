@@ -34,9 +34,9 @@ namespace SIRG.Persistences.Seeds
 
                     if (!context.Dishes.Any())
                     {
-                        var d1 = new Dishes { DishID = 0, CategoryID = cat.CategoryID.ToString(), DishName = "Hamburguesa clásica", Price = 8.50M, IsActive = true };
-                        var d2 = new Dishes { DishID = 0, CategoryID = cat.CategoryID.ToString(), DishName = "Papas fritas", Price = 3.00M, IsActive = true };
-                        var d3 = new Dishes { DishID = 0, CategoryID = cat.CategoryID.ToString(), DishName = "Ensalada fresca", Price = 5.25M, IsActive = true };
+                        var d1 = new Dishes { DishID = 0, CategoryID = cat.CategoryID, DishName = "Hamburguesa clásica", Price = 8.50M, IsActive = true };
+                        var d2 = new Dishes { DishID = 0, CategoryID = cat.CategoryID, DishName = "Papas fritas", Price = 3.00M, IsActive = true };
+                        var d3 = new Dishes { DishID = 0, CategoryID = cat.CategoryID, DishName = "Ensalada fresca", Price = 5.25M, IsActive = true };
                         context.Dishes.AddRange(d1, d2, d3);
                     }
                 }

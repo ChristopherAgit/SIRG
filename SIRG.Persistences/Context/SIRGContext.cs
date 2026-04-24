@@ -40,6 +40,51 @@ namespace SIRG.Persistences.Context
                 // Mapear la propiedad del FK al nombre de columna existente
                 entity.Property(r => r.CustomerID).HasColumnName("CustomersCustomerID");
             });
+
+            // Especificar precisión para propiedades decimal para evitar truncamiento
+            modelBuilder.Entity<DishIngredients>(entity =>
+            {
+                entity.Property(d => d.QuantityRequired).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<Dishes>(entity =>
+            {
+                entity.Property(d => d.Price).HasPrecision(18, 2);
+                entity.HasOne(d => d.Category)
+                      .WithMany(c => c.Dishes)
+                      .HasForeignKey(d => d.CategoryID)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Ingredients>(entity =>
+            {
+                entity.Property(i => i.MinimunStock).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<Inventory>(entity =>
+            {
+                entity.Property(i => i.CurrentStock).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<InventoryMovements>(entity =>
+            {
+                entity.Property(im => im.Quantity).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<OrderDetails>(entity =>
+            {
+                entity.Property(od => od.UnitPrice).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<SaleDetails>(entity =>
+            {
+                entity.Property(sd => sd.UnitPrice).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<Sales>(entity =>
+            {
+                entity.Property(s => s.TotalAmount).HasPrecision(18, 2);
+            });
         }
     }
 }

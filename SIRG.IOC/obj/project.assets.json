@@ -1779,6 +1779,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "9.0.10",
           "Microsoft.EntityFrameworkCore.InMemory": "9.0.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.1",
           "SIRG.Application": "1.0.0",
           "SIRG.Domain": "1.0.0"
@@ -4297,7 +4298,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Novosit\\.nuget\\packages\\": {},
+    "C:\\Users\\wfeli\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -4306,14 +4307,14 @@
       "projectUniqueName": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
       "projectName": "SIRG.IOC",
       "projectPath": "C:\\SIRG\\SIRG.IOC\\SIRG.IOC.csproj",
-      "packagesPath": "C:\\Users\\Novosit\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\wfeli\\.nuget\\packages\\",
       "outputPath": "C:\\SIRG\\SIRG.IOC\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Novosit\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\wfeli\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SIRG.Persistences.Context;
@@ -11,9 +12,11 @@ using SIRG.Persistences.Context;
 namespace SIRG.Persistences.Migrations
 {
     [DbContext(typeof(SIRGContext))]
-    partial class SIRGContextModelSnapshot : ModelSnapshot
+    [Migration("20260424024146_UpdateData")]
+    partial class UpdateData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

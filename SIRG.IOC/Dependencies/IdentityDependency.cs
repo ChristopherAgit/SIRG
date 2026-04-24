@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
 using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
 using SIRG.Domain.Setting;
@@ -220,8 +221,19 @@ namespace SIRG.IOC.Dependencies
                            opt.EnableSensitiveDataLogging();
                        }
 
-                       opt.UseNpgsql(connectionString,
-                       m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                    // Auto-detect provider based on connection string contents
+                    if (!string.IsNullOrEmpty(connectionString) &&
+                        (connectionString.IndexOf("Server=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Data Source=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Trusted_Connection=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Initial Catalog=", StringComparison.OrdinalIgnoreCase) >= 0))
+                    {
+                        opt.UseSqlServer(connectionString, m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                    }
+                    else
+                    {
+                        opt.UseNpgsql(connectionString, m => m.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName));
+                    }
                    },
                    contextLifetime: ServiceLifetime.Scoped,
                    optionsLifetime: ServiceLifetime.Scoped);

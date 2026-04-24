@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SIRG.Domain.Interfaces;
 using SIRG.Persistences.Context;
 using SIRG.Persistences.Repositories;
+using System;
 
 namespace SIRG.IOC.Dependencies
 {
@@ -27,9 +28,22 @@ namespace SIRG.IOC.Dependencies
                 }
 
                 services.AddDbContext<SIRGContext>(opt =>
-                    opt.UseNpgsql(connectionString,
-                        m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName)),
-                    ServiceLifetime.Scoped);
+                {
+                    // Auto-detect provider: if the connection string looks like SQL Server, use SqlServer provider
+                    if (!string.IsNullOrEmpty(connectionString) &&
+                        (connectionString.IndexOf("Server=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Data Source=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Trusted_Connection=", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                         connectionString.IndexOf("Initial Catalog=", StringComparison.OrdinalIgnoreCase) >= 0))
+                    {
+                        opt.UseSqlServer(connectionString, m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName));
+                    }
+                    else
+                    {
+                        opt.UseNpgsql(connectionString, m => m.MigrationsAssembly(typeof(SIRGContext).Assembly.FullName));
+                    }
+                },
+                ServiceLifetime.Scoped);
             }
 
             #endregion
@@ -47,8 +61,6 @@ namespace SIRG.IOC.Dependencies
             services.AddScoped<IRetaurantTableRepository, RetaurantTableRepository>();
             services.AddScoped<ISalesRepository, SaleRepository>();
             services.AddScoped<ISalesDetailsRepository, SalesDetailsRepository>();
-
-
 
         }
     }
