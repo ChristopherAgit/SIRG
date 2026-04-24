@@ -331,3 +331,71 @@
     gap: 6px;
   }
 }
+
+/* ── Status-specific ticket borders ── */
+.sirgCocinaTicket--pendiente {
+  border-color: rgba(180, 140, 60, 0.35);
+}
+.sirgCocinaTicket--preparacion {
+  border-color: rgba(234, 88, 12, 0.4);
+  background: linear-gradient(145deg, #fff8f3 0%, #fff0e4 48%, #ffe2c8 100%);
+}
+.sirgCocinaTicket--listo {
+  border-color: rgba(22, 163, 74, 0.4);
+  background: linear-gradient(145deg, #f0fdf4 0%, #dcfce7 48%, #bbf7d0 100%);
+}
+
+/* ── Status badges ── */
+.sirgCocinaBadge--pendiente {
+  background: #fef9c3;
+  color: #92400e;
+  border-color: #fde68a;
+}
+.sirgCocinaBadge--preparacion {
+  background: #fff7ed;
+  color: #c2410c;
+  border-color: #fed7aa;
+}
+.sirgCocinaBadge--listo {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+/* ── Section title accents ── */
+.sirgCocinaSectionTitle--pendiente {
+  color: #92400e;
+}
+.sirgCocinaSectionTitle--preparacion {
+  color: #c2410c;
+}
+.sirgCocinaSectionTitle--listo {
+  color: #047857;
+}
+
+/* ── Status pills in header ── */
+.sirgCocinaPill--pendiente strong {
+  color: #92400e;
+}
+.sirgCocinaPill--preparacion strong {
+  color: #c2410c;
+}
+.sirgCocinaPill--listo strong {
+  color: #047857;
+}
+
+/* ── Delivered header row ── */
+.sirgCocinaDeliveredHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+/* ── Last refresh timestamp ── */
+.sirgCocinaLastRefresh {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: #78716c;
+}

@@ -41,7 +41,7 @@ function App() {
           </Route>
 
           <Route path="/mesero" element={<PrivateRoute roles={["Mesero","Administrador"]}><MeseroPage /></PrivateRoute>} />
-          <Route path="/cocinero" element={<CocineroPage />} />
+          <Route path="/cocinero" element={<PrivateRoute roles={["Cocinero","Administrador"]}><CocineroPage /></PrivateRoute>} />
           <Route path="/login" element={<Login />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />

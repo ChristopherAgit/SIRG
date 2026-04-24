@@ -8,7 +8,7 @@ import { Modal } from '../../admin/components/Modal';
 import { useToast } from '../../admin/components/toast/ToastContext';
 import type { RestaurantTable } from '../../admin/models';
 import { orderRepo } from '../../shared/orders';
-import { listTables, listDishes, createOrder } from '../api';
+import { listTables, listDishes, createOrderWithDetails } from '../api';
 import type { ServiceSession } from '../lib/sessions';
 import { sessionRepo } from '../lib/sessions';
 
@@ -213,50 +213,48 @@ export function MeseroPage() {
       .map((it) => {
         const dish = dishes.find((d) => d.id === it.dishId) ?? null;
         const qty = Number(it.qty);
-        return dish && !Number.isNaN(qty) && qty > 0 ? { dishId: dish.id, dishName: dish.name, qty } : null;
+        return dish && !Number.isNaN(qty) && qty > 0 ? { dish, qty } : null;
       })
-      .filter((x) => x !== null);
+      .filter((x): x is { dish: (typeof dishes)[0]; qty: number } => x !== null);
 
     if (normalized.length === 0) {
       toast.push({ type: 'error', title: 'Pedido inválido', message: 'Revisa cantidades (deben ser > 0).' });
       return;
     }
 
-    const byDish = new Map<string, { dishId: string; dishName: string; qty: number }>();
+    const byDishId = new Map<string, { dish: (typeof dishes)[0]; qty: number }>();
     for (const it of normalized) {
-      const prev = byDish.get(it.dishId);
-      byDish.set(it.dishId, prev ? { ...prev, qty: prev.qty + it.qty } : it);
+      const prev = byDishId.get(it.dish.id);
+      byDishId.set(it.dish.id, prev ? { ...prev, qty: prev.qty + it.qty } : it);
     }
+    const merged = Array.from(byDishId.values());
 
-    setLoading(true);
+    // Numeric serviceId = reservationID; svc_xxx = walk-in (no reservation)
+    const reservationID = /^\d+$/.test(menuSession.serviceId) ? Number(menuSession.serviceId) : null;
+
+    // Save locally for "recent orders" display
     orderRepo.create({
       serviceId: menuSession.serviceId,
       tableId: menuSession.tableId,
       tableNumber: menuSession.tableNumber,
       status: 'sent',
-      items: Array.from(byDish.values()),
+      items: merged.map((it) => ({ dishId: it.dish.id, dishName: it.dish.name, qty: it.qty })),
     });
-
-    // try to persist to API (non-blocking)
-    (async () => {
-      try {
-        await createOrder({
-          serviceId: menuSession.serviceId,
-          tableId: menuSession.tableId,
-          tableNumber: menuSession.tableNumber,
-          status: 'sent',
-          items: Array.from(byDish.values()),
-        });
-      } catch (e) {
-        // ignore
-      } finally {
-        setLoading(false);
-      }
-    })();
 
     toast.push({ type: 'success', title: 'Pedido enviado a cocina', message: `Mesa ${menuSession.tableNumber}` });
     closeMenu();
     bump();
+
+    // Persist to API (fire-and-forget)
+    setLoading(true);
+    createOrderWithDetails({
+      reservationID,
+      items: merged.map((it) => ({
+        dishID: Number(it.dish.id),
+        quantity: it.qty,
+        unitPrice: it.dish.price ?? 0,
+      })),
+    }).catch(() => {}).finally(() => setLoading(false));
   }
 
   function closeService(s: ServiceSession) {

@@ -31,15 +31,25 @@ namespace SIRG.Persistences.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // Alinea las propiedades del modelo con las columnas existentes en la base de datos
-            // Algunas migraciones anteriores crearon columnas con nombres como "CustomersCustomerID"
-            // mientras que las clases de dominio usan la propiedad `CustomerID`. Mapear aquí evita
-            // discrepancias y errores "Invalid column name 'CustomerID'".
             modelBuilder.Entity<Reservations>(entity =>
             {
-                // Mapear la propiedad del FK al nombre de columna existente
                 entity.Property(r => r.CustomerID).HasColumnName("CustomersCustomerID");
             });
+
+            // Orders: ReservationID, WaiterID y UserID son opcionales (walk-ins no tienen reserva)
+            modelBuilder.Entity<Orders>(entity =>
+            {
+                entity.Property(o => o.ReservationID).IsRequired(false);
+                entity.Property(o => o.WaiterID).IsRequired(false);
+                entity.Property(o => o.UserID).IsRequired(false);
+            });
+
+            // Seed de los 4 estados del ciclo de vida de una orden
+            modelBuilder.Entity<OrderStatus>().HasData(
+                new OrderStatus { StatusID = 1, StatusName = "Pendiente" },
+                new OrderStatus { StatusID = 2, StatusName = "En preparación" },
+                new OrderStatus { StatusID = 3, StatusName = "Listo para servir" },
+                new OrderStatus { StatusID = 4, StatusName = "Entregado" });
 
             // Especificar precisión para propiedades decimal para evitar truncamiento
             modelBuilder.Entity<DishIngredients>(entity =>

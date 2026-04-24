@@ -7,11 +7,11 @@ namespace SIRG.Domain.Entities
         [Key]
 
         public required int OrderID { get; set; }
-        public required int ReservationID { get; set; }
-        public required int WaiterID { get; set; }
+        public int? ReservationID { get; set; }
+        public int? WaiterID { get; set; }
         public required int StatusID { get; set; }
-        public required int UserID { get; set; }
-        public required DateTime OrderDate { get; set; } = DateTime.UtcNow;
+        public int? UserID { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         //Navigation properties
         public Reservations? Reservations { get; set; }

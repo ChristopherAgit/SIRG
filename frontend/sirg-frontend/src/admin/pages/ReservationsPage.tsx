@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Calendar, Clock, Users, MapPin, Eye, CheckCircle, AlertCircle } from 'lucide-react';
 import '../styles/reservations.css';
+import apiFetch from '../../lib/api';
 
 interface ReservationDetail {
   reservationID: number;
@@ -46,6 +47,13 @@ export function ReservationsPage() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [changingStatus, setChangingStatus] = useState<number | null>(null);
 
+  type OrderDish = { dishID: number; dishName: string; price: number };
+  type OrderItemDraft = { dishID: string; qty: string };
+  const [orderDishes, setOrderDishes] = useState<OrderDish[]>([]);
+  const [orderItems, setOrderItems] = useState<OrderItemDraft[]>([]);
+  const [creatingOrder, setCreatingOrder] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+
   // Cargar reservaciones y estados
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +82,21 @@ export function ReservationsPage() {
     };
 
     fetchData();
+  }, []);
+
+  // Cargar platos para el formulario de orden
+  useEffect(() => {
+    apiFetch('/dishes')
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setOrderDishes(
+            data
+              .filter((d: any) => d.isActive)
+              .map((d: any) => ({ dishID: d.dishID, dishName: d.dishName, price: d.price ?? 0 })),
+          );
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // Filtrar reservaciones
@@ -121,6 +144,33 @@ export function ReservationsPage() {
     }
   };
 
+  const handleCreateOrder = async () => {
+    if (!selectedReservation) return;
+    const validItems = orderItems
+      .map((it) => {
+        const dish = orderDishes.find((d) => String(d.dishID) === it.dishID);
+        const qty = Number(it.qty);
+        return dish && qty > 0 ? { dishID: dish.dishID, quantity: qty, unitPrice: dish.price } : null;
+      })
+      .filter((x): x is { dishID: number; quantity: number; unitPrice: number } => x !== null);
+
+    if (validItems.length === 0) return;
+
+    setCreatingOrder(true);
+    try {
+      await apiFetch('/orders/create', {
+        method: 'POST',
+        body: JSON.stringify({ reservationID: selectedReservation.reservationID, items: validItems }),
+      });
+      setOrderSuccess(true);
+      setOrderItems([]);
+    } catch {
+      // silently ignore — user can retry
+    } finally {
+      setCreatingOrder(false);
+    }
+  };
+
   // Abrir detalles (trae la información completa desde el API)
   const openDetails = async (reservationID: number) => {
     try {
@@ -135,6 +185,8 @@ export function ReservationsPage() {
       const data = await resp.json();
       setSelectedReservation(data);
       setShowDetailModal(true);
+      setOrderItems([]);
+      setOrderSuccess(false);
     } catch (err) {
       console.error('Error al cargar detalles:', err);
       setSelectedReservation(null);
@@ -378,6 +430,89 @@ export function ReservationsPage() {
                   ))}
                 </div>
               </div>
+
+              {selectedReservation.statusID === 2 && (
+                <div className="detail-section">
+                  <h3>Crear Orden</h3>
+                  {orderSuccess ? (
+                    <div style={{ color: '#047857', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: 8, padding: '12px 16px', fontSize: 14 }}>
+                      Orden creada correctamente. Puedes agregar otra si lo deseas.
+                      <button className="adminButton" style={{ marginLeft: 12 }} onClick={() => { setOrderSuccess(false); setOrderItems([{ dishID: String(orderDishes[0]?.dishID ?? ''), qty: '1' }]); }}>
+                        + Nueva orden
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <table className="adminTable" style={{ marginBottom: 10 }}>
+                        <thead>
+                          <tr>
+                            <th>Plato</th>
+                            <th style={{ width: 100 }}>Cantidad</th>
+                            <th style={{ width: 80 }}></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {orderItems.length === 0 ? (
+                            <tr>
+                              <td colSpan={3} style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13 }}>
+                                Agrega platos con el botón de abajo.
+                              </td>
+                            </tr>
+                          ) : (
+                            orderItems.map((it, idx) => (
+                              <tr key={idx}>
+                                <td>
+                                  <select
+                                    className="adminSelect"
+                                    value={it.dishID}
+                                    onChange={(e) => setOrderItems((prev) => prev.map((x, i) => i === idx ? { ...x, dishID: e.target.value } : x))}
+                                  >
+                                    {orderDishes.map((d) => (
+                                      <option key={d.dishID} value={String(d.dishID)}>{d.dishName}</option>
+                                    ))}
+                                  </select>
+                                </td>
+                                <td>
+                                  <input
+                                    className="adminInput"
+                                    type="number"
+                                    min={1}
+                                    value={it.qty}
+                                    onChange={(e) => setOrderItems((prev) => prev.map((x, i) => i === idx ? { ...x, qty: e.target.value } : x))}
+                                  />
+                                </td>
+                                <td>
+                                  <button className="adminButton danger" type="button" onClick={() => setOrderItems((prev) => prev.filter((_, i) => i !== idx))}>
+                                    ✕
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button
+                          className="adminButton"
+                          type="button"
+                          disabled={orderDishes.length === 0}
+                          onClick={() => setOrderItems((prev) => [...prev, { dishID: String(orderDishes[0]?.dishID ?? ''), qty: '1' }])}
+                        >
+                          + Plato
+                        </button>
+                        <button
+                          className="adminButton primary"
+                          type="button"
+                          disabled={creatingOrder || orderItems.length === 0}
+                          onClick={() => void handleCreateOrder()}
+                        >
+                          {creatingOrder ? 'Enviando…' : 'Enviar a cocina'}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="modal-footer">

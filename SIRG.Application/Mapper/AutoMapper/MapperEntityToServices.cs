@@ -28,25 +28,60 @@ namespace SIRG.Application.Mapper.AutoMapper
 
 
             CreateMap(typeof(Customers), typeof(CustomersDto)).ReverseMap();
-            CreateMap(typeof(Dishes), typeof(DishesDto)).ReverseMap();
-            CreateMap(typeof(DishIngredients), typeof(DishIngredientsDto)).ReverseMap();
             CreateMap(typeof(Ingredients), typeof(IngredientsDto)).ReverseMap();
             CreateMap(typeof(InventoryMovements), typeof(InventoryMovementDto)).ReverseMap();
             CreateMap(typeof(Inventory), typeof(InventoryDto)).ReverseMap();
-            CreateMap(typeof(OrderDetails), typeof(OrdersDetailsDto)).ReverseMap();
-            CreateMap(typeof(Orders), typeof(OrdersDto)).ReverseMap();
-            CreateMap(typeof(OrderStatus), typeof(OrdersStatusDto)).ReverseMap();
             CreateMap(typeof(ReservationStatus), typeof(ReservationStatusDto)).ReverseMap();
             CreateMap(typeof(SaleDetails), typeof(SaleDetailsDto)).ReverseMap();
             CreateMap(typeof(Sales), typeof(SalesDto)).ReverseMap();
 
-            // Mapeo de entidad a DTO
-            CreateMap<RestaurantTables, RestaurantTablesDto>()
-                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations));
+            // Dishes: ignorar nav circulares (OrderDetails → Dishes → OrderDetails)
+            CreateMap<Dishes, DishesDto>()
+                .ForMember(dest => dest.CategoryDto, opt => opt.Ignore())
+                .ForMember(dest => dest.DishIngredientsDto, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetailsDto, opt => opt.Ignore())
+                .ForMember(dest => dest.SaleDetailsDto, opt => opt.Ignore());
+            CreateMap<DishesDto, Dishes>()
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.DishIngredients, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore())
+                .ForMember(dest => dest.SaleDetails, opt => opt.Ignore());
 
-            // (Opcional) Mapeo inverso de DTO a entidad
+            CreateMap<DishIngredients, DishIngredientsDto>()
+                .ForMember(dest => dest.DishDto, opt => opt.Ignore())
+                .ForMember(dest => dest.IngredientsDto, opt => opt.Ignore());
+            CreateMap<DishIngredientsDto, DishIngredients>()
+                .ForMember(dest => dest.Dish, opt => opt.Ignore())
+                .ForMember(dest => dest.Ingredients, opt => opt.Ignore());
+
+            // OrderDetails: ignorar nav circular de vuelta a Orders
+            CreateMap<OrderDetails, OrdersDetailsDto>()
+                .ForMember(dest => dest.Orders, opt => opt.Ignore())
+                .ForMember(dest => dest.Dishes, opt => opt.MapFrom(src => src.Dishes));
+            CreateMap<OrdersDetailsDto, OrderDetails>()
+                .ForMember(dest => dest.Orders, opt => opt.Ignore())
+                .ForMember(dest => dest.Dishes, opt => opt.Ignore());
+
+            // Orders: ignorar nav circular de vuelta a Reservations
+            CreateMap<Orders, OrdersDto>()
+                .ForMember(dest => dest.ReservationsDto, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetailsDto, opt => opt.MapFrom(src => src.OrderDetails))
+                .ForMember(dest => dest.OrderStatusDto, opt => opt.MapFrom(src => src.OrderStatus));
+            CreateMap<OrdersDto, Orders>()
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderStatus, opt => opt.Ignore());
+
+            // OrderStatus: ignorar nav circular a Orders
+            CreateMap<OrderStatus, OrdersStatusDto>()
+                .ForMember(dest => dest.Orders, opt => opt.Ignore());
+            CreateMap<OrdersStatusDto, OrderStatus>()
+                .ForMember(dest => dest.Orders, opt => opt.Ignore());
+
+            CreateMap<RestaurantTables, RestaurantTablesDto>()
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore());
             CreateMap<RestaurantTablesDto, RestaurantTables>()
-                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations));
+                .ForMember(dest => dest.Reservations, opt => opt.Ignore());
 
             CreateMap<Reservations, ReservationsDto>()
                 .ForMember(dest => dest.CustomersDto, opt => opt.MapFrom(src => src.Customers))
