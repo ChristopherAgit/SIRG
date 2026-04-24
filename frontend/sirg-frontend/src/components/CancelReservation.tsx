@@ -19,7 +19,7 @@ const CancelReservation: React.FC = () => {
 
       try {
         setLoading(true);
-        const resp = await fetch(`/api/v1/reservations/cancel/${token}`, { method: 'GET' });
+        const resp = await fetch(`https://constantinopla.onrender.com/api/v1/reservations/cancel/${token}`, { method: 'GET' });
         const text = await resp.text();
         let body: any = null;
         try { body = JSON.parse(text); } catch { body = null; }
