@@ -16,8 +16,8 @@ function getToken(): string | null {
 export async function apiFetch(path: string, init: RequestInit = {}, opts: ApiOptions = {}) {
   // prefer explicit prefix, otherwise use VITE_API_BASE (set in .env) or default to relative '/api/v1'
   // Vite exposes import.meta.env at build time — use it directly
-  const envBase = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || '';
-  const base = opts.prefix ?? (envBase ? envBase.replace(/\/$/, '') + '/api/v1' : '/api/v1');
+  const envBase = (import.meta && import.meta.env && import.meta.env.VITE_API_BASE) || 'https://constantinopla.onrender.com';
+  const base = opts.prefix ?? (envBase.replace(/\/$/, '') + '/api/v1');
   const token = getToken();
   const headers = new Headers(init.headers as HeadersInit || {});
   headers.set('Content-Type', 'application/json');

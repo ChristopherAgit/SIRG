@@ -265,10 +265,23 @@ export function RolesPage() {
             />
           </div>
           <div className="col12">
-            <label className="adminLabel" style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-              <input type="checkbox" checked={staffForm.isActive} onChange={(e) => setStaffForm((f) => ({ ...f, isActive: e.target.checked }))} />
-              Activo (cuenta en el panel como personal activo)
-            </label>
+            <label className="adminLabel">Estado</label>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                type="button"
+                className={`adminButton${staffForm.isActive ? ' primary' : ''}`}
+                onClick={() => setStaffForm((f) => ({ ...f, isActive: true }))}
+              >
+                Activo
+              </button>
+              <button
+                type="button"
+                className={`adminButton${!staffForm.isActive ? ' danger' : ''}`}
+                onClick={() => setStaffForm((f) => ({ ...f, isActive: false }))}
+              >
+                Inactivo
+              </button>
+            </div>
           </div>
         </div>
       </Modal>

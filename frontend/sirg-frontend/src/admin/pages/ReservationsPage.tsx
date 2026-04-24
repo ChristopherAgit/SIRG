@@ -59,16 +59,8 @@ export function ReservationsPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
-        // Obtener todas las reservaciones
-        const resResp = await fetch('/api/v1/reservations/all');
-        if (resResp.ok) {
-          const data = await resResp.json();
-          setReservations(data);
-        }
-
-        // Obtener estados de reservación (si existen)
-        // Por ahora usamos los valores hardcoded
+        const data = await apiFetch('/reservations/all');
+        if (Array.isArray(data)) setReservations(data);
         setStatuses([
           { statusID: 1, statusName: 'Pendiente' },
           { statusID: 2, statusName: 'Confirmada' },
@@ -122,20 +114,12 @@ export function ReservationsPage() {
   const handleChangeStatus = async (reservationID: number, newStatusID: number) => {
     try {
       setChangingStatus(reservationID);
-      const response = await fetch(`/api/v1/reservations/${reservationID}/status/${newStatusID}`, {
-        method: 'POST',
-      });
-
-      if (response.ok) {
-        // Actualizar la reservación localmente
-        setReservations((prev) =>
-          prev.map((res) => (res.reservationID === reservationID ? { ...res, statusID: newStatusID } : res))
-        );
-
-        // Actualizar el detalle si está abierto
-        if (selectedReservation?.reservationID === reservationID) {
-          setSelectedReservation((prev) => (prev ? { ...prev, statusID: newStatusID } : null));
-        }
+      await apiFetch(`/reservations/${reservationID}/status/${newStatusID}`, { method: 'POST' });
+      setReservations((prev) =>
+        prev.map((res) => (res.reservationID === reservationID ? { ...res, statusID: newStatusID } : res))
+      );
+      if (selectedReservation?.reservationID === reservationID) {
+        setSelectedReservation((prev) => (prev ? { ...prev, statusID: newStatusID } : null));
       }
     } catch (error) {
       console.error('Error actualizando estado:', error);
@@ -158,12 +142,14 @@ export function ReservationsPage() {
 
     setCreatingOrder(true);
     try {
-      await apiFetch('/orders/create', {
+      const result = await apiFetch('/orders/create', {
         method: 'POST',
         body: JSON.stringify({ reservationID: selectedReservation.reservationID, items: validItems }),
       });
-      setOrderSuccess(true);
-      setOrderItems([]);
+      if (result && typeof result === 'object' && 'orderID' in result) {
+        setOrderSuccess(true);
+        setOrderItems([]);
+      }
     } catch {
       // silently ignore — user can retry
     } finally {
@@ -175,15 +161,13 @@ export function ReservationsPage() {
   const openDetails = async (reservationID: number) => {
     try {
       setLoading(true);
-      const resp = await fetch(`/api/v1/reservations/${reservationID}/details`);
-      if (!resp.ok) {
-        console.error('Error al cargar detalles de la reservación');
+      const data = await apiFetch(`/reservations/${reservationID}/details`);
+      if (!data || typeof data !== 'object' || !('reservationID' in data)) {
         setSelectedReservation(null);
         setShowDetailModal(true);
         return;
       }
-      const data = await resp.json();
-      setSelectedReservation(data);
+      setSelectedReservation(data as ReservationDetail);
       setShowDetailModal(true);
       setOrderItems([]);
       setOrderSuccess(false);
