@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a623648b3ae8ed3ce756eb15f64dcf7ce4a81e35")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99be13cadb733123106781a8526a60a634aecd3c")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIRG.Persistences")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

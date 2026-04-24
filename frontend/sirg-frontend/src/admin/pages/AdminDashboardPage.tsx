@@ -7,7 +7,7 @@ import apiFetch from '../../lib/api';
 type Stats = {
   menuVisible: number; menuTotal: number;
   tablesActive: number; tablesTotal: number;
-  insumosActivos: number; insumosTotal: number;
+  insumosTotal: number;
   personalActivo: number; personalTotal: number;
   rolesCount: number;
 };
@@ -19,7 +19,7 @@ export function AdminDashboardPage() {
   const [stats, setStats] = useState<Stats>({
     menuVisible: 0, menuTotal: 0,
     tablesActive: 0, tablesTotal: 0,
-    insumosActivos: 0, insumosTotal: 0,
+    insumosTotal: 0,
     personalActivo: staff.filter((s) => s.isActive).length,
     personalTotal: staff.length,
     rolesCount: roles.length,
@@ -34,7 +34,6 @@ export function AdminDashboardPage() {
           menuTotal: Array.isArray(dishes) ? dishes.length : 0,
           tablesActive: Array.isArray(tables) ? tables.filter((t: any) => t.isActive).length : 0,
           tablesTotal: Array.isArray(tables) ? tables.length : 0,
-          insumosActivos: Array.isArray(ingredients) ? ingredients.filter((i: any) => i.isActive).length : 0,
           insumosTotal: Array.isArray(ingredients) ? ingredients.length : 0,
         }));
       })
@@ -88,10 +87,10 @@ export function AdminDashboardPage() {
         </div>
 
         <div className="adminCard">
-          <div className="adminCardLabel">Insumos activos</div>
-          <div className="adminCardKpi">{stats.insumosActivos}</div>
+          <div className="adminCardLabel">Insumos registrados</div>
+          <div className="adminCardKpi">{stats.insumosTotal}</div>
           <div style={{ marginTop: 8, color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>
-            Total en catálogo: <b>{stats.insumosTotal}</b>
+            Total en catálogo
           </div>
           <div style={{ marginTop: 10 }}>
             <Link to="/admin/inventario" className="adminButton primary" style={{ display: 'inline-block', textDecoration: 'none' }}>

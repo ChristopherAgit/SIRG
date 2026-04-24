@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using SIRG.Application.Interfaces;
 using SIRG.Domain.Interfaces;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace SIRG.Application.Services
 {
@@ -32,17 +30,8 @@ namespace SIRG.Application.Services
 
         public async Task<List<TDtos>> GetAllListDto()
         {
-            try
-            {
-                var listEntity = await _repository.GetAllEntitiesAsync();
-
-                var listDto = _mapper.Map<List<TDtos>>(listEntity);
-                return listDto;
-            }
-            catch (Exception)
-            {
-                return new List<TDtos>();
-            }
+            var listEntity = await _repository.GetAllEntitiesAsync();
+            return _mapper.Map<List<TDtos>>(listEntity);
         }
 
         public async Task<TDtos?> GetDtoById(int id)
@@ -63,19 +52,8 @@ namespace SIRG.Application.Services
 
         public async Task<List<TDtos>> GetWithInclude(List<string> properties)
         {
-            try
-            {
-                var querry = _repository.GetAllQuerryWithInclude(properties);
-                    
-
-                var result = await querry.ProjectTo<TDtos>(_mapper.ConfigurationProvider).ToListAsync();
-                return result;
-            }
-            catch
-            {
-                return new List<TDtos>();
-            }
-
+            var entities = await _repository.GetAllListWithInclude(properties);
+            return _mapper.Map<List<TDtos>>(entities);
         }
 
         public async Task<TDtos> SaveDtoAsync(TDtos dtoSave)
