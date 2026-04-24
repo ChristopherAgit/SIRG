@@ -21,5 +21,22 @@ namespace SIRG.Api.Controllers
         {
             _Service = service;
         }
+
+        /// <summary>Devuelve todos los platos con su categoría. Público (para el menú y el formulario de órdenes).</summary>
+        [HttpGet]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public override async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _Service.GetWithInclude(new List<string> { "Category" });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

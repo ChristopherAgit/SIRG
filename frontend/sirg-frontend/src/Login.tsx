@@ -45,9 +45,9 @@ export default function Login() {
       const auth = { token: access, roles, name: data.name ?? data.Name ?? '' };
       localStorage.setItem('sirg_auth', JSON.stringify(auth));
 
-      // redirect to admin if admin/recepcionista, mesero if mesero, otherwise home
       if (roles.includes('Administrador') || roles.includes('Recepcionista')) navigate('/admin');
       else if (roles.includes('Mesero')) navigate('/mesero');
+      else if (roles.includes('Cocinero')) navigate('/cocinero');
       else navigate('/');
     } catch (err) {
       console.error(err);

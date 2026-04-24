@@ -16,7 +16,11 @@ namespace SIRG.Application.Mapper.AutoMapper
             #endregion
 
             #region Mapper entity to Dto
-            CreateMap(typeof(Categories), typeof(CategoriesDto)).ReverseMap();
+            // Categories: DishesDto ignorado para evitar referencia circular Dishes→Category→Dishes
+            CreateMap<Categories, CategoriesDto>()
+                .ForMember(dest => dest.DishesDto, opt => opt.Ignore());
+            CreateMap<CategoriesDto, Categories>()
+                .ForMember(dest => dest.Dishes, opt => opt.Ignore());
 
             CreateMap<CreateCategoriesViewModel, CategoriesDto>()
                 .ForMember(dest => dest.CategoryID, opt => opt.Ignore())
@@ -35,9 +39,9 @@ namespace SIRG.Application.Mapper.AutoMapper
             CreateMap(typeof(SaleDetails), typeof(SaleDetailsDto)).ReverseMap();
             CreateMap(typeof(Sales), typeof(SalesDto)).ReverseMap();
 
-            // Dishes: ignorar nav circulares (OrderDetails → Dishes → OrderDetails)
+            // Dishes: mapear CategoryDto desde Category; ignorar nav circulares restantes
             CreateMap<Dishes, DishesDto>()
-                .ForMember(dest => dest.CategoryDto, opt => opt.Ignore())
+                .ForMember(dest => dest.CategoryDto, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.DishIngredientsDto, opt => opt.Ignore())
                 .ForMember(dest => dest.OrderDetailsDto, opt => opt.Ignore())
                 .ForMember(dest => dest.SaleDetailsDto, opt => opt.Ignore());

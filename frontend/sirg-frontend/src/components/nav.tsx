@@ -54,6 +54,7 @@ const Nav = () => {
           {authRoles.includes('Administrador') && <li><a href="/admin">Panel</a></li>}
           {authRoles.includes('Recepcionista') && <li><a href="/admin">Reservaciones</a></li>}
           {authRoles.includes('Mesero') && <li><a href="/mesero">Mesero</a></li>}
+          {authRoles.includes('Cocinero') && <li><a href="/cocinero">Cocina</a></li>}
           {authRoles.length === 0 && <li><a href="/login">Iniciar sesión</a></li>}
           {authRoles.length > 0 && <li><button className="nav-logout" onClick={() => { localStorage.removeItem('sirg_auth'); window.location.href = '/'; }}>Cerrar sesión</button></li>}
         </ul>
@@ -79,6 +80,7 @@ const Nav = () => {
             {authRoles.includes('Administrador') && <li><a href="/admin" onClick={() => setIsOpen(false)}>Panel</a></li>}
             {authRoles.includes('Recepcionista') && <li><a href="/admin" onClick={() => setIsOpen(false)}>Reservaciones</a></li>}
             {authRoles.includes('Mesero') && <li><a href="/mesero" onClick={() => setIsOpen(false)}>Mesero</a></li>}
+            {authRoles.includes('Cocinero') && <li><a href="/cocinero" onClick={() => setIsOpen(false)}>Cocina</a></li>}
             {authRoles.length === 0 && <li><a href="/login" onClick={() => setIsOpen(false)}>Iniciar sesión</a></li>}
             {authRoles.length > 0 && <li><button className="nav-logout" onClick={() => { localStorage.removeItem('sirg_auth'); window.location.href = '/'; }}>Cerrar sesión</button></li>}
           </ul>

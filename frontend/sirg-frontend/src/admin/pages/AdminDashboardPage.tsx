@@ -1,35 +1,44 @@
 import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
-import { dishRepo, ingredientRepo, roleRepo, staffRepo, tableRepo } from '../lib/repo';
+import { useEffect, useState } from 'react';
+import { roleRepo, staffRepo } from '../lib/repo';
 import { useToast } from '../components/toast/ToastContext';
+import apiFetch from '../../lib/api';
+
+type Stats = {
+  menuVisible: number; menuTotal: number;
+  tablesActive: number; tablesTotal: number;
+  insumosActivos: number; insumosTotal: number;
+  personalActivo: number; personalTotal: number;
+  rolesCount: number;
+};
 
 export function AdminDashboardPage() {
   const toast = useToast();
+  const staff = staffRepo.list();
+  const roles = roleRepo.list();
+  const [stats, setStats] = useState<Stats>({
+    menuVisible: 0, menuTotal: 0,
+    tablesActive: 0, tablesTotal: 0,
+    insumosActivos: 0, insumosTotal: 0,
+    personalActivo: staff.filter((s) => s.isActive).length,
+    personalTotal: staff.length,
+    rolesCount: roles.length,
+  });
 
-  const stats = useMemo(() => {
-    const dishes = dishRepo.list();
-    const tables = tableRepo.list();
-    const ingredients = ingredientRepo.list();
-    const staff = staffRepo.list();
-    const roles = roleRepo.list();
-
-    const menuVisible = dishes.filter((d) => d.isActive).length;
-    const tablesActive = tables.filter((t) => t.isActive).length;
-    const insumosActivos = ingredients.filter((i) => i.isActive).length;
-    const personalActivo = staff.filter((s) => s.isActive).length;
-    const personalTotal = staff.length;
-
-    return {
-      menuVisible,
-      menuTotal: dishes.length,
-      tablesActive,
-      tablesTotal: tables.length,
-      insumosActivos,
-      insumosTotal: ingredients.length,
-      personalActivo,
-      personalTotal,
-      rolesCount: roles.length,
-    };
+  useEffect(() => {
+    Promise.all([apiFetch('/dishes'), apiFetch('/tables'), apiFetch('/ingredients')])
+      .then(([dishes, tables, ingredients]) => {
+        setStats((prev) => ({
+          ...prev,
+          menuVisible: Array.isArray(dishes) ? dishes.filter((d: any) => d.isActive).length : 0,
+          menuTotal: Array.isArray(dishes) ? dishes.length : 0,
+          tablesActive: Array.isArray(tables) ? tables.filter((t: any) => t.isActive).length : 0,
+          tablesTotal: Array.isArray(tables) ? tables.length : 0,
+          insumosActivos: Array.isArray(ingredients) ? ingredients.filter((i: any) => i.isActive).length : 0,
+          insumosTotal: Array.isArray(ingredients) ? ingredients.length : 0,
+        }));
+      })
+      .catch(() => {});
   }, []);
 
   function onDownloadReport() {

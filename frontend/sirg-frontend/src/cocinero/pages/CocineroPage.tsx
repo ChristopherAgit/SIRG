@@ -1,8 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../admin/styles/admin.css';
 import '../cocina.css';
 import { useToast } from '../../admin/components/toast/ToastContext';
 import apiFetch from '../../lib/api';
+
+function getAuth() {
+  try {
+    const raw = localStorage.getItem('sirg_auth');
+    if (!raw) return { name: '', roles: [] as string[] };
+    const p = JSON.parse(raw);
+    return { name: p?.name ?? '', roles: p?.roles ?? [] };
+  } catch {
+    return { name: '', roles: [] as string[] };
+  }
+}
 
 type DishDetail = {
   orderDetailsID: number;
@@ -44,6 +56,8 @@ const STATUS_CLASS: Record<number, string> = {
 
 export function CocineroPage() {
   const toast = useToast();
+  const navigate = useNavigate();
+  const { name: userName } = getAuth();
   const [orders, setOrders] = useState<OrderDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<number | null>(null);
@@ -124,6 +138,19 @@ export function CocineroPage() {
               style={{ minWidth: 0, padding: '8px 14px', flex: 'none' }}
             >
               {loading ? '⟳' : '↺'} Actualizar
+            </button>
+            {userName && (
+              <div className="sirgCocinaPill" style={{ color: '#57534e', fontWeight: 600 }}>
+                {userName}
+              </div>
+            )}
+            <button
+              className="sirgCocinaBtn ghost"
+              type="button"
+              style={{ minWidth: 0, padding: '8px 14px', flex: 'none' }}
+              onClick={() => { localStorage.removeItem('sirg_auth'); navigate('/login'); }}
+            >
+              Cerrar sesión
             </button>
           </div>
         </header>
