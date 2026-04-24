@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIRG.Application.Interfaces;
 
-namespace SIRG.API.Controllers
+namespace SIRG.Api.Controllers
 {
     /// <summary>
     /// Controlador base que implementa operaciones CRUD genéricas para una entidad y su DTO.

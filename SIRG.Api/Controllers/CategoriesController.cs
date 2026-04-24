@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using SIRG.API.Controllers;
+using SIRG.Api.Controllers;
 using SIRG.Application.Dtos.Categories;
 using SIRG.Application.Interfaces.Contracts;
 using SIRG.Domain.Entities;

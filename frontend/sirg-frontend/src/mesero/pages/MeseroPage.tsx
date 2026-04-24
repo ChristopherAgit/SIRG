@@ -184,11 +184,10 @@ export function MeseroPage() {
         return;
       }
 
-      // Prefill table and service id (usar reservationID como service id para enlazar pedidos)
-      const tableId = data.restaurantTablesDto?.tableID ?? data.tableID ?? '';
-      setResForm((f) => ({ ...f, tableId }));
-      setResForm((f) => ({ ...f, serviceId: String(data.reservationID ?? id) }));
-      toast.push({ type: 'success', title: 'Reserva encontrada', message: `Mesa ${data.restaurantTablesDto?.tableNumber ?? data.tableID}` });
+      const tableId = String(data.restaurantTablesDto?.tableID ?? data.tableID ?? '');
+      const tableNumber = data.restaurantTablesDto?.tableNumber ?? data.tableID ?? '';
+      setResForm({ serviceId: String(data.reservationID ?? id), tableId });
+      toast.push({ type: 'success', title: 'Reserva encontrada', message: `Cliente: ${data.customersDto?.fullName ?? 'N/A'} · Mesa ${tableNumber}` });
     } catch (err) {
       toast.push({ type: 'error', title: 'Error', message: 'No se pudo buscar la reserva.' });
     }

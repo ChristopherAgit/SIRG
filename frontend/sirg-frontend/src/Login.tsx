@@ -35,8 +35,7 @@ export default function Login() {
         setLoading(false);
         return;
       }
-      const token = data.accessToken || data.accessToken || data.accessToken; // try potential keys
-      const access = token ?? data.AccessToken ?? data.accessToken;
+      const access = data.accessToken ?? data.AccessToken;
       if (!access) {
         alert('No se recibió token');
         setLoading(false);

@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SIRG.API.Controllers;
+using SIRG.Api.Controllers;
 using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;

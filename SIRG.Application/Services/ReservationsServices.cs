@@ -197,8 +197,7 @@ namespace SIRG.Application.Services
                 configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
             }
 
-            var baseUrl = "https://constantinopla.onrender.com";
-            // Enlazamos a rutas frontend para mostrar páginas coherentes de confirmación/cancelación.
+            var baseUrl = configuredBase;
             var confirmUrl = $"{baseUrl}/reservas/confirm/{confirmationToken}?rid={reservationId}";
             var cancelUrl = $"{baseUrl}/reservas/cancel/{confirmationToken}?rid={reservationId}";
 
@@ -258,7 +257,13 @@ namespace SIRG.Application.Services
                     <span class='detail-label'>🪑 Mesa Asignada:</span> Mesa #{tableNumber}
                 </div>
             </div>
-            
+
+            <div style='margin: 20px 0; padding: 18px; background-color: #f0e6ff; border-radius: 8px; text-align: center; border: 2px dashed #7c3aed;'>
+                <p style='margin: 0 0 6px 0; color: #5b21b6; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;'>🎫 Código de tu reserva</p>
+                <p style='margin: 0; font-size: 36px; font-weight: 900; color: #7c3aed; letter-spacing: 6px;'>#{reservationId}</p>
+                <p style='margin: 8px 0 0 0; color: #666; font-size: 12px;'>Muestra este código al mesero cuando llegues al restaurante</p>
+            </div>
+
             <p><strong>¿Qué debo hacer ahora?</strong></p>
             <ul>
                 <li>✓ <strong>Confirma tu reserva</strong> haciendo clic en el botón ""Confirmar Reserva"" abajo</li>
@@ -471,7 +476,7 @@ namespace SIRG.Application.Services
 <head>
     <meta charset='UTF-8'>
     <style>
-        body {{ font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }}Q
+        body {{ font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }}
         .container {{ max-width: 600px; margin: 20px auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
         .header {{ text-align: center; border-bottom: 3px solid #22c55e; padding-bottom: 20px; margin-bottom: 20px; }}
         .header h1 {{ color: #22c55e; margin: 0; font-size: 28px; }}
@@ -494,6 +499,12 @@ namespace SIRG.Application.Services
             
             <div class='success-badge'>✓ Reserva Confirmada</div>
             
+            <div style='margin: 16px 0; padding: 16px; background-color: #f0fdf4; border-radius: 8px; text-align: center; border: 2px dashed #22c55e;'>
+                <p style='margin: 0 0 6px 0; color: #16a34a; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;'>🎫 Código de tu reserva</p>
+                <p style='margin: 0; font-size: 36px; font-weight: 900; color: #16a34a; letter-spacing: 6px;'>#{reservation.ReservationID}</p>
+                <p style='margin: 8px 0 0 0; color: #666; font-size: 12px;'>Muestra este código al mesero cuando llegues al restaurante</p>
+            </div>
+
             <p><strong>Detalles de tu Reserva:</strong></p>
             <ul>
                 <li>📅 Fecha: {reservation.ReservationDate:dd/MM/yyyy}</li>
@@ -501,7 +512,7 @@ namespace SIRG.Application.Services
                 <li>👥 Personas: {reservation.NumberOfPeople}</li>
                 <li>🪑 Mesa: #{reservation.RestaurantTables?.TableNumber}</li>
             </ul>
-            
+
             <p>Te recomendamos llegar 10-15 minutos antes de tu hora.</p>
             
             <p>¡Te esperamos en <strong>Constantinopla</strong>!</p>

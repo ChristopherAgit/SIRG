@@ -48,7 +48,12 @@ namespace SIRG.Application.Mapper.AutoMapper
             CreateMap<RestaurantTablesDto, RestaurantTables>()
                 .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations));
 
-            CreateMap<Reservations, ReservationsDto>();
+            CreateMap<Reservations, ReservationsDto>()
+                .ForMember(dest => dest.CustomersDto, opt => opt.MapFrom(src => src.Customers))
+                .ForMember(dest => dest.RestaurantTablesDto, opt => opt.MapFrom(src => src.RestaurantTables))
+                .ForMember(dest => dest.ReservationStatusDto, opt => opt.MapFrom(src => src.ReservationStatus))
+                .ForMember(dest => dest.OrdersDto, opt => opt.MapFrom(src => src.Orders));
+
             CreateMap<ReservationsDto, Reservations>()
                 .ForMember(dest => dest.RestaurantTables, opt => opt.Ignore())
                 .ForMember(dest => dest.ReservationStatus, opt => opt.Ignore())
