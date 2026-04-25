@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../admin/styles/admin.css';
 import '../../styles/staff-landing.css';
@@ -74,29 +74,48 @@ export function MeseroPage() {
   const [menuSession, setMenuSession] = useState<ServiceSession | null>(null);
   const [items, setItems] = useState<ItemDraft[]>([]);
   const [loading, setLoading] = useState(false);
+  const [dishesLoading, setDishesLoading] = useState(false);
 
   function bump() {
     setRefresh((x) => x + 1);
   }
 
-  // load remote data
-  async function load() {
-    try {
-      const t = await listTables();
-      setTables((t as any[]).filter((x) => x.isActive).map((x) => ({ id: x.id, number: x.number, seats: x.seats, isActive: x.isActive, createdAt: new Date().toISOString() })));
-      const d = await listDishes();
-      setDishes((d as any[]).filter((x) => x.isActive).map((x) => ({ id: x.id, name: x.name, price: x.price, isActive: x.isActive })));
-    } catch (err) {
-      // fallback to local repo if API fails
-      setTables(tableRepo.list().filter((t: RestaurantTable) => t.isActive));
-      setDishes(dishRepo.list().filter((d) => d.isActive));
-    }
-  }
+  // Carga tablas y platos de forma independiente para que un fallo en uno no afecte al otro
+  useEffect(() => {
+    let cancelled = false;
 
-  // initial load and on refresh
-  useMemo(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    (async () => {
+      // --- Mesas ---
+      try {
+        const t = await listTables();
+        if (!cancelled) {
+          setTables(
+            t.filter((x) => x.isActive).map((x) => ({
+              id: x.id,
+              number: x.number,
+              seats: x.seats,
+              isActive: x.isActive,
+              createdAt: new Date().toISOString(),
+            }))
+          );
+        }
+      } catch {
+        if (!cancelled) setTables(tableRepo.list().filter((t: RestaurantTable) => t.isActive));
+      }
+
+      // --- Platos (carga separada para no bloquear si mesas falla) ---
+      if (!cancelled) setDishesLoading(true);
+      try {
+        const d = await listDishes();
+        if (!cancelled) setDishes(d.filter((x) => x.isActive));
+      } catch {
+        if (!cancelled) setDishes(dishRepo.list().filter((d) => d.isActive));
+      } finally {
+        if (!cancelled) setDishesLoading(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
   }, [refresh]);
 
   function openMenuForSession(s: ServiceSession) {
@@ -505,9 +524,11 @@ export function MeseroPage() {
                 <div className="adminActions" style={{ justifyContent: 'space-between' }}>
                   <div>
                     <div style={{ fontWeight: 800 }}>Menú</div>
-                    <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>Platos visibles en administración.</div>
+                    <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 12 }}>
+                      {dishesLoading ? 'Cargando platos…' : `${dishes.length} plato(s) disponible(s)`}
+                    </div>
                   </div>
-                  <button className="adminButton" type="button" onClick={addItem} disabled={dishes.length === 0}>
+                  <button className="adminButton" type="button" onClick={addItem} disabled={dishesLoading || dishes.length === 0}>
                     + Plato
                   </button>
                 </div>
@@ -523,10 +544,18 @@ export function MeseroPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {items.length === 0 ? (
+                    {dishesLoading ? (
                       <tr>
                         <td colSpan={3} style={{ color: 'rgba(255,255,255,0.7)' }}>
-                          Agrega platos al pedido.
+                          Cargando menú…
+                        </td>
+                      </tr>
+                    ) : items.length === 0 ? (
+                      <tr>
+                        <td colSpan={3} style={{ color: 'rgba(255,255,255,0.7)' }}>
+                          {dishes.length === 0
+                            ? 'No hay platos activos. Verifica el menú en administración.'
+                            : 'Agrega platos al pedido.'}
                         </td>
                       </tr>
                     ) : (

@@ -13,7 +13,7 @@ namespace SIRG.Api.Controllers
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/dishes")]
     [SwaggerTag("Endoints para manejar los platos")]
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador,Mesero")]
     public class DishesController : BaseController<Dishes, DishesDto>
     {
         private readonly IDisherServices _Service;
@@ -22,10 +22,18 @@ namespace SIRG.Api.Controllers
             _Service = service;
         }
 
-        // Mesero también puede leer el menú para armar pedidos; el resto de operaciones
-        // (crear, editar, eliminar) siguen restringidas a Administrador.
-        [HttpGet]
-        [Authorize(Roles = "Administrador,Mesero")]
-        public override Task<IActionResult> GetAll() => base.GetAll();
+        // Operaciones de escritura: solo Administrador.
+        // Los métodos GET heredan la autorización a nivel de clase (Administrador + Mesero).
+        [HttpPost]
+        [Authorize(Roles = "Administrador")]
+        public override Task<IActionResult> Create([FromBody] DishesDto dto) => base.Create(dto);
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public override Task<IActionResult> Update(int id, [FromBody] DishesDto dto) => base.Update(id, dto);
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public override Task<IActionResult> Delete(int id) => base.Delete(id);
     }
 }
