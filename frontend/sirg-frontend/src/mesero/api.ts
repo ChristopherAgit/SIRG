@@ -25,14 +25,9 @@ export async function listDishes(): Promise<DishDto[]> {
   }));
 }
 
-export type CreateOrderPayload = {
-  serviceId: string;
-  tableId: string;
-  tableNumber: number;
-  status: string;
-  items: { dishId: string; dishName: string; qty: number }[];
-};
+export type MeseroOrderItem = { dishId: number; quantity: number; unitPrice: number };
+export type MeseroOrderPayload = { reservationId: number; items: MeseroOrderItem[] };
 
-export async function createOrder(payload: CreateOrderPayload) {
-  return apiFetch('/orders', { method: 'POST', body: JSON.stringify(payload) });
+export async function createOrder(payload: MeseroOrderPayload) {
+  return apiFetch('/orders/from-reservation', { method: 'POST', body: JSON.stringify(payload) });
 }

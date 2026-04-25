@@ -21,5 +21,11 @@ namespace SIRG.Api.Controllers
         {
             _Service = service;
         }
+
+        // Mesero también puede leer el menú para armar pedidos; el resto de operaciones
+        // (crear, editar, eliminar) siguen restringidas a Administrador.
+        [HttpGet]
+        [Authorize(Roles = "Administrador,Mesero")]
+        public override Task<IActionResult> GetAll() => base.GetAll();
     }
 }

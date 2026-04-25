@@ -6,6 +6,7 @@ using SIRG.Application.Interfaces.Contracts;
 using SIRG.Domain.Entities;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace SIRG.Api.Controllers
 {
@@ -16,9 +17,12 @@ namespace SIRG.Api.Controllers
     public class ReservationController : BaseController<Reservations, ReservationsDto>
     {
         private readonly IReservationsServices _Service;
-        public ReservationController(IReservationsServices service) : base(service)
+        private readonly ILogger<ReservationController> _logger;
+
+        public ReservationController(IReservationsServices service, ILogger<ReservationController> logger) : base(service)
         {
             _Service = service;
+            _logger = logger;
         }
 
         [HttpGet("all")]
@@ -143,7 +147,7 @@ namespace SIRG.Api.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al enviar email: {ex.Message}");
+                _logger.LogError(ex, "Error al enviar email de cancelación para reserva {ReservationID}", id);
             }
             
             return Ok();
@@ -194,7 +198,7 @@ namespace SIRG.Api.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error al enviar email: {ex.Message}");
+                    _logger.LogError(ex, "Error al enviar email de cancelación para reserva {ReservationID}", id);
                 }
             }
             

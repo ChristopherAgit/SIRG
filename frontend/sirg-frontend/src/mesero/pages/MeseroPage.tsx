@@ -8,7 +8,7 @@ import { Modal } from '../../admin/components/Modal';
 import { useToast } from '../../admin/components/toast/ToastContext';
 import type { RestaurantTable } from '../../admin/models';
 import { orderRepo } from '../../shared/orders';
-import { listTables, listDishes, createOrder } from '../api';
+import { listTables, listDishes, createOrder, type MeseroOrderItem } from '../api';
 import type { ServiceSession } from '../lib/sessions';
 import { sessionRepo } from '../lib/sessions';
 
@@ -209,54 +209,61 @@ export function MeseroPage() {
       return;
     }
 
-    const normalized = items
-      .map((it) => {
-        const dish = dishes.find((d) => d.id === it.dishId) ?? null;
-        const qty = Number(it.qty);
-        return dish && !Number.isNaN(qty) && qty > 0 ? { dishId: dish.id, dishName: dish.name, qty } : null;
-      })
-      .filter((x) => x !== null);
+    // Construir mapa de platos deduplicado, resolviendo precio y conversión de id
+    const byDish = new Map<string, { dishId: string; dishName: string; qty: number; unitPrice: number }>();
+    for (const it of items) {
+      const dish = dishes.find((d) => d.id === it.dishId) ?? null;
+      const qty = Number(it.qty);
+      if (!dish || Number.isNaN(qty) || qty <= 0) continue;
+      const prev = byDish.get(dish.id);
+      byDish.set(dish.id, prev
+        ? { ...prev, qty: prev.qty + qty }
+        : { dishId: dish.id, dishName: dish.name, qty, unitPrice: dish.price ?? 0 });
+    }
 
-    if (normalized.length === 0) {
+    if (byDish.size === 0) {
       toast.push({ type: 'error', title: 'Pedido inválido', message: 'Revisa cantidades (deben ser > 0).' });
       return;
     }
 
-    const byDish = new Map<string, { dishId: string; dishName: string; qty: number }>();
-    for (const it of normalized) {
-      const prev = byDish.get(it.dishId);
-      byDish.set(it.dishId, prev ? { ...prev, qty: prev.qty + it.qty } : it);
-    }
+    const lineItems = Array.from(byDish.values());
 
+    // Guardar en repo local para historial inmediato
     setLoading(true);
     orderRepo.create({
       serviceId: menuSession.serviceId,
       tableId: menuSession.tableId,
       tableNumber: menuSession.tableNumber,
       status: 'sent',
-      items: Array.from(byDish.values()),
+      items: lineItems.map((it) => ({ dishId: it.dishId, dishName: it.dishName, qty: it.qty })),
     });
-
-    // try to persist to API (non-blocking)
-    (async () => {
-      try {
-        await createOrder({
-          serviceId: menuSession.serviceId,
-          tableId: menuSession.tableId,
-          tableNumber: menuSession.tableNumber,
-          status: 'sent',
-          items: Array.from(byDish.values()),
-        });
-      } catch (e) {
-        // ignore
-      } finally {
-        setLoading(false);
-      }
-    })();
 
     toast.push({ type: 'success', title: 'Pedido enviado a cocina', message: `Mesa ${menuSession.tableNumber}` });
     closeMenu();
     bump();
+
+    // Persistir en la API si el serviceId corresponde a un número de reserva
+    const reservationId = parseInt(menuSession.serviceId, 10);
+    if (!Number.isNaN(reservationId)) {
+      const apiItems: MeseroOrderItem[] = lineItems.map((it) => ({
+        dishId: parseInt(it.dishId, 10),
+        quantity: it.qty,
+        unitPrice: it.unitPrice,
+      })).filter((it) => !Number.isNaN(it.dishId));
+
+      (async () => {
+        try {
+          await createOrder({ reservationId, items: apiItems });
+        } catch {
+          toast.push({ type: 'error', title: 'Error al guardar pedido', message: 'El pedido se registró localmente pero no se guardó en el servidor.' });
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else {
+      // Walk-in: no hay reserva en el backend, el pedido queda solo en local
+      setLoading(false);
+    }
   }
 
   function closeService(s: ServiceSession) {

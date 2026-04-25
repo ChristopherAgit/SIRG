@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Calendar, Clock, Users, MapPin, Eye, CheckCircle, AlertCircle } from 'lucide-react';
 import '../styles/reservations.css';
+import apiFetch from '../../lib/api';
 
 interface ReservationDetail {
   reservationID: number;
@@ -45,6 +46,8 @@ export function ReservationsPage() {
   const [selectedReservation, setSelectedReservation] = useState<ReservationDetail | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [changingStatus, setChangingStatus] = useState<number | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [detailError, setDetailError] = useState<string | null>(null);
 
   // Cargar reservaciones y estados
   useEffect(() => {
@@ -99,17 +102,12 @@ export function ReservationsPage() {
   const handleChangeStatus = async (reservationID: number, newStatusID: number) => {
     try {
       setChangingStatus(reservationID);
-      const response = await fetch(`/api/v1/reservations/${reservationID}/status/${newStatusID}`, {
-        method: 'POST',
-      });
+      const response = await apiFetch(`/reservations/${reservationID}/status/${newStatusID}`, { method: 'POST' });
 
-      if (response.ok) {
-        // Actualizar la reservación localmente
+      if (response !== null && response !== undefined && !response?.hasError) {
         setReservations((prev) =>
           prev.map((res) => (res.reservationID === reservationID ? { ...res, statusID: newStatusID } : res))
         );
-
-        // Actualizar el detalle si está abierto
         if (selectedReservation?.reservationID === reservationID) {
           setSelectedReservation((prev) => (prev ? { ...prev, statusID: newStatusID } : null));
         }
@@ -123,24 +121,23 @@ export function ReservationsPage() {
 
   // Abrir detalles (trae la información completa desde el API)
   const openDetails = async (reservationID: number) => {
+    setDetailError(null);
+    setDetailLoading(true);
+    setShowDetailModal(true);
     try {
-      setLoading(true);
-      const resp = await fetch(`/api/v1/reservations/${reservationID}/details`);
-      if (!resp.ok) {
-        console.error('Error al cargar detalles de la reservación');
+      const data = await apiFetch(`/reservations/${reservationID}/details`);
+      if (!data || data?.hasError) {
+        setDetailError('No se pudieron cargar los detalles de la reservación.');
         setSelectedReservation(null);
-        setShowDetailModal(true);
-        return;
+      } else {
+        setSelectedReservation(data);
       }
-      const data = await resp.json();
-      setSelectedReservation(data);
-      setShowDetailModal(true);
     } catch (err) {
       console.error('Error al cargar detalles:', err);
+      setDetailError('Error de red al cargar los detalles.');
       setSelectedReservation(null);
-      setShowDetailModal(true);
     } finally {
-      setLoading(false);
+      setDetailLoading(false);
     }
   };
 
@@ -299,7 +296,7 @@ export function ReservationsPage() {
       )}
 
       {/* Modal de detalles */}
-      {showDetailModal && selectedReservation && (
+      {showDetailModal && (
         <div className="modal-overlay" onClick={() => setShowDetailModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
@@ -310,6 +307,12 @@ export function ReservationsPage() {
             </div>
 
             <div className="modal-body">
+              {detailLoading ? (
+                <div className="loading-state"><p>Cargando detalles...</p></div>
+              ) : detailError ? (
+                <div className="empty-state"><AlertCircle size={32} /><p>{detailError}</p></div>
+              ) : !selectedReservation ? null : (
+              <>
               <div className="detail-section">
                 <h3>Información del Cliente</h3>
                 <div className="detail-rows">
@@ -378,6 +381,8 @@ export function ReservationsPage() {
                   ))}
                 </div>
               </div>
+              </>
+              )}
             </div>
 
             <div className="modal-footer">

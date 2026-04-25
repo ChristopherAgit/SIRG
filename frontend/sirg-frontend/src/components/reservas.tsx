@@ -22,8 +22,7 @@ interface Table {
   isActive: boolean;
 }
 
-const nowDate = new Date();
-const today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate()).toISOString().split("T")[0];
+const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD en hora local, sin desfase UTC
 
 const Reservas = () => {
   const navega = useNavigate();

@@ -3,6 +3,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SIRG.Application.Dtos.EntitiesDto;
 using SIRG.Application.Dtos.Emails;
 using SIRG.Application.Interfaces.Contracts;
@@ -20,18 +21,21 @@ namespace SIRG.Application.Services
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ReservationsServices> _logger;
 
         public ReservationsServices(IReservationsRepository reservationRepository,
                                     IRetaurantTableRepository tableRepository,
                                     IEmailService emailService,
                                     IMapper mapper,
-                                    IConfiguration configuration) : base(reservationRepository, mapper)
+                                    IConfiguration configuration,
+                                    ILogger<ReservationsServices> logger) : base(reservationRepository, mapper)
         {
             _reservationRepository = reservationRepository;
             _tableRepository = tableRepository;
             _emailService = emailService;
             _mapper = mapper;
             _configuration = configuration;
+            _logger = logger;
         }
 
         
@@ -166,8 +170,7 @@ namespace SIRG.Application.Services
                 }
                 catch (Exception ex)
                 {
-                    // Log pero no fallar la reserva si falla el email
-                    Console.WriteLine($"Error al enviar email de confirmación: {ex.Message}");
+                    _logger.LogError(ex, "Error al enviar email de confirmación para reserva {ReservationID}", saved.ReservationID);
                 }
             }
 
@@ -197,7 +200,7 @@ namespace SIRG.Application.Services
                 configuredBase = _configuration?.GetValue<string>("ApiBaseUrl")?.TrimEnd('/') ?? "https://constantinopla.onrender.com";
             }
 
-            var baseUrl = configuredBase;
+            var baseUrl = "https://constantinopla.onrender.com";
             var confirmUrl = $"{baseUrl}/reservas/confirm/{confirmationToken}?rid={reservationId}";
             var cancelUrl = $"{baseUrl}/reservas/cancel/{confirmationToken}?rid={reservationId}";
 
@@ -390,8 +393,7 @@ namespace SIRG.Application.Services
             }
             catch (Exception ex)
             {
-                // Log and return empty list on mapping/database projection errors
-                Console.WriteLine($"Error obteniendo reservaciones: {ex}");
+                _logger.LogError(ex, "Error obteniendo reservaciones");
                 return new List<ReservationsDto>();
             }
         }
@@ -539,7 +541,7 @@ namespace SIRG.Application.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al enviar email de confirmación: {ex.Message}");
+                _logger.LogError(ex, "Error al enviar email de confirmación por token para reserva {ReservationID}", reservation.ReservationID);
             }
 
             return _mapper.Map<ReservationsDto>(reservation);
@@ -574,7 +576,7 @@ namespace SIRG.Application.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al enviar email de cancelación: {ex.Message}");
+                _logger.LogError(ex, "Error al enviar email de cancelación por token para reserva {ReservationID}", reservation.ReservationID);
             }
 
             return _mapper.Map<ReservationsDto>(reservation);

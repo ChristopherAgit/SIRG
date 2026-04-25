@@ -19,7 +19,7 @@ const CancelReservation: React.FC = () => {
 
       try {
         setLoading(true);
-        const apiBase = ((import.meta.env.VITE_API_BASE as string | undefined)?.replace(/\/$/, '') ?? '') + '/api/v1';
+        const apiBase = "https://constantinopla.onrender.com" + '/api/v1';
         const resp = await fetch(`${apiBase}/reservations/cancel/${token}`, { method: 'GET' });
         const text = await resp.text();
         let body: any = null;
