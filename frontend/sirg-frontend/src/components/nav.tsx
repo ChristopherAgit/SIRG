@@ -5,6 +5,7 @@ import "../styles/nav.css";
 const Nav = () => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [authRoles, setAuthRoles] = useState<string[]>([]);
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,21 +23,39 @@ const Nav = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('sirg_auth');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        setAuthRoles(parsed.roles ?? []);
+      }
+    } catch {
+      setAuthRoles([]);
+    }
+  }, []);
+
   return (
     <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
 
       <div className="navbar-container">
 
-        <a href="#" className="logo" >
+        <a href="/" className="logo" >
           <span>Constan</span>Tinopla
         </a>
 
         <ul className="nav-links">
+          <li><a href="/">Inicio</a></li>
           <li><a href="#menu">Menú</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#horario">Horarios</a></li>
           <li><a href="#contacto">Contacto</a></li>
           <li><a href="/reservas">Reservar</a></li>
+          {authRoles.includes('Administrador') && <li><a href="/admin">Panel</a></li>}
+          {authRoles.includes('Recepcionista') && <li><a href="/admin">Reservaciones</a></li>}
+          {authRoles.includes('Mesero') && <li><a href="/mesero">Mesero</a></li>}
+          {authRoles.length === 0 && <li><a href="/login">Iniciar sesión</a></li>}
+          {authRoles.length > 0 && <li><button className="nav-logout" onClick={() => { localStorage.removeItem('sirg_auth'); window.location.href = '/'; }}>Cerrar sesión</button></li>}
         </ul>
 
         <button
@@ -51,11 +70,17 @@ const Nav = () => {
       {isOpen && (
         <div className="mobile-menu">
           <ul>
+            <li><a href="/" onClick={() => setIsOpen(false)}>Inicio</a></li>
             <li><a href="#menu" onClick={() => setIsOpen(false)}>Menú</a></li>
             <li><a href="#about" onClick={() => setIsOpen(false)}>Nosotros</a></li>
             <li><a href="#horarios" onClick={() => setIsOpen(false)}>Horarios</a></li>
             <li><a href="#contacto" onClick={() => setIsOpen(false)}>Contacto</a></li>
             <li><a href="reservas" onClick={() => setIsOpen(false)}>Reservar</a></li>
+            {authRoles.includes('Administrador') && <li><a href="/admin" onClick={() => setIsOpen(false)}>Panel</a></li>}
+            {authRoles.includes('Recepcionista') && <li><a href="/admin" onClick={() => setIsOpen(false)}>Reservaciones</a></li>}
+            {authRoles.includes('Mesero') && <li><a href="/mesero" onClick={() => setIsOpen(false)}>Mesero</a></li>}
+            {authRoles.length === 0 && <li><a href="/login" onClick={() => setIsOpen(false)}>Iniciar sesión</a></li>}
+            {authRoles.length > 0 && <li><button className="nav-logout" onClick={() => { localStorage.removeItem('sirg_auth'); window.location.href = '/'; }}>Cerrar sesión</button></li>}
           </ul>
         </div>
       )}

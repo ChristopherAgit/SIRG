@@ -29,6 +29,6 @@ namespace SIRG.Application.Dtos.User
 
         /// <example>Admin</example>
         [SwaggerParameter(Description = "The role assigned to the user (e.g., Admin, User)")]
-        public string? Role { get; set; } = "Cliente";
+        public string Role { get; set; } = "Cliente";
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SIRG.Api.Extensions;
 using SIRG.IOC.Dependencies;
 using System.Text.Json.Serialization;
@@ -35,10 +36,58 @@ builder.Services.AddAppiVersioningExtension();
 builder.Services.AddSwaggerExtension();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+// Configure CORS to allow frontend access
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        }
+        else
+        {
+            var frontendUrl = builder.Configuration.GetValue<string>("FrontendUrl");
+            if (!string.IsNullOrEmpty(frontendUrl))
+            {
+                policy.WithOrigins(frontendUrl).AllowAnyHeader().AllowAnyMethod();
+            }
+            else
+            {
+                policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            }
+        }
+    });
+});
 
 
 var app = builder.Build();
 await app.Services.RunSeedAsync();
+
+// Apply EF Core migrations at startup (Code-First). This will run migrations against the configured
+// database. Be cautious enabling this in production without reviewing migrations.
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetService<SIRG.Persistences.Context.SIRGContext>();
+        if (db != null)
+        {
+            // Only apply migrations when using a relational database provider
+            // (InMemory provider does not support migrations and will throw).
+            if (db.Database.IsRelational())
+            {
+                db.Database.Migrate();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        // If migration fails, log and continue startup; administrators should inspect logs.
+        var logger = scope.ServiceProvider.GetService<Microsoft.Extensions.Logging.ILoggerFactory>()?.CreateLogger("Startup");
+        logger?.LogError(ex, "Automatic database migration failed.");
+    }
+}
 
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -55,8 +104,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Serve frontend static files from wwwroot (SPA)
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseCors("AllowFrontend");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Fallback to index.html for SPA routes
+app.MapFallbackToFile("index.html");
 
 app.Run();

@@ -24,7 +24,7 @@ namespace SIRG.Application.Services
                 await _repository.RemoveAsync(dtoDelete);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -41,7 +41,7 @@ namespace SIRG.Application.Services
             }
             catch (Exception)
             {
-                return [];
+                return new List<TDtos>();
             }
         }
 
@@ -73,7 +73,7 @@ namespace SIRG.Application.Services
             }
             catch
             {
-                return [];
+                return new List<TDtos>();
             }
 
         }
@@ -86,7 +86,7 @@ namespace SIRG.Application.Services
                 TEntity? reeturnEntity = await _repository.SaveEntityAsync(entity);
                 if (reeturnEntity == null)
                 {
-                    return null;
+                    throw new InvalidOperationException($"Unable to save entity of type {typeof(TEntity).Name}.");
                 }
 
                 return _mapper.Map<TDtos>(reeturnEntity);
@@ -94,11 +94,8 @@ namespace SIRG.Application.Services
             }
             catch (Exception ex)
             {
-                {
-
-                    throw new Exception(
-               $"Error mapeando {typeof(TDtos).Name} -> {typeof(TEntity).Name}: {ex.Message}", ex);
-                }
+                throw new Exception(
+                    $"Error mapeando {typeof(TDtos).Name} -> {typeof(TEntity).Name}: {ex.Message}", ex);
             }
         }
 

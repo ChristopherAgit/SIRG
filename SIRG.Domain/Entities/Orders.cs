@@ -11,7 +11,7 @@ namespace SIRG.Domain.Entities
         public required int WaiterID { get; set; }
         public required int StatusID { get; set; }
         public required int UserID { get; set; }
-        public required DateTime OrderDate { get; set; } = DateTime.Now;
+        public required DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         //Navigation properties
         public Reservations? Reservations { get; set; }

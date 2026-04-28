@@ -1,0 +1,30 @@
+# Example render.yaml for deploying SIRG as a single Docker Web Service
+# Replace branch, names and sensitive values in the Render dashboard.
+version: 1
+services:
+  - type: web
+    name: sirg
+    env: docker
+    dockerfilePath: Dockerfile
+    branch: main
+    plan: free
+    # Prefer storing secrets in the Render Dashboard (Environment / Secrets).
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__ConnectionDb
+        # Use a Render Secret for the real value. Example format for Postgres:
+        # Host=db-host.onrender.com;Port=5432;Database=mi_db;Username=mi_user;Password=mi_pass;Ssl Mode=Require;
+        value: "Host=<db-host>;Port=5432;Database=<db>;Username=<user>;Password=<pass>;Ssl Mode=Require;"
+      - key: MailSettings__EmailFrom
+        value: "<your-email@example.com>"
+      - key: MailSettings__SmtpHost
+        value: "<smtp-host>"
+      - key: MailSettings__SmtpPort
+        value: "587"
+      - key: MailSettings__SmtpUser
+        value: "<smtp-user>"
+      - key: MailSettings__SmtpPass
+        value: "<smtp-pass>"
+      - key: FrontendUrl
+        value: "https://<FRONTEND-URL>"

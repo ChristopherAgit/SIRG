@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SIRG.API.Controllers;
+using SIRG.Api.Controllers;
 using SIRG.Application.Dtos.User;
 using SIRG.Application.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -112,15 +112,17 @@ namespace SIRG.Api.Controllers
                     Name = dto.Name,
                     Password = dto.Password,
                     Cedula = dto.Cedula,
-                    Role = dto.Role,
+                    Role = dto.Role ?? "Cliente",
                     UserName = dto.UserName,
                 };
 
                 var result = await _accountServiceForWebApi.RegisterUser(save, null, true);
                 if (result == null || result.HasError)
+                {
                     return BadRequest(result?.Errors);
+                }
 
-                save.Id = result.Id;
+                save.Id = result?.Id ?? string.Empty;
 
 
                 var resultEdit = await _accountServiceForWebApi.EditUser(save, null, true, true);

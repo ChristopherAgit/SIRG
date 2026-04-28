@@ -2,15 +2,19 @@
 {
     public class ReservationsDto
     {
-        public required int ReservationID { get; set; }
+        public int ReservationID { get; set; }
         public required int TableID { get; set; }
         public required int StatusID { get; set; }
         public required DateOnly ReservationDate { get; set; }
         public required TimeOnly ReservationTime { get; set; }
         public required int NumberOfPeople { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public int? CustomerID { get; set; }
+        public string? ConfirmationToken { get; set; }
+        public bool IsConfirmed { get; set; } = false;
+        public DateTime? ConfirmedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
-        //Navigation properties
+        //Navigation properties (all optional for flexibility)
         public RestaurantTablesDto? RestaurantTablesDto { get; set; }
         public ReservationStatusDto? ReservationStatusDto { get; set; }
         public CustomersDto? CustomersDto { get; set; }

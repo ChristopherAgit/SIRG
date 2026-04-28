@@ -6,7 +6,7 @@ namespace SIRG.Domain.Entities
     {
         [Key]
         public required int DishID { get; set; }
-        public required string CategoryID { get; set; }
+        public required int CategoryID { get; set; }
         public required string DishName { get; set; }
         public decimal? Price { get; set; }
         public bool IsActive { get; set; }

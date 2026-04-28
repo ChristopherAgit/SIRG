@@ -706,8 +706,9 @@ namespace SIRG.Identity.Services
 
         #region "Protected methods"
 
-        protected async Task<string> GetVerificationEmailUri(AppUser user, string origin)
+        protected async Task<string> GetVerificationEmailUri(AppUser user, string? origin)
         {
+            ArgumentNullException.ThrowIfNull(origin);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             var route = "Login/ConfirmEmail";
@@ -717,8 +718,9 @@ namespace SIRG.Identity.Services
 
             return verificationUri;
         }
-        protected async Task<string> GetResetPasswordUri(AppUser user, string origin)
+        protected async Task<string> GetResetPasswordUri(AppUser user, string? origin)
         {
+            ArgumentNullException.ThrowIfNull(origin);
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             var route = "Login/ResetPassword";

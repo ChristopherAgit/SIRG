@@ -24,8 +24,17 @@ namespace SIRG.Persistences.Repositories
         public virtual async Task<TEntity> SaveEntityAsync(TEntity entity)
         {
             await Entity.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                // Log full exception (including inner) so runtime logs contain DB provider details
+                Console.WriteLine($"Error saving entity {typeof(TEntity).Name}: {ex}");
+                throw;
+            }
         }
 
         public virtual async Task<TEntity?> UpdateEntityAsync(int id, TEntity entity)
@@ -35,8 +44,16 @@ namespace SIRG.Persistences.Repositories
             if (entry != null)
             { 
                 _context.Entry(entry).CurrentValues.SetValues(entity);
-                 await _context.SaveChangesAsync();
-                 return entry;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return entry;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error updating entity {typeof(TEntity).Name}: {ex}");
+                    throw;
+                }
             
             }
             return null;
@@ -58,7 +75,7 @@ namespace SIRG.Persistences.Repositories
 
             foreach (var property in properties)
             {
-                querry.Include(property);
+                querry = querry.Include(property);
 
             }
 
@@ -71,7 +88,7 @@ namespace SIRG.Persistences.Repositories
 
             foreach (var property in properties)
             {
-                querry.Include(property);
+                querry = querry.Include(property);
             }
 
             return querry;
@@ -84,7 +101,15 @@ namespace SIRG.Persistences.Repositories
             if (entity != null)
             { 
                 Entity.Remove(entity);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error removing entity {typeof(TEntity).Name}: {ex}");
+                    throw;
+                }
             }
         }
     }

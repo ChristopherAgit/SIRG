@@ -12,7 +12,11 @@ namespace SIRG.Domain.Entities
         public required DateOnly ReservationDate { get; set; }
         public required TimeOnly ReservationTime { get; set; }
         public required int NumberOfPeople { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public int? CustomerID { get; set; }
+        public string? ConfirmationToken { get; set; }
+        public bool IsConfirmed { get; set; } = false;
+        public DateTime? ConfirmedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         //Navigation properties
         public RestaurantTables? RestaurantTables { get; set; }

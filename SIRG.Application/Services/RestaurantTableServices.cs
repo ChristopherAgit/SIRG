@@ -19,6 +19,23 @@ namespace SIRG.Application.Services
             
         }
 
+        // Override SaveDtoAsync to enforce maximum capacity per table (8 personas)
+        public async Task<RestaurantTablesDto> SaveDtoAsync(RestaurantTablesDto dtoSave)
+        {
+            if (dtoSave.Capacity > 8)
+                throw new Exception("La capacidad máxima por mesa es 8 personas.");
+
+            return await base.SaveDtoAsync(dtoSave);
+        }
+
+        public async Task<RestaurantTablesDto?> UpdateDtoByAsync(RestaurantTablesDto dtoUpdate, int id)
+        {
+            if (dtoUpdate.Capacity > 8)
+                throw new Exception("La capacidad máxima por mesa es 8 personas.");
+
+            return await base.UpdateDtoByAsync(dtoUpdate, id);
+        }
+
         public async Task<List<RestaurantTablesDto>> GetAllTablesWithReservations()
         {
             try
@@ -28,13 +45,13 @@ namespace SIRG.Application.Services
                                              .ProjectTo<RestaurantTablesDto>(_mapper.ConfigurationProvider)
                                              .ToListAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return [];
+                return new List<RestaurantTablesDto>();
             }
         }
 
-        public async Task<RestaurantTablesDto> GetTableWithReservationsById(int id)
+        public async Task<RestaurantTablesDto?> GetTableWithReservationsById(int id)
         {
             try
             {
@@ -51,7 +68,7 @@ namespace SIRG.Application.Services
 
                 return _mapper.Map<RestaurantTablesDto>(listWnities);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

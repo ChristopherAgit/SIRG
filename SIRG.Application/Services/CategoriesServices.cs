@@ -26,10 +26,9 @@ namespace SIRG.Application.Services
 
                 return _mapper.Map<CreateCategoriesViewModel>(createdEntity);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                throw;
             }
             
         }

@@ -10,6 +10,7 @@ namespace SIRG.Shared.Services
     {
         private readonly MailSettings _mailSettings;
 
+
         public EmailService(IOptions<MailSettings> mailSettings)
         {
             _mailSettings = mailSettings.Value;
@@ -29,9 +30,10 @@ namespace SIRG.Shared.Services
                     Subject = emailRequestDto.Subject
                 };
 
-                foreach (var toItem in emailRequestDto.ToRange ?? [])
+                foreach (var toItem in emailRequestDto.ToRange ?? new List<string>())
                 {
-                    email.To.Add(MailboxAddress.Parse(toItem));
+                    if (!string.IsNullOrWhiteSpace(toItem))
+                        email.To.Add(MailboxAddress.Parse(toItem));
                 }
 
                 BodyBuilder builder = new()

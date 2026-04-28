@@ -7,7 +7,7 @@
         public required int WaiterID { get; set; }
         public required int StatusID { get; set; }
         public required int UserID { get; set; }
-        public required DateTime OrderDate { get; set; } = DateTime.Now;
+        public required DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         public ReservationsDto? ReservationsDto { get; set; }
         public List<OrdersDetailsDto>? OrderDetailsDto { get; set; }
